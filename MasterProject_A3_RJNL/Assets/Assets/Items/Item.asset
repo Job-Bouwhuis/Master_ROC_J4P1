@@ -17,3 +17,4 @@ MonoBehaviour:
   icon: {fileID: 0}
   maxStackSize: 1
   currentStackSize: 1
+  ItemFunctionProviderName: KeyItemFunction

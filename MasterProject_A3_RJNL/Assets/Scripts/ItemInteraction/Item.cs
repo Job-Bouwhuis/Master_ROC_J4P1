@@ -8,6 +8,14 @@ using WinterRose;
 
 namespace ShadowUprising.Items
 {
+    public class test : IItemFunction
+    {
+        public void UseItem()
+        {
+        }
+    }
+
+
     /// <summary>
     /// The base class for all items. Make sure to fill in the stuff like name and description
     /// </summary>
@@ -55,14 +63,17 @@ namespace ShadowUprising.Items
                 }
 
                 // find if a component exists in the scene with the same type
-                var component = FindObjectOfType(type);
-                if (component != null)
+                if (type.IsAssignableTo(typeof(UnityEngine.Object)))
                 {
-                    itemFunction = (IItemFunction)component;
-                }
-                else
-                {
-                    itemFunction = (IItemFunction)Activator.CreateInstance(type);
+                    var component = FindObjectOfType(type);
+                    if (component != null)
+                    {
+                        itemFunction = (IItemFunction)component;
+                    }
+                    else
+                    {
+                        itemFunction = (IItemFunction)Activator.CreateInstance(type);
+                    }
                 }
 
                 return itemFunction;
@@ -92,7 +103,7 @@ namespace ShadowUprising.Items
         /// 
         /// <b>DO NOT CHANGE THROUGH CODE</b>
         /// </summary>
-        public string ItemFunctionProviderName;
+        [HideInInspector] public string ItemFunctionProviderName = "";
 
         /// <summary>
         /// <b>This is only be used by the <see cref="Inventory.InventoryManager"/>. Must you still use this, discuss with Job</b>

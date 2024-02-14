@@ -9,6 +9,7 @@ using UnityEngine;
 
 using gui = UnityEditor.EditorGUILayout;
 using NUnit.Framework;
+using WinterRose.Reflection;
 
 namespace ShadowUprising.Editors.Inspectors
 {
@@ -41,6 +42,12 @@ namespace ShadowUprising.Editors.Inspectors
             {
                 item.ItemFunctionProviderName = ItemUtils.ItemFunctionTypes[selectedIndex].Name;
                 serializedObject.ApplyModifiedProperties();
+            }
+
+            if(GUI.changed)
+            {
+                EditorUtility.SetDirty(target);
+                AssetDatabase.SaveAssets();
             }
         }
     }
