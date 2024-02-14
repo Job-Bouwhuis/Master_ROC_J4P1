@@ -8,14 +8,6 @@ using WinterRose;
 
 namespace ShadowUprising.Items
 {
-    public class test : IItemFunction
-    {
-        public void UseItem()
-        {
-        }
-    }
-
-
     /// <summary>
     /// The base class for all items. Make sure to fill in the stuff like name and description
     /// </summary>
