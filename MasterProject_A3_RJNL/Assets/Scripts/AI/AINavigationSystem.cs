@@ -11,6 +11,16 @@ namespace ShadowUprising.AI
         NavMeshAgent navMesh;
         Vector3 currentGoToPos;
 
+
+        /// <summary>
+        /// sets the current go to postion
+        /// </summary>
+        /// <param name="pos">the postion to go to</param>
+        public void SetCurrentWayPoint(Vector3 pos)
+        {
+            currentGoToPos = pos;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -28,10 +38,7 @@ namespace ShadowUprising.AI
             navMesh = GetComponent<NavMeshAgent>();
         }
 
-        public void SetCurrentWayPoint(Vector3 pos)
-        {
-            currentGoToPos = pos;
-        }
+
 
     }
 }

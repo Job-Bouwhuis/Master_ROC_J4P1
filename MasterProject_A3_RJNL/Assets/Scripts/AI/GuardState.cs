@@ -11,6 +11,10 @@ namespace ShadowUprising.AI
         public AIState currentState;
         public Action<AIState> onStateChanged = delegate { };
 
+        /// <summary>
+        /// sets the current guard state
+        /// </summary>
+        /// <param name="current">current state it has to be</param>
         public void SetState(AIState current)
         {
             currentState = current;

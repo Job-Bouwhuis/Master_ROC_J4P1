@@ -13,7 +13,13 @@ namespace ShadowUprising.AI
         Vector3 currentPos;
         Vector3 lastPos;
 
+        /// <summary>
+        /// is called when the player is moving
+        /// </summary>
         public Action onAIMoving = delegate { };
+        /// <summary>
+        /// is called when the player is standing
+        /// </summary>
         public Action onAIStanding = delegate { };
 
         // Update is called once per frame
