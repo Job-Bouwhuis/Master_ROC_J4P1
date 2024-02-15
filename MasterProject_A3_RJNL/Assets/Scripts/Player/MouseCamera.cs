@@ -1,58 +1,63 @@
+// Creator: Ruben
+// Edited by:
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseCamera : MonoBehaviour
+namespace ShadowUprising.Player
 {
-    /// <summary>
-    /// Transform needs to be declared because this component is not a Monobehaviour
-    /// </summary>
-    [SerializeField] Transform cameraTransform;
-
-    [SerializeField] private int horizontalSensitivity;
-    [SerializeField] private int verticalSensitivity;
-    const int CLAMP = 85;
-
-    float rotateHorizontal;
-    float rotateVertical;
-
-    void Update()
+    public class MouseCamera : MonoBehaviour
     {
-        LockMouse();
-        UpdateCamera();
-    }
+        /// <summary>
+        /// Transform needs to be declared because this component is not a Monobehaviour
+        /// </summary>
+        [SerializeField] Transform cameraTransform;
 
-    void UpdateCamera()
-    {
-        UpdateHorizontal();
-        UpdateVertical();
-    }
+        [SerializeField] private int horizontalSensitivity;
+        [SerializeField] private int verticalSensitivity;
+        const int CLAMP = 85;
 
-    /// <summary>
-    /// Update horizontal camera movement
-    /// </summary>
-    public void UpdateHorizontal()
-    {
-        rotateHorizontal += Input.GetAxis("Mouse X") * Time.deltaTime * horizontalSensitivity;
-        transform.eulerAngles = new Vector3(0, rotateHorizontal, 0);
-    }
+        float rotateHorizontal;
+        float rotateVertical;
 
-    /// <summary>
-    /// update vertical camera movement
-    /// </summary>
-    public void UpdateVertical()
-    {
-        rotateVertical -= Input.GetAxis("Mouse Y") * Time.deltaTime * verticalSensitivity;
-        rotateVertical = Mathf.Clamp(rotateVertical, -CLAMP, CLAMP);
-        cameraTransform.localRotation = Quaternion.Euler(rotateVertical, 0, 0);
-    }
+        void Update()
+        {
+            LockMouse();
+            UpdateCamera();
+        }
 
-    /// <summary>
-    /// lock mouse to the screen
-    /// </summary>
-    void LockMouse()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        void UpdateCamera()
+        {
+            UpdateHorizontal();
+            UpdateVertical();
+        }
+
+        /// <summary>
+        /// Update horizontal camera movement
+        /// </summary>
+        public void UpdateHorizontal()
+        {
+            rotateHorizontal += Input.GetAxis("Mouse X") * Time.deltaTime * horizontalSensitivity;
+            transform.eulerAngles = new Vector3(0, rotateHorizontal, 0);
+        }
+
+        /// <summary>
+        /// update vertical camera movement
+        /// </summary>
+        public void UpdateVertical()
+        {
+            rotateVertical -= Input.GetAxis("Mouse Y") * Time.deltaTime * verticalSensitivity;
+            rotateVertical = Mathf.Clamp(rotateVertical, -CLAMP, CLAMP);
+            cameraTransform.localRotation = Quaternion.Euler(rotateVertical, 0, 0);
+        }
+
+        /// <summary>
+        /// lock mouse to the screen
+        /// </summary>
+        void LockMouse()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 }

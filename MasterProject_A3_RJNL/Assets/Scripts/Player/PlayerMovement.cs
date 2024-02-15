@@ -1,43 +1,48 @@
+// Creator: Ruben
+// Edited by:
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace ShadowUprising.Player
 {
-    // Refrences
-    private Rigidbody rb;
-    // Variables
-    const int DISTANCE_TO_WALL = 1;
-    [SerializeField] private int baseSpeed;
-    [SerializeField] private int movementSpeedModifier;
-
-    void Start()
+    public class PlayerMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
-    
-    void FixedUpdate()
-    {
-        UpdateMovement();
-    }
+        // Refrences
+        private Rigidbody rb;
+        // Variables
+        const int DISTANCE_TO_WALL = 1;
+        [SerializeField] private int baseSpeed;
+        [SerializeField] private int movementSpeedModifier;
 
-    private void UpdateMovement()
-    {
-        Vector3 moveDir = Vector3.zero;
-        moveDir += transform.forward * Input.GetAxisRaw("Vertical");
-        moveDir += transform.right * Input.GetAxisRaw("Horizontal");
-        moveDir = Vector3.Normalize(moveDir);
+        void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+        }
 
-        if (moveDir != Vector3.zero && !CheckIfMovementBlocked(moveDir))
-            rb.AddForce(moveDir * (baseSpeed + movementSpeedModifier));
-    }
+        void FixedUpdate()
+        {
+            UpdateMovement();
+        }
 
-    bool CheckIfMovementBlocked(Vector3 moveDir)
-    {
-        Ray ray = new Ray(transform.position, moveDir);
-        Physics.Raycast(ray, out RaycastHit hitData);
-        if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0)
-            return true;
-        else return false;
+        private void UpdateMovement()
+        {
+            Vector3 moveDir = Vector3.zero;
+            moveDir += transform.forward * Input.GetAxisRaw("Vertical");
+            moveDir += transform.right * Input.GetAxisRaw("Horizontal");
+            moveDir = Vector3.Normalize(moveDir);
+
+            if (moveDir != Vector3.zero && !CheckIfMovementBlocked(moveDir))
+                rb.AddForce(moveDir * (baseSpeed + movementSpeedModifier));
+        }
+
+        bool CheckIfMovementBlocked(Vector3 moveDir)
+        {
+            Ray ray = new Ray(transform.position, moveDir);
+            Physics.Raycast(ray, out RaycastHit hitData);
+            if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0)
+                return true;
+            else return false;
+        }
     }
 }
