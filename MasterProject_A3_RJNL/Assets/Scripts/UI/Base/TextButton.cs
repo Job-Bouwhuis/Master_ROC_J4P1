@@ -1,4 +1,5 @@
 // Creator: Job
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -39,7 +40,7 @@ namespace ShadowUprising.UI
         public Color disabledColor;
 
         [Header("Functions")]
-        public ButtonFunction[] functions;
+        public List<ButtonFunction> functions;
 
         /// <summary>
         /// If true, the button will not be interactable
@@ -85,6 +86,12 @@ namespace ShadowUprising.UI
         [Tooltip("The amount the button changes scale when clicked")]
         public float clickAnimationScaleIncrease = .2f;
 
+        /// <summary>
+        /// Whether the button is toggled to true or false by default. only used when the button is set to Toggle mode
+        /// </summary>
+        [Tooltip("Whether the button is toggled to true or false by default. only used when the button is set to Toggle mode")]
+        public bool toggleState = false;
+
         private bool isHovered = false;
         private bool isPressed = false;
         [Header("Debug - DO NOT EDIT")][SerializeField] private Color targetColor;
@@ -92,7 +99,6 @@ namespace ShadowUprising.UI
         private TMP_Text textComponent;
         private float startingWidth;
         private float animationTime = 0;
-        [SerializeField] private bool toggleState = false;
 
         /// <summary>
         /// Sets hover to enabled
@@ -142,7 +148,7 @@ namespace ShadowUprising.UI
 
                 if (!exists)
                 {
-                    functions[functions.Length] = f;
+                    functions.Add(f);
                 }
             }
 

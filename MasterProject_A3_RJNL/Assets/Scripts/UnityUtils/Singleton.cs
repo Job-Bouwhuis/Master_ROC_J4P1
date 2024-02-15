@@ -15,7 +15,10 @@ namespace ShadowUprising.UnityUtils
         /// </summary>
         public static TSelf Instance { get; private set; }
 
-        protected virtual void Awake()
+        /// <summary>
+        /// When overriding, make sure to call the base method first.
+        /// </summary>
+        void Awake()
         {
             if (Instance == null)
             {
