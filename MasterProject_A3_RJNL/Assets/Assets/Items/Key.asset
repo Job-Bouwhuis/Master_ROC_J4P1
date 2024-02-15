@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f227a7dbd7a1764a83d3893af3e458f, type: 3}
-  m_Name: Item
+  m_Name: Key
   m_EditorClassIdentifier: 
   itemName: Key
   description: A key used to open doors
