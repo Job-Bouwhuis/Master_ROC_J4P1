@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = Vector3.zero;
         moveDir += transform.forward * Input.GetAxisRaw("Vertical");
         moveDir += transform.right * Input.GetAxisRaw("Horizontal");
-        Vector3.Normalize(moveDir);
+        moveDir = Vector3.Normalize(moveDir);
 
         if (moveDir != Vector3.zero && !CheckIfMovementBlocked(moveDir))
             rb.AddForce(moveDir * (baseSpeed + movementSpeedModifier));
