@@ -1,58 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ShadowUprising.AI;
 
-public class AIRoamingHandler : MonoBehaviour
+namespace ShadowUprising.AI
 {
-    public List<Transform> roamingPoints;
-
-    AINavigationSystem aiSystem;
-    Vector3 currentGoTo;
-
-    bool roaming;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class AIRoamingHandler : MonoBehaviour
     {
-       
-        Asign();
-    }
+        public List<Transform> roamingPoints;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (roaming)
+        AINavigationSystem aiSystem;
+        Vector3 currentGoTo;
+
+        bool roaming;
+
+
+        // Start is called before the first frame update
+        void Start()
         {
-            if (Vector3.Distance(currentGoTo, transform.position) < 1f)
-                if (IsInvoking("SetNewGoToPos"))
+            Asign();
+        }
+
+        void StandingAtLocation()
+        {
+            if (roaming)
+                if (!IsInvoking("SetNewGoToPos"))
                     Invoke("SetNewGoToPos", 3.5f);
         }
-    }
 
-    void SetNewGoToPos()
-    {
-        currentGoTo = roamingPoints[Random.RandomRange(0, roamingPoints.Count)].position;
-        aiSystem.SetCurrentWayPoint(currentGoTo);
-    }
+        void AIMovingToDestination()
+        {
+            CancelInvoke("SetNewGoToPos");
+        }
 
-    void SetState(AIState currentState)
-    {
-        roaming = currentState == AIState.Roaming;
+        void SetNewGoToPos()
+        {
+            currentGoTo = roamingPoints[Random.RandomRange(0, roamingPoints.Count)].position;
+            aiSystem.SetCurrentWayPoint(currentGoTo);
+        }
 
-
-        if (!roaming)
-            if (IsInvoking("SetNewGoToPos"))
-                CancelInvoke("SetNewGoToPos");
+        void SetState(AIState currentState)
+        {
+            roaming = currentState == AIState.Roaming;
+            if (!roaming)
+            {
+                if (IsInvoking("SetNewGoToPos"))
+                    CancelInvoke("SetNewGoToPos");
+            }
             else
                 SetNewGoToPos();
-    }
 
-    void Asign()
-    {
-        currentGoTo = roamingPoints[Random.RandomRange(0, roamingPoints.Count)].position;
-        GetComponent<GuardState>().onStateChanged += SetState;
-        aiSystem = GetComponent<AINavigationSystem>();
-    }
+        }
 
+        void Asign()
+        {
+            currentGoTo = roamingPoints[Random.RandomRange(0, roamingPoints.Count)].position;
+            GetComponent<GuardState>().onStateChanged += SetState;
+            aiSystem = GetComponent<AINavigationSystem>();
+            GetComponent<AIMovementChecker>().onAIStanding += StandingAtLocation;
+            GetComponent<AIMovementChecker>().onAIMoving += AIMovingToDestination;
+        }
+
+    }
 }

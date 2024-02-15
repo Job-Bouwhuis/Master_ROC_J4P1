@@ -1,33 +1,38 @@
+//Creator: Luke
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class AINavigationSystem : MonoBehaviour
+namespace ShadowUprising.AI
 {
-    NavMeshAgent navMesh;  
-    Vector3 currentGoToPos;
-
-    // Start is called before the first frame update
-    void Start()
+    public class AINavigationSystem : MonoBehaviour
     {
-        Asign();
-    }
+        NavMeshAgent navMesh;
+        Vector3 currentGoToPos;
 
-    // Update is called once per frame
-    void Update()
-    {
-        navMesh.SetDestination(currentGoToPos);
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            Asign();
+        }
 
-    void Asign()
-    {
-        navMesh = GetComponent<NavMeshAgent>();
-    }
+        // Update is called once per frame
+        void Update()
+        {
+            navMesh.SetDestination(currentGoToPos);
+        }
 
-    public void SetCurrentWayPoint(Vector3 pos)
-    {
-        currentGoToPos = pos;
-    }
+        void Asign()
+        {
+            navMesh = GetComponent<NavMeshAgent>();
+        }
 
+        public void SetCurrentWayPoint(Vector3 pos)
+        {
+            currentGoToPos = pos;
+        }
+
+    }
 }
+

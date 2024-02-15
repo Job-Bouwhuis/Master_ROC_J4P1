@@ -1,16 +1,20 @@
+//Creator: Luke
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardState : MonoBehaviour
+namespace ShadowUprising.AI
 {
-    public AIState currentState;
-    public Action<AIState> onStateChanged = delegate { };
-
-    public void SetState(AIState current)
+    public class GuardState : MonoBehaviour
     {
-        currentState = current;
-        onStateChanged.Invoke(currentState);
+        public AIState currentState;
+        public Action<AIState> onStateChanged = delegate { };
+
+        public void SetState(AIState current)
+        {
+            currentState = current;
+            onStateChanged.Invoke(currentState);
+        }
     }
 }

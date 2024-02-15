@@ -1,10 +1,14 @@
+//Creator: Luke
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AIState
+namespace ShadowUprising.AI
 {
-    Roaming,
-    Chasing,
-    Attacking
+    public enum AIState
+    {
+        Roaming,
+        Chasing,
+        Attacking
+    }
 }

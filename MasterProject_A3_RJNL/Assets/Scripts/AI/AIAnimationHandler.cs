@@ -2,32 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIAnimationHandler : MonoBehaviour
+namespace ShadowUprising.AI
 {
-    Animator animator;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public class AIAnimationHandler : MonoBehaviour
     {
-        AsignComponents();
-    }
+        Animator animator;
 
-    void OnAIMoving()
-    {
-        animator.SetTrigger("Moving");
-    }
+        // Start is called before the first frame update
+        void Start()
+        {
+            AsignComponents();
+        }
 
-    void OnAIStanding()
-    {
-        animator.SetTrigger("Standing");
-    }
+        void OnAIMoving()
+        {
+            animator.SetTrigger("Moving");
+        }
 
-    void AsignComponents()
-    {
-        animator = GetComponent<Animator>();
-        var comp = GetComponent<AIMovementChecker>();
-        comp.onAIMoving += OnAIMoving;
-        comp.onAIStanding += OnAIStanding;
-    }
+        void OnAIStanding()
+        {
+            animator.SetTrigger("Standing");
+        }
 
+        void AsignComponents()
+        {
+            animator = GetComponent<Animator>();
+            var comp = GetComponent<AIMovementChecker>();
+            comp.onAIMoving += OnAIMoving;
+            comp.onAIStanding += OnAIStanding;
+        }
+
+    }
 }
