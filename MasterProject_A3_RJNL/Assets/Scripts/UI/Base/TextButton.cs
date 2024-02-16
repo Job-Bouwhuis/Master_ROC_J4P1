@@ -104,27 +104,19 @@ namespace ShadowUprising.UI
         /// Sets hover to enabled
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            isHovered = true;
-        }
+        public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
         /// <summary>
         /// Sets hover to disabled
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            isHovered = false;
-        }
+        public void OnPointerExit(PointerEventData eventData) => isHovered = false;
 
         private void Start()
         {
             textComponent = GetComponent<TMP_Text>();
 
             if (!Application.isPlaying)
-            {
                 return;
-            }
 
             startingWidth = textComponent.rectTransform.sizeDelta.x;
 
@@ -263,7 +255,7 @@ namespace ShadowUprising.UI
         {
             foreach (ButtonFunction f in functions)
             {
-                f.Invoke(this, isToggle);
+                f.Invoke(this);
             }
         }
         private void UpdateColor()

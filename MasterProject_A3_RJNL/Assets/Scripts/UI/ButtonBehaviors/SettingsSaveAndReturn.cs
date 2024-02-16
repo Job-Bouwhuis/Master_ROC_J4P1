@@ -1,16 +1,19 @@
+// Creator: Job
 using ShadowUprising.Settings;
-using System.Collections;
-using System.Collections.Generic;
+using ShadowUprising.UI.MainMenu;
 using UnityEngine;
 
 namespace ShadowUprising.UI.ButtonFunctions
 {
+    /// <summary>
+    /// Button function that saves the settings and returns to the main menu to the start screen.
+    /// </summary>
     public class SettingsSaveAndReturn : ButtonFunction
     {
         [SerializeField] private SettingsApplyer settingsApplyer;
         [SerializeField] private MainMenuController mainMenuController;
 
-        public override void Invoke(TextButton button, bool isToggle)
+        public override void Invoke(TextButton button)
         {
             settingsApplyer.ApplySettings();
             GameSettings.Instance.Save();

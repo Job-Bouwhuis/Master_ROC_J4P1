@@ -1,17 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+// Creator: Job
+
 using UnityEngine;
 using WinterRose;
 
-public class SliderValueDisplay : MonoBehaviour
+namespace ShadowUprising.UI
 {
-    public TMPro.TextMeshProUGUI text;
-    public UnityEngine.UI.Slider slider;
-
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// A simple class to display the value of a slider in a text element.
+    /// </summary>
+    public class SliderValueDisplay : MonoBehaviour
     {
-        text.text = slider.value.ToString();
-        slider.onValueChanged.AddListener((float value) => text.text = (value * 100).FloorToInt().ToString());
+        public TMPro.TextMeshProUGUI text;
+        public UnityEngine.UI.Slider slider;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            text.text = slider.value.ToString();
+            slider.onValueChanged.AddListener((value) => text.text = (value * 100).FloorToInt().ToString());
+        }
     }
 }

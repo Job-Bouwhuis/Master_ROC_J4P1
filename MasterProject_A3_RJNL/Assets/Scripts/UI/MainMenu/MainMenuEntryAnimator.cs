@@ -6,7 +6,11 @@ using WinterRose;
 
 namespace ShadowUprising.UI.MainMenu
 {
-    public class MainMenuTextAnimator : MonoBehaviour
+    /// <summary>
+    /// Animates the text of the main menu on load of the screen to slide from the right to the left and fade in.
+    /// <br></br> simply... fancy entry animation for the main menu
+    /// </summary>
+    public class MainMenuEntryAnimator : MonoBehaviour
     {
         public float animationSpeed = 1;
 
@@ -16,20 +20,18 @@ namespace ShadowUprising.UI.MainMenu
         [SerializeField] private TextButton creditsButton;
         [SerializeField] private TextButton quitButton;
 
-        const string TITLE = "Shadow Uprising";
-        const string START = "Play Game";
-        const string OPTIONS = "Options";
-        const string CREDITS = "Credits";
-        const string QUIT = "Quit";
+        private const string TITLE = "Shadow Uprising";
+        private const string START = "Play Game";
+        private const string OPTIONS = "Options";
+        private const string CREDITS = "Credits";
+        private const string QUIT = "Quit";
 
-        [SerializeField] private Vector3 titleStartPos;
-        [SerializeField] private Vector3 StartGameStartPos;
-        [SerializeField] private Vector3 optionsStartPos;
-        [SerializeField] private Vector3 creditsStartPos;
-        [SerializeField] private Vector3 quitStartPos;
+        private Vector3 titleStartPos;
+        private Vector3 StartGameStartPos;
+        private Vector3 optionsStartPos;
+        private Vector3 creditsStartPos;
+        private Vector3 quitStartPos;
 
-
-        private RectTransform titleRectTransform;
         private RectTransform startButtonRectTransform;
         private RectTransform optionsButtonRectTransform;
         private RectTransform creditsButtonRectTransform;
@@ -46,7 +48,6 @@ namespace ShadowUprising.UI.MainMenu
 
         private void Awake()
         {
-            titleRectTransform = title.rectTransform;
             startButtonRectTransform = startButton.GetComponent<RectTransform>();
             optionsButtonRectTransform = optionsButton.GetComponent<RectTransform>();
             creditsButtonRectTransform = creditsButton.GetComponent<RectTransform>();
@@ -98,7 +99,7 @@ namespace ShadowUprising.UI.MainMenu
             quitButton.enabled = false;
         }
 
-        void Start()
+        private void Start()
         {
             StartCoroutine(AnimateText());
         }
@@ -131,7 +132,6 @@ namespace ShadowUprising.UI.MainMenu
             }
         }
 
-
         private IEnumerator AnimateText()
         {
             StartCoroutine(AnimateTitle());
@@ -156,7 +156,7 @@ namespace ShadowUprising.UI.MainMenu
             button.text = text;
         }
 
-        IEnumerator AnimateTitle()
+        private IEnumerator AnimateTitle()
         {
             foreach (int i in TITLE.Length)
             {
