@@ -14,6 +14,10 @@ namespace ShadowUprising.UI.MainMenu
         public enum MenuState
         {
             /// <summary>
+            /// No menu is currently active, used for hiding all menus.
+            /// </summary>
+            None,
+            /// <summary>
             /// The main menu, where Play, Settings, and Credits are displayed.
             /// </summary>
             Main,
@@ -83,6 +87,11 @@ namespace ShadowUprising.UI.MainMenu
                     mainMenu.transform.position = Vector2.Lerp(mainMenu.transform.position, hiddenPosition, transitionSpeed * Time.deltaTime);
                     settingsMenu.transform.position = Vector2.Lerp(settingsMenu.transform.position, hiddenPosition, transitionSpeed * Time.deltaTime);
                     creditsMenu.transform.position = Vector2.Lerp(creditsMenu.transform.position, normalPosition, transitionSpeed * Time.deltaTime);
+                    break;
+                case MenuState.None:
+                    mainMenu.transform.position = Vector2.Lerp(mainMenu.transform.position, hiddenPosition, transitionSpeed * Time.deltaTime);
+                    settingsMenu.transform.position = Vector2.Lerp(settingsMenu.transform.position, hiddenPosition, transitionSpeed * Time.deltaTime);
+                    creditsMenu.transform.position = Vector2.Lerp(creditsMenu.transform.position, hiddenPosition, transitionSpeed * Time.deltaTime);
                     break;
             }
         }

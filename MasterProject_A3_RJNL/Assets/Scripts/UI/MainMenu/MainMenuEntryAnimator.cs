@@ -13,6 +13,7 @@ namespace ShadowUprising.UI.MainMenu
     public class MainMenuEntryAnimator : MonoBehaviour
     {
         public float animationSpeed = 1;
+        public float waitTime = 0;
 
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextButton startButton;
@@ -98,12 +99,12 @@ namespace ShadowUprising.UI.MainMenu
             creditsButton.enabled = false;
             quitButton.enabled = false;
         }
-
         private void Start()
         {
+            if (Time.realtimeSinceStartup > 10)
+                waitTime = 2f;
             StartCoroutine(AnimateText());
         }
-
         private void Update()
         {
             // lerp title and buttons to their start positions
@@ -134,6 +135,8 @@ namespace ShadowUprising.UI.MainMenu
 
         private IEnumerator AnimateText()
         {
+            yield return new WaitForSeconds(waitTime);
+
             StartCoroutine(AnimateTitle());
             yield return new WaitForSeconds(.3f);
 
@@ -145,7 +148,6 @@ namespace ShadowUprising.UI.MainMenu
             yield return new WaitForSeconds(.2f);
             StartCoroutine(AnimateButton(quitButton, QUIT));
         }
-
         private IEnumerator AnimateButton(TextButton button, string text)
         {
             foreach (int i in text.Length)
@@ -155,7 +157,6 @@ namespace ShadowUprising.UI.MainMenu
             }
             button.text = text;
         }
-
         private IEnumerator AnimateTitle()
         {
             foreach (int i in TITLE.Length)
