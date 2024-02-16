@@ -1,6 +1,7 @@
 // Creator: Job
 using ShadowUprising.UnityUtils;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace ShadowUprising.UI.Loading
         [SerializeField] private GameObject loadingScreenParent;
         [SerializeField] private LoadingSpinner spinner;
         [SerializeField] private TMP_Text text;
+        [SerializeField] private TMP_Text tipText;
         [SerializeField] private LoadingBar sceneLoadBar;
         [SerializeField] private LoadingBar scenePrepBar;
         [SerializeField] private Vector3 hiddenPos;
@@ -28,8 +30,14 @@ namespace ShadowUprising.UI.Loading
         private AsyncOperation? sceneLoadOperation;
         bool scenePrepComplete = false;
 
+        private List<string> tips;
+
         private void Start()
         {
+            string rawTips = Resources.Load<TextAsset>("Loading/Tips").text;
+
+            tips = rawTips.Split('\n', System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
             hiddenPos = Screen.height * 4 * Vector3.up;
             hiddenPos.x = transform.position.x;
             shownPos = transform.position;
@@ -50,6 +58,9 @@ namespace ShadowUprising.UI.Loading
         public void ShowAndLoad(string sceneName)
         {
             Show();
+
+            scenePrepComplete = false;
+
             sceneLoadBar.progress = 0;
             scenePrepBar.progress = 0;
             sceneLoadBar.visualProgress = 0;
@@ -60,6 +71,8 @@ namespace ShadowUprising.UI.Loading
             sceneLoadOperation.allowSceneActivation = false;
 
             StartCoroutine(WaitForSceneLoad());
+
+            StartCoroutine(DoTips());
         }
 
         private IEnumerator WaitForSceneLoad()
@@ -74,6 +87,31 @@ namespace ShadowUprising.UI.Loading
             sceneLoadBar.progress = 1;
 
             StartCoroutine(PrepScene());
+        }
+
+        private IEnumerator DoTips()
+        {
+            Log.Push("Starting tips...");
+            while (!scenePrepComplete)
+            {
+                tipText.text = "";
+                string selectedTip = tips[Random.Range(0, tips.Count)];
+                Log.Push("Selected tip: " + selectedTip);
+                // animate tip text to appear on the text boxc
+                foreach(char c in selectedTip)
+                {
+                    if(scenePrepComplete)
+                        break;
+
+                    tipText.text += c;
+                    yield return new WaitForSeconds(.02f);
+                }
+
+                if (scenePrepComplete)
+                    break;
+                yield return new WaitForSeconds(2f);
+            }
+            Log.Push("Stopping Tips");
         }
 
         private IEnumerator PrepScene()

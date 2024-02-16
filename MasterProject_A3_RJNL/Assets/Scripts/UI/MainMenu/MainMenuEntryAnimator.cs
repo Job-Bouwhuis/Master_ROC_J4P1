@@ -47,6 +47,8 @@ namespace ShadowUprising.UI.MainMenu
 
         private float time;
 
+        private bool mayAnimate = false;
+
         private void Awake()
         {
             startButtonRectTransform = startButton.GetComponent<RectTransform>();
@@ -107,6 +109,8 @@ namespace ShadowUprising.UI.MainMenu
         }
         private void Update()
         {
+            if (!mayAnimate) return;
+
             // lerp title and buttons to their start positions
             title.rectTransform.anchoredPosition = Vector3.Lerp(title.rectTransform.anchoredPosition, titleStartPos, Time.deltaTime * animationSpeed);
             startButtonRectTransform.anchoredPosition = Vector3.Lerp(startButtonRectTransform.anchoredPosition, StartGameStartPos, Time.deltaTime * animationSpeed);
@@ -136,6 +140,7 @@ namespace ShadowUprising.UI.MainMenu
         private IEnumerator AnimateText()
         {
             yield return new WaitForSeconds(waitTime);
+            mayAnimate = true;
 
             StartCoroutine(AnimateTitle());
             yield return new WaitForSeconds(.3f);
