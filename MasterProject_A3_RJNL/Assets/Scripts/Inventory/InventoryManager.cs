@@ -41,6 +41,8 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public List<Item> playerInventory = new();
 
+        public List<Slot> invSlots = new();
+
         /// <summary>
         /// The amount of unique items in the inventory
         /// </summary>
