@@ -21,22 +21,11 @@ namespace ShadowUprising.Debug
             {
                 GiveItem();
             }
-
-            if(Input.GetKeyDown(KeyCode.E))
-            {
-                Interact();
-            }
         }
 
         void GiveItem()
         {
             InventoryManager.Instance.AddItem(item);
-        }
-
-        void Interact()
-        {
-            InventoryManager.Instance.SelectIndex(0);
-            InventoryManager.Instance.Interact();
         }
     }
 }

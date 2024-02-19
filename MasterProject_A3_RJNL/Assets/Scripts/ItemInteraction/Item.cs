@@ -83,7 +83,13 @@ namespace ShadowUprising.Items
         /// The current amount of items in the stack
         /// </summary>
         public int CurrentStackSize => currentStackSize;
-        [SerializeField, Tooltip("Can be set to a different value to have a different starting stack size. eg, you pick up 2 shoes instead of one when picking up shoes")] private int currentStackSize = 1;
+        [SerializeField, Tooltip("Can be set to a different value to have a different starting stack size. eg, you start with 2 shoes instead of one")] private int currentStackSize = 1;
+
+        /// <summary>
+        /// The amount of items that will be given when the item is given. this is used for things like picking up 2 shoes instead of one
+        /// </summary>
+        [Tooltip("The amount of items that will be given when the item is given. this is used for things like picking up 2 shoes instead of one")]
+        public int itemGiveIncrement = 1;
 
         /// <summary>
         /// Whether or not the item can be stacked
@@ -104,6 +110,20 @@ namespace ShadowUprising.Items
         public void SetStack(int newStackSize)
         {
             currentStackSize = newStackSize;
+        }
+
+        internal Item Copy()
+        {
+            Item newItem = CreateInstance<Item>();
+            newItem.itemName = itemName;
+            newItem.description = description;
+            newItem.icon = icon;
+            newItem.maxStackSize = maxStackSize;
+            newItem.currentStackSize = currentStackSize;
+            newItem.itemGiveIncrement = itemGiveIncrement;
+            newItem.ItemFunctionProviderName = ItemFunctionProviderName;
+
+            return newItem;
         }
     }
 }
