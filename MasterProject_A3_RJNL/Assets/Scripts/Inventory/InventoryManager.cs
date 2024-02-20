@@ -30,6 +30,8 @@ namespace ShadowUprising.Inventory
 
         [Header("Settings"), Tooltip("The amount of unique itens that are allowed in the inventory. this also dictates how many slots the inventory will show")]
         public int maxUniqueItems = 6;
+        [Tooltip("The amount of units between each pixel. change if clipping occures")]
+        public int slotSpacing = 55;
         [Tooltip("The prefab for the slot in the inventory")]
         public GameObject slotPrefab;
         [Tooltip("The UI canvas that the inventory is on")]
@@ -109,7 +111,7 @@ namespace ShadowUprising.Inventory
                 GameObject slot = Instantiate(slotPrefab, slotParent);
 
                 // move slot right by 55 pixels for each slot
-                slot.transform.transform.position = new Vector3(slot.transform.position.x + (55 * i), slot.transform.position.y, slot.transform.position.z);
+                slot.transform.transform.position = new Vector3(slot.transform.position.x + (slotSpacing * i), slot.transform.position.y, slot.transform.position.z);
 
                 Slot s = slot.GetComponent<Slot>();
                 s.Init(i, this);

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShadowUprising.Debug
+namespace ShadowUprising.DEBUG
 {
     /// <summary>
     /// Used for testing the giving of and interacting with items
