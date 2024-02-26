@@ -41,6 +41,11 @@ namespace ShadowUprising.Inventory
 
         private InventoryManager manager;
 
+        /// <summary>
+        /// Do not call this method if you are using the slot through the <see cref="InventoryManager"/>
+        /// </summary>
+        /// <param name="slotIndex"></param>
+        /// <param name="manager"></param>
         public void Init(int slotIndex, InventoryManager manager)
         {
             index = slotIndex;
@@ -64,6 +69,10 @@ namespace ShadowUprising.Inventory
             }
         }
 
+        /// <summary>
+        /// Sets the item in the slot to the given <paramref name="item"/>
+        /// </summary>
+        /// <param name="item"></param>
         public void SetITem(Item? item)
         {
             if (item == null)
@@ -78,6 +87,9 @@ namespace ShadowUprising.Inventory
             graphic.color = new Color(255, 255, 255, 255);
         }
 
+        /// <summary>
+        /// Clears the slot
+        /// </summary>
         public void Clear()
         {
             graphic.sprite = null;

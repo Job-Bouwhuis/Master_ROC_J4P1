@@ -1,24 +1,33 @@
 // Creator: Job
 
 using ShadowUprising.Items;
-using System;
 using System.Linq;
 using UnityEditor;
-using WinterRose;
 using UnityEngine;
 
 using gui = UnityEditor.EditorGUILayout;
-using NUnit.Framework;
-using WinterRose.Reflection;
 
 namespace ShadowUprising.Editors.Inspectors
 {
+    /// <summary>
+    /// An editor script to display the item function type in the inspector as a dropdown instead of a textfield. improves the developer experience.
+    /// </summary>
     [CustomEditor(typeof(Item))]
     public class ItemInspector : Editor
     {
+        /// <summary>
+        /// Draw the inspector for the item
+        /// </summary>
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
+
+            if(ItemUtils.ItemFunctionTypes.Count is 0)
+            {
+                gui.Separator();
+                gui.LabelField("No Item Function Types Found");
+                return;
+            }
 
             Item item = (Item)target;
 

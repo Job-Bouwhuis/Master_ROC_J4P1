@@ -7,11 +7,17 @@ using WinterRose;
 
 namespace ShadowUprising.WorldInteraction
 {
+    /// <summary>
+    /// A unity script that allows the player to interact with specific objects in the world.
+    /// </summary>
     public class WorldInteractor : MonoBehaviour
     {
         public float interactDistance = 10f;
 
+#if UNITY_EDITOR
+        [Header("Debug")]
         public bool rayHit;
+#endif
         Collider hitCollider;
 
         private void Update()
@@ -22,27 +28,33 @@ namespace ShadowUprising.WorldInteraction
 
                 if (interactables.Any())
                 {
-                    rayHit = true;
                     hitCollider = hit.collider;
 
-
+#if UNITY_EDITOR
+                    rayHit = true;
+#endif
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         interactables.Foreach(x => x.Interact(this));
                     }
 
                 }
+#if UNITY_EDITOR
                 else
                 {
                     rayHit = false;
                 }
+#endif
             }
+#if UNITY_EDITOR
             else
             {
                 rayHit = false;
             }
+#endif
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             if (!Application.isPlaying)
@@ -58,5 +70,6 @@ namespace ShadowUprising.WorldInteraction
                 Gizmos.DrawWireCube(hitCollider.bounds.center, hitCollider.bounds.size);
             }
         }
+#endif
     }
 }
