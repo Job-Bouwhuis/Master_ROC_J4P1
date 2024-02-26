@@ -2365,16 +2365,14 @@
             Clears the clipboard.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.CreateConsole">
+        <member name="M:WinterRose.Windows.OpenConsole">
             <summary>
             Creates a new console window. if your app makes a managed window, then call this before you make the window.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.ReleaseConsole">
+        <member name="M:WinterRose.Windows.CloseConsole">
             <summary>
             Releases the console created by WinterRose.Windows.CreateConsole. <br></br><br></br>
-            
-            <b>Note:</b> THIS WILL MAKE ALL System.Console CALLS THROW AN EXCE{TION
             </summary>
         </member>
         <member name="M:WinterRose.Windows.PCShutdown">
