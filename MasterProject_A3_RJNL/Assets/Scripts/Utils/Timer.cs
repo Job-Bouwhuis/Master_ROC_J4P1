@@ -32,8 +32,6 @@ namespace ShadowUprising.Utils
         {
             if(!timeElapsed)
                 Count(deltaTime);
-            //Debug.Log(elapsedMS);
-            Debug.Log(this.setMS);
         }
 
         void Count(float deltaTime)

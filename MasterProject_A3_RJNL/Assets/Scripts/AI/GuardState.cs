@@ -19,6 +19,7 @@ namespace ShadowUprising.AI
         {
             currentState = current;
             onStateChanged.Invoke(currentState);
+            Debug.Log(currentState);
         }
     }
 }

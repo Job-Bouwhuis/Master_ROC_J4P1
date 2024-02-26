@@ -35,7 +35,6 @@ namespace ShadowUprising.AI
         private void PlayerLost()
         {
             state.currentState = AIState.Roaming;
-            Debug.Log("Juist");
         }
 
         void SetGuardState()
