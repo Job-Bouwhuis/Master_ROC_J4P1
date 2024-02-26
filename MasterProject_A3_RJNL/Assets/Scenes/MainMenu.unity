@@ -1769,7 +1769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a669a09c7ce1f44b687de3622ac010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: SceneSwitchTest
+  sceneName: WorldInteractionTests
 --- !u!114 &399445108
 MonoBehaviour:
   m_ObjectHideFlags: 0
