@@ -19,7 +19,7 @@ namespace ShadowUprising.UnityUtils
         {
             if (Instance == null)
             {
-                Instance = (TSelf)(object)this;
+                Instance = this as TSelf;
 
                 if (GetType().IsDefined(typeof(DontDestroyOnLoadAttribute), false))
                 {

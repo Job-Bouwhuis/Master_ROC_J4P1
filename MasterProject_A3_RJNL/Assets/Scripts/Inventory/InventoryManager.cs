@@ -16,7 +16,7 @@ namespace ShadowUprising.Inventory
     [DontDestroyOnLoad]
     public class InventoryManager : Singleton<InventoryManager>
     {
-        public struct InventoryInteractResult
+        public readonly struct InventoryInteractResult
         {
             public InventoryInteractionResult Success { get; }
             public string Message { get; }
@@ -106,7 +106,7 @@ namespace ShadowUprising.Inventory
                 return;
             }
 
-            for (int i = 0; i < maxUniqueItems; i++)
+            foreach(int i in maxUniqueItems)
             {
                 GameObject slot = Instantiate(slotPrefab, slotParent);
 

@@ -17,8 +17,8 @@ namespace ShadowUprising.Player
         [SerializeField] private int verticalSensitivity;
         const int CLAMP = 85;
 
-        float rotateHorizontal;
-        float rotateVertical;
+        private float rotateHorizontal;
+        private float rotateVertical;
 
         void Update()
         {

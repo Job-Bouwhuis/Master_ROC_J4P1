@@ -9,8 +9,10 @@ namespace ShadowUprising.Player
     public class PlayerMovement : MonoBehaviour
     {
         // Refrences
+        [Header("References")]
         private Rigidbody rb;
         // Variables
+
         const int DISTANCE_TO_WALL = 1;
         [SerializeField] private int baseSpeed;
         [SerializeField] private int movementSpeedModifier;
@@ -42,7 +44,7 @@ namespace ShadowUprising.Player
             Physics.Raycast(ray, out RaycastHit hitData);
             if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0)
                 return true;
-            else return false;
+            return false;
         }
     }
 }

@@ -14,11 +14,6 @@ namespace ShadowUprising.WorldInteraction
         public bool rayHit;
         Collider hitCollider;
 
-
-        private void Start()
-        {
-        }
-
         private void Update()
         {
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactDistance))
