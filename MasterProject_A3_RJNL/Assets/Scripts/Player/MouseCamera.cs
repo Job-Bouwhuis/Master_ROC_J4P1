@@ -33,7 +33,7 @@ namespace ShadowUprising.Player
         }
 
         /// <summary>
-        /// Update horizontal camera movement
+        /// Update the horizontal rotation of the player based on player input
         /// </summary>
         public void UpdateHorizontal()
         {
@@ -42,7 +42,7 @@ namespace ShadowUprising.Player
         }
 
         /// <summary>
-        /// update vertical camera movement
+        /// Update the vertical rotation of the camera based on player input
         /// </summary>
         public void UpdateVertical()
         {
@@ -52,7 +52,7 @@ namespace ShadowUprising.Player
         }
 
         /// <summary>
-        /// lock mouse to the screen
+        /// Set curserlockstate to locked and hide the mouse
         /// </summary>
         void LockMouse()
         {
