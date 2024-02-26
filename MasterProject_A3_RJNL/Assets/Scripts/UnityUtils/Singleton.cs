@@ -5,7 +5,9 @@ using UnityEngine;
 namespace ShadowUprising.UnityUtils
 {
     /// <summary>
-    /// A singleton that is attached to a <see cref="GameObject"/> in Unity.
+    /// A singleton that is attached to a <see cref="GameObject"/> in Unity.<br></br><br></br>
+    /// 
+    /// Attach a <see cref="DontDestroyOnLoadAttribute"/> to the class to make sure that the singleton is preserved between scene changes.
     /// </summary> 
     /// <typeparam name="TSelf">The type of <see cref="MonoBehaviour"/> the singleton is </typeparam>
     public class Singleton<TSelf> : MonoBehaviour where TSelf : MonoBehaviour

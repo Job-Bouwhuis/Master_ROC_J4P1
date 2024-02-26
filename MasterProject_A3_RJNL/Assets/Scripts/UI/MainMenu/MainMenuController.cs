@@ -67,6 +67,11 @@ namespace ShadowUprising.UI.MainMenu
         // Update is called once per frame
         void Update()
         {
+            UpdateMenus();
+        }
+
+        private void UpdateMenus()
+        {
             normalPosition = new Vector2(Screen.width / 2 - Screen.width / 6, Screen.height / 2 + Screen.width / 8);
             hiddenPosition = new Vector3(605, Screen.height * 2);
 

@@ -11,9 +11,13 @@ using UnityEngine.SceneManagement;
 
 namespace ShadowUprising.UI.Loading
 {
+    /// <summary>
+    /// A singleton class providing a loading screen to switch between scenes in the game. Make sure that within the entire lifetime of the game there is only one instance of this class. if there are more, one of them will be destroyed.
+    /// </summary>
     [DontDestroyOnLoad]
     public class LoadingScreen : Singleton<LoadingScreen>
     {
+        [Tooltip("The speed at which the loading screen will cover up the screen")] 
         public float coverupSpeed = 5;
 
         [SerializeField] private GameObject loadingScreenParent;
@@ -24,37 +28,42 @@ namespace ShadowUprising.UI.Loading
         [SerializeField] private LoadingBar scenePrepBar;
         [SerializeField] private Vector3 hiddenPos;
         [SerializeField] private Vector3 shownPos;
-
         [SerializeField] private Vector3 targetPos;
 
         private AsyncOperation? sceneLoadOperation;
-        bool scenePrepComplete = false;
-
+        private bool scenePrepComplete = false;
         private List<string> tips;
 
-        private void Start()
-        {
-            string rawTips = Resources.Load<TextAsset>("Loading/Tips").text;
+        /// <summary>
+        /// Whether or not the loading screen is currently active.
+        /// </summary>
+        public bool IsLoading { get; private set; }
 
-            tips = rawTips.Split('\n', System.StringSplitOptions.RemoveEmptyEntries).ToList();
-
-            hiddenPos = Screen.height * 4 * Vector3.up;
-            hiddenPos.x = transform.position.x;
-            shownPos = transform.position;
-
-            targetPos = hiddenPos;
-
-            loadingScreenParent.transform.position = hiddenPos;
-            loadingScreenParent.SetActive(true);
-        }
-
+        /// <summary>
+        /// Shows the loading screen, but does not load a scene.
+        /// </summary>
         public void Show()
         {
+            IsLoading = true;
             targetPos = shownPos;
             text.text = "Loading...";
             spinner.StartSpinning();
         }
+        /// <summary>
+        /// Hides the loading screen.
+        /// </summary>
+        public void Hide()
+        {
+            targetPos = hiddenPos;
+            spinner.StopSpinning();
 
+            IsLoading = false;
+        }
+        /// <summary>
+        /// Initiates the loading of a scene, and shows the loading screen.<br></br>
+        /// Once the scene is loaded and prepped, the loading screen will hide itself.
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void ShowAndLoad(string sceneName)
         {
             Show();
@@ -71,7 +80,6 @@ namespace ShadowUprising.UI.Loading
             sceneLoadOperation.allowSceneActivation = false;
 
             StartCoroutine(WaitForSceneLoad());
-
             StartCoroutine(DoTips());
         }
 
@@ -88,7 +96,6 @@ namespace ShadowUprising.UI.Loading
 
             StartCoroutine(PrepScene());
         }
-
         private IEnumerator DoTips()
         {
             Log.Push("Starting tips...");
@@ -113,7 +120,6 @@ namespace ShadowUprising.UI.Loading
             }
             Log.Push("Stopping Tips");
         }
-
         private IEnumerator PrepScene()
         {
             Log.Push("Prepping scene...");
@@ -177,12 +183,21 @@ namespace ShadowUprising.UI.Loading
             Hide();
         }
 
-        public void Hide()
+        private void Start()
         {
-            targetPos = hiddenPos;
-            spinner.StopSpinning();
-        }
+            string rawTips = Resources.Load<TextAsset>("Loading/Tips").text;
 
+            tips = rawTips.Split('\n', System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            hiddenPos = Screen.height * 4 * Vector3.up;
+            hiddenPos.x = transform.position.x;
+            shownPos = transform.position;
+
+            targetPos = hiddenPos;
+
+            loadingScreenParent.transform.position = hiddenPos;
+            loadingScreenParent.SetActive(true);
+        }
         private void Update()
         {
             loadingScreenParent.transform.position = Vector3.Lerp(loadingScreenParent.transform.position, targetPos, Time.deltaTime * coverupSpeed);

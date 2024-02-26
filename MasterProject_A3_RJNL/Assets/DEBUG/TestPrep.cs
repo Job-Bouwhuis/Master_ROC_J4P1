@@ -24,7 +24,6 @@ namespace ShadowUprising.DEBUG
 
         YieldInstruction? IScenePrepOperation.Update()
         {
-
             if (!waited)
             {
                 waited = true;
