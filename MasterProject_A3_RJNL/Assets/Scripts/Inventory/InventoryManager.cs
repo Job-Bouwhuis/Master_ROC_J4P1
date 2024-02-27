@@ -77,7 +77,7 @@ namespace ShadowUprising.Inventory
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
 
-        private float slotsStartY = 70;
+        [SerializeField] private float slotsStartY = 70;
         private Vector3 inventoryNormalPos;
         private Vector3 inventoryHiddenPos;
 
