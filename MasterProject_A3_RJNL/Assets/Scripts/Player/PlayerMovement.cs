@@ -8,12 +8,12 @@ namespace ShadowUprising.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [Header("Refrences")]
+        // Refrences
+        [Header("References")]
         private Rigidbody rb;
+        // Variables
 
         const int DISTANCE_TO_WALL = 1;
-        
-        [Header("Variables")]
         [SerializeField] private int baseSpeed;
         [SerializeField] private int movementSpeedModifier;
 
@@ -27,9 +27,6 @@ namespace ShadowUprising.Player
             UpdateMovement();
         }
 
-        /// <summary>
-        /// Add force to the player depending on the inputs of the player
-        /// </summary>
         private void UpdateMovement()
         {
             Vector3 moveDir = Vector3.zero;
@@ -41,18 +38,13 @@ namespace ShadowUprising.Player
                 rb.AddForce(moveDir * (baseSpeed + movementSpeedModifier));
         }
 
-        /// <summary>
-        /// Check if the Player is going to collide with an object if they head the direction of "moveDir"
-        /// </summary>
-        /// <param name="moveDir">The direction the player will move in</param>
-        /// <returns></returns>
         bool CheckIfMovementBlocked(Vector3 moveDir)
         {
             Ray ray = new Ray(transform.position, moveDir);
             Physics.Raycast(ray, out RaycastHit hitData);
             if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0)
                 return true;
-            else return false;
+            return false;
         }
     }
 }
