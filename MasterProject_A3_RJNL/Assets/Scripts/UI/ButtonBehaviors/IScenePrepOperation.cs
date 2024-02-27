@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IScenePrepOperation
+namespace ShadowUprising.UI.Loading
 {
-    bool IsComplete { get; set; }
+    public interface IScenePrepOperation
+    {
+        bool IsComplete { get; set; }
 
-    void StartPrep();
+        void StartPrep();
 
-    YieldInstruction? Update();
+        YieldInstruction Update();
 
-    void FinishPrep();
+        void FinishPrep();
+    }
 }

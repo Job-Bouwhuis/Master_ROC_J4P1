@@ -29,28 +29,24 @@ namespace ShadowUprising.WorldInteraction
                 if (interactables.Any())
                 {
                     hitCollider = hit.collider;
-
 #if UNITY_EDITOR
                     rayHit = true;
 #endif
                     if (Input.GetKeyDown(KeyCode.F))
                     {
                         interactables.Foreach(x => x.Interact(this));
+                        Log.Push("Interacted with world object");
                     }
 
                 }
 #if UNITY_EDITOR
                 else
-                {
                     rayHit = false;
-                }
 #endif
             }
 #if UNITY_EDITOR
             else
-            {
                 rayHit = false;
-            }
 #endif
         }
 
