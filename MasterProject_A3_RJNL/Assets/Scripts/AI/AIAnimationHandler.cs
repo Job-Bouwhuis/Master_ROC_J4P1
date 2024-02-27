@@ -29,11 +29,9 @@ namespace ShadowUprising.AI
             {
                 case AIState.Attacking:
                     OnAIAttacking();
-                    Debug.Log("AttackingStateSet");
                     break;
                 case AIState.Roaming:
                     OnAIRoaming();
-                    Debug.Log("RoamingSetOnAnimator");
                     break;
             }
         }
