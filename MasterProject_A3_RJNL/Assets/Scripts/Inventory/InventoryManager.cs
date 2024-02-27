@@ -21,13 +21,13 @@ namespace ShadowUprising.Inventory
     {
         public readonly struct InventoryInteractResult
         {
-            public InventoryInteractionResult Success { get; }
+            public InventoryInteractionResult Status { get; }
             public string Message { get; }
             public Item Item { get; }
 
             public InventoryInteractResult(InventoryInteractionResult success, string message, Item item)
             {
-                Success = success;
+                Status = success;
                 Message = message;
                 Item = item;
             }
@@ -90,19 +90,26 @@ namespace ShadowUprising.Inventory
 
             SceneManager.sceneLoaded += OnNewSceneLoad;
 
-            LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+            if (LoadingScreen.Instance is not null)
             {
-                StartCoroutine(AnimateInventoryIn());
-            });
+                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+                {
+                    StartCoroutine(AnimateInventoryIn());
+                });
 
-            LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                {
+                    Log.Push("Hiding inventory");
+                    StartCoroutine(AnimateInventoryOut());
+                    return 0.3f;
+                });
+            }
+            else
             {
-                Log.Push("Hiding inventory");
-                StartCoroutine(AnimateInventoryOut());
-                return 0.3f;
-            });
-
-
+                // set inventory pos to visible
+                slotParent.position = inventoryNormalPos;
+                slotParent.gameObject.SetActive(true);
+            }
 
             // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
             // this helps to prevent a big lag spike when any item is interacted with for the first time.
@@ -345,8 +352,6 @@ namespace ShadowUprising.Inventory
 
             if (slot.item != null)
                 Log.Push(slot.item.name + " selected");
-            else
-                Log.Push("Empty slot selected");
 
             return InvokeInteractEvent(new InventoryInteractResult(Success | ItemEquipped, "Item selected", slot.item));
         }
@@ -380,6 +385,7 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         private InventoryInteractResult InvokeInteractEvent(InventoryInteractResult result)
         {
+            Log.Push("Inventory interaction event invoked");
             OnInventoryInteract?.Invoke(result);
             return result;
         }
