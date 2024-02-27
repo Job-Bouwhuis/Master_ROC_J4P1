@@ -57,8 +57,6 @@ namespace ShadowUprising.AI
 
         bool IsAIAtLocation()
         {
-            Debug.Log(Vector3.Distance(lastPlayerLoc, transform.position));
-
             if (Vector3.Distance(lastPlayerLoc, transform.position) < distanceToLastPlayerLoc)
                 return true;
             return false;
