@@ -8,13 +8,15 @@ namespace ShadowUprising.Utils
 {
     public class Timer
     {
-        bool canCount;
+        /// <summary>
+        /// is called when the set amount of time is elapsed
+        /// </summary>
+        public Action elapsed;
 
         float elapsedMS;
         float setMS;
 
-        public Action elapsed;
-
+        bool canCount;
         bool timeElapsed;
 
         /// <summary>
@@ -27,7 +29,10 @@ namespace ShadowUprising.Utils
            
         }
 
-        // Update is called once per frame
+        /// <summary>
+        /// updates the timer his elapsed time
+        /// </summary>
+        /// <param name="deltaTime"> time.deltatime within unity </param>
         public void Update(float deltaTime)
         {
             if(!timeElapsed)
@@ -41,27 +46,46 @@ namespace ShadowUprising.Utils
 
             if (elapsedMS >= setMS)
             {
-                Debug.Log("Invoked");
                 elapsed.Invoke();
                 timeElapsed = true;
             }
 
         }
 
+
+        /// <summary>
+        /// stops the timer
+        /// </summary>
         public void StopTimer()
         {
             canCount = false;
         }
 
+        /// <summary>
+        /// restarts the timer
+        /// </summary>
         public void Restart()
         {
             elapsedMS = 0;
             canCount = true;
+            timeElapsed = false;
         }
 
+        /// <summary>
+        /// starts the timer
+        /// </summary>
         public void StartTimer()
         {
             canCount = true;
+        }
+
+        /// <summary>
+        /// sets the elapsed seconds of the timer back to zero
+        /// </summary>
+        public void ZeroTimer()
+        {
+            elapsedMS = 0;
+            timeElapsed = false;
         }
 
     }

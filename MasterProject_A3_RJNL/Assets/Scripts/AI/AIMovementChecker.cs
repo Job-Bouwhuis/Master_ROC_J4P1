@@ -1,17 +1,12 @@
+//Creator: Luke
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShadowUprising.AI
 {
 
-
-
     public class AIMovementChecker : MonoBehaviour
     {
-        Vector3 currentPos;
-        Vector3 lastPos;
 
         /// <summary>
         /// is called when the player is moving
@@ -21,6 +16,9 @@ namespace ShadowUprising.AI
         /// is called when the player is standing
         /// </summary>
         public Action onAIStanding = delegate { };
+
+        Vector3 currentPos;
+        Vector3 lastPos;
 
         // Update is called once per frame
         void Update()

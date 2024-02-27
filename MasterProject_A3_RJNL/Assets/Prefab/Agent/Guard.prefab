@@ -250,13 +250,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2178716958262396268}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9de559fbd6ea52d47bf7f2e47d95ec1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  scuffed: 1
+  scuffed: 0
 --- !u!114 &2378473759086923461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15fbe141648c8ee488cb39da7f189361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distanceToLastPlayerLoc: 1
 --- !u!114 &4478201501375417764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,3 +282,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b677e0aa98abf904482c913c992436a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 20
+  coneAngle: 70

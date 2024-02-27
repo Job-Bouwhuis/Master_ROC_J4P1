@@ -1,3 +1,4 @@
+//Creator: Luke
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,32 @@ namespace ShadowUprising.AI
     public class AIAnimationHandler : MonoBehaviour
     {
         Animator animator;
+        AIState state;
 
         // Start is called before the first frame update
         void Start()
         {
             AsignComponents();
+        }
+
+        private void Update()
+        {
+            SetAnimationState();
+        }
+
+        void SetAnimationState()
+        {
+            switch (state)
+            {
+                case AIState.Attacking:
+                    OnAIAttacking();
+                    Debug.Log("AttackingStateSet");
+                    break;
+                case AIState.Roaming:
+                    OnAIRoaming();
+                    Debug.Log("RoamingSetOnAnimator");
+                    break;
+            }
         }
 
         void OnAIMoving()
@@ -38,15 +60,7 @@ namespace ShadowUprising.AI
 
         void OnStateChanged(AIState currentState)
         {
-            switch (currentState)
-            {
-                case AIState.Attacking:
-                    OnAIAttacking();
-                    break;
-                case AIState.Roaming:
-                    OnAIRoaming();
-                    break;
-            }
+            state = currentState;
         }
         
 

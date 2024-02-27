@@ -8,8 +8,17 @@ namespace ShadowUprising.AI
 {
     public class GuardState : MonoBehaviour
     {
-        public AIState currentState;
+        /// <summary>
+        /// is called when the state is changed
+        /// </summary>
         public Action<AIState> onStateChanged = delegate { };
+
+        /// <summary>
+        /// current state of the ai
+        /// </summary>
+        public AIState CurrentState => currentState;
+        [SerializeField] private AIState currentState = AIState.Roaming;
+        
 
         /// <summary>
         /// sets the current guard state
@@ -19,7 +28,6 @@ namespace ShadowUprising.AI
         {
             currentState = current;
             onStateChanged.Invoke(currentState);
-            Debug.Log(currentState);
         }
     }
 }

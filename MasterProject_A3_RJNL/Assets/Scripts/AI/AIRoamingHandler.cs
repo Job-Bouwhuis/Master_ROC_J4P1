@@ -7,6 +7,9 @@ namespace ShadowUprising.AI
 {
     public class AIRoamingHandler : MonoBehaviour
     {
+        /// <summary>
+        /// the roaming positions the ai should check
+        /// </summary>
         public List<Transform> roamingPoints;
 
         AINavigationSystem aiSystem;
