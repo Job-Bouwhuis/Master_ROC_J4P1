@@ -46,6 +46,23 @@ namespace ShadowUprising.UI.InGame
 
         public void HideFromIndefinite()
         {
+            if (!IsVisible)
+            {
+                StartCoroutine(SetHideFromIndefinite());
+                return;
+            }
+
+            StopAllCoroutines();
+            OnScreenIndefinitely = false;
+        }
+
+        private IEnumerator SetHideFromIndefinite()
+        {
+            while (!IsVisible)
+            {
+                yield return null;
+            }
+
             StopAllCoroutines();
             OnScreenIndefinitely = false;
         }
