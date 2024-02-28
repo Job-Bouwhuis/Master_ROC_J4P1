@@ -25,6 +25,7 @@ namespace ShadowUprising.WorldInteraction
             if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, interactDistance))
             {
                 var interactables = hit.collider.gameObject.FindAllComponents<IWorldInteractable>();
+                interactables = interactables.OrderBy(x => x.Priority);
 
                 if (interactables.Any())
                 {

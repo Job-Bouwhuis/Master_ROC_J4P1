@@ -134,7 +134,7 @@ PrefabInstance:
     - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
       propertyPath: slotsStartY
-      value: 100
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 5523791029620297030, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
@@ -184,6 +184,11 @@ PrefabInstance:
     - target: {fileID: 5523791029620297030, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7091182122913904030, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8231747199443175166, guid: e8d2636f463a6ab489942f6453ba3876,
@@ -963,6 +968,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1010225177}
   - component: {fileID: 1010225178}
+  - component: {fileID: 1010225180}
+  - component: {fileID: 1010225179}
   m_Layer: 5
   m_Name: HealthAndStamina
   m_TagString: Untagged
@@ -1009,6 +1016,38 @@ MonoBehaviour:
   delayLoading: 0.5
   TimeOnScreenBeforeHide: 2.5
   OnScreenIndefinitely: 0
+--- !u!114 &1010225179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010225176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc2a43616931f74db16c7c756070e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  stamina: 0
+  maxHealth: 500
+  maxStamina: 500
+--- !u!114 &1010225180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010225176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58c066196ee6ef4d85b1353e2d3a410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthAndStaminaElement: {fileID: 1010225178}
+  healthBar: {fileID: 886181166}
+  staminaBar: {fileID: 798740432}
+  player: {fileID: 1010225179}
 --- !u!1 &1090136877
 GameObject:
   m_ObjectHideFlags: 0

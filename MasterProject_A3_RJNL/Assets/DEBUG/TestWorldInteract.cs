@@ -9,6 +9,8 @@ public class TestWorldInteract : MonoBehaviour, IWorldInteractable
 {
     public Item item;
 
+    public int Priority => 0;
+
     public void Interact(WorldInteractor interactor)
     {
         InventoryManager.Instance.AddItem(item);

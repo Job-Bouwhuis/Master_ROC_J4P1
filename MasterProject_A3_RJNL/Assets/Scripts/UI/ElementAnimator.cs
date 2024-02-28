@@ -30,6 +30,7 @@ namespace ShadowUprising.UI.InGame
         {
             StopAllCoroutines();
             StartCoroutine(AnimateElementIn());
+            timeOnScreen = 0;
         }
 
         public void Hide()

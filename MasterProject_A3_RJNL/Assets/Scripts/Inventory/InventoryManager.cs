@@ -64,7 +64,6 @@ namespace ShadowUprising.Inventory
 
         public UnityEvent<InventoryInteractResult> OnInventoryInteract { get; private set; } = new UnityEvent<InventoryInteractResult>();
 
-
         /// <summary>
         /// The amount of unique items in the inventory
         /// </summary>
@@ -83,6 +82,8 @@ namespace ShadowUprising.Inventory
 
         protected override void Awake()
         {
+            SetupReferenceChecks();
+
             base.Awake();
 
             inventoryNormalPos = new Vector3(slotParent.position.x, slotsStartY, slotParent.position.z);
@@ -90,7 +91,7 @@ namespace ShadowUprising.Inventory
 
             SceneManager.sceneLoaded += OnNewSceneLoad;
 
-            if (LoadingScreen.Instance is not null)
+            if (LoadingScreen.Instance != null)
             {
                 LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
                 {
@@ -99,7 +100,6 @@ namespace ShadowUprising.Inventory
 
                 LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
                 {
-                    Log.Push("Hiding inventory");
                     StartCoroutine(AnimateInventoryOut());
                     return 0.3f;
                 });
@@ -115,6 +115,25 @@ namespace ShadowUprising.Inventory
             // this helps to prevent a big lag spike when any item is interacted with for the first time.
             TypeWorker.FindType(nameof(Vector3));
 
+            foreach (int i in maxUniqueItems)
+            {
+                GameObject slot = Instantiate(slotPrefab, slotParent);
+
+                // move slot right by 55 pixels for each slot
+                slot.transform.transform.position = new Vector3(slot.transform.position.x + (slotSpacing * i), slot.transform.position.y, slot.transform.position.z);
+
+                Slot s = slot.GetComponent<Slot>();
+                s.Init(i, this);
+                invSlots.Add(s);
+            }
+
+            invSlots[0].IsSelected = true;
+
+            Log.Push("Inventory initialized.");
+        }
+        
+        private void SetupReferenceChecks()
+        {
             if (slotPrefab == null)
             {
                 Windows.MessageBox("Slot prefab is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
@@ -139,49 +158,35 @@ namespace ShadowUprising.Inventory
 #endif
                 return;
             }
-
-            foreach (int i in maxUniqueItems)
-            {
-                GameObject slot = Instantiate(slotPrefab, slotParent);
-
-                // move slot right by 55 pixels for each slot
-                slot.transform.transform.position = new Vector3(slot.transform.position.x + (slotSpacing * i), slot.transform.position.y, slot.transform.position.z);
-
-                Slot s = slot.GetComponent<Slot>();
-                s.Init(i, this);
-                invSlots.Add(s);
-            }
-
-            invSlots[0].IsSelected = true;
-
-            Log.Push("Inventory initialized.");
         }
+
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                SelectIndex(0);
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                SelectIndex(1);
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-                SelectIndex(2);
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-                SelectIndex(3);
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-                SelectIndex(4);
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-                SelectIndex(5);
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-                SelectIndex(6);
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-                SelectIndex(7);
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-                SelectIndex(8);
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-                SelectIndex(9);
+            OemKeybinds();
+            InteractKeybind();
+            Scrolling();
+            ApplyItemsToSlots();
+        }
 
-            if (Input.GetKeyDown(KeyCode.E))
-                Interact();
+        private void ApplyItemsToSlots()
+        {
+            // loop over all items in the inventory, and let the slot know about its item
+            for (int i = 0; i < invSlots.Count; i++)
+            {
+                if (i < playerInventory.Count)
+                {
+                    invSlots[i].SetITem(playerInventory[i]);
+                }
+                else
+                {
+                    invSlots[i].item = null;
+                    invSlots[i].Clear();
+                }
+            }
+        }
 
+        private void Scrolling()
+        {
             // scroll logic for switching selected slots using function SelectIndex
             if (Input.mouseScrollDelta.y < 0)
             {
@@ -225,20 +230,48 @@ namespace ShadowUprising.Inventory
                     }
                 }
             }
+        }
 
-            // loop over all items in the inventory, and let the slot know about its item
-            for (int i = 0; i < invSlots.Count; i++)
+        private void InteractKeybind()
+        {
+            if (SelectedItem is null)
+                return;
+
+            bool mayInteract = SelectedItem switch
             {
-                if (i < playerInventory.Count)
-                {
-                    invSlots[i].SetITem(playerInventory[i]);
-                }
-                else
-                {
-                    invSlots[i].item = null;
-                    invSlots[i].Clear();
-                }
-            }
+                { interactButton: Item.ItemInteractButton.LeftClick } => Input.GetMouseButtonDown(0),
+                { interactButton: Item.ItemInteractButton.RightClick } => Input.GetMouseButtonDown(1),
+                { interactButton: Item.ItemInteractButton.MiddleClick } => Input.GetMouseButtonDown(2),
+                { interactButton: Item.ItemInteractButton.E } => Input.GetKeyDown(KeyCode.E),
+                _ => false
+            };
+
+            if (mayInteract && SelectedItem.HasFunction)
+                SelectedItem.ItemFunction!.UseItem();
+        }
+
+        private void OemKeybinds()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                SelectIndex(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                SelectIndex(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                SelectIndex(2);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                SelectIndex(3);
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+                SelectIndex(4);
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                SelectIndex(5);
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+                SelectIndex(6);
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+                SelectIndex(7);
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+                SelectIndex(8);
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+                SelectIndex(9);
         }
 
         /// <summary>
