@@ -5,6 +5,9 @@ using ShadowUprising.AI;
 
 namespace ShadowUprising.AI
 {
+    /// <summary>
+    /// AIRoamingHandler handles the roaming of the ai
+    /// </summary>
     public class AIRoamingHandler : MonoBehaviour
     {
         /// <summary>
