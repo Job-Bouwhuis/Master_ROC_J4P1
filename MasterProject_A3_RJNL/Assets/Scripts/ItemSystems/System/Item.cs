@@ -40,6 +40,11 @@ namespace ShadowUprising.Items
         /// The icon of the item
         /// </summary>
         public Sprite icon;
+        /// <summary>
+        /// The prefab of the item.
+        /// </summary>
+        [Tooltip("The game object that should be used for this specific item")]
+        public GameObject prefab;
 
         [Tooltip("The button that will be used to interact with the item when selected in the inventory")]
         public ItemInteractButton interactButton = ItemInteractButton.E;
@@ -141,6 +146,7 @@ namespace ShadowUprising.Items
             newItem.itemGiveIncrement = itemGiveIncrement;
             newItem.ItemFunctionProviderName = ItemFunctionProviderName;
             newItem.interactButton = interactButton;
+            newItem.id = id;
 
             return newItem;
         }

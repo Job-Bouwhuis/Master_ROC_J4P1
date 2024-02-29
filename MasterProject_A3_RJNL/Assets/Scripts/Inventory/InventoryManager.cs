@@ -23,9 +23,9 @@ namespace ShadowUprising.Inventory
         {
             public InventoryInteractionResult Status { get; }
             public string Message { get; }
-            public Item Item { get; }
+            public Item? Item { get; }
 
-            public InventoryInteractResult(InventoryInteractionResult success, string message, Item item)
+            public InventoryInteractResult(InventoryInteractionResult success, string message, Item? item)
             {
                 Status = success;
                 Message = message;
@@ -313,7 +313,7 @@ namespace ShadowUprising.Inventory
             // if the slot in which the item is placed is selected, select the item
             if (invSlots[playerInventory.Count - 1].IsSelected)
             {
-                SelectIndex(playerInventory.Count - 1);
+                SelectIndex(playerInventory.IndexOf(item));
             }
 
             return InvokeInteractEvent(new InventoryInteractResult(Success | ItemAdded, "Item added to inventory", item));

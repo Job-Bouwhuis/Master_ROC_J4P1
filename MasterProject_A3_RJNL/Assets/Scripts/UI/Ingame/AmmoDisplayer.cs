@@ -9,22 +9,17 @@ namespace ShadowUprising.UI.InGame
 
         private void Start()
         {
-            InventoryManager.Instance.OnInventoryInteract.AddListener(InventoryInteracted);
+            InventoryManager.Instance.OnInventoryInteract.AddListener(InventorySelected);
         }
 
-        private void InventoryInteracted(InventoryManager.InventoryInteractResult result)
+        private void InventorySelected(InventoryManager.InventoryInteractResult result)
         {
-            Log.Push("InteractionResult");
             if (result.Status.HasFlag(InventoryInteractionResult.Failure))
-            {
-                Log.Push("interaction was a failure");
                 return;
-            }
 
             if (result.Status.HasFlag(InventoryInteractionResult.ItemEquipped))
             {
-                Log.Push("item was equipped");
-                if(result.Item == null)
+                if (result.Item == null)
                 {
                     AmmoElement.HideFromIndefinite();
                     return;
