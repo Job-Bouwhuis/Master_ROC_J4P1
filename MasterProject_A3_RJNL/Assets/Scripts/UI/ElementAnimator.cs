@@ -30,7 +30,8 @@ namespace ShadowUprising.UI
         public bool OnScreenIndefinitely = false;
         [Tooltip("Whether or not the animator should use scaled time or unscaled time")]
         public bool useUnscaledTime = false;
-
+        [Tooltip("Whether or not the element should be hidden on start")]
+        public bool HideOnStart = false;
         private float timeOnScreen = 0;
 
         public Action<AnimationType> OnAnimationStart = delegate { };
@@ -132,7 +133,8 @@ namespace ShadowUprising.UI
 
             LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
             {
-                StartCoroutine(AnimateElementIn());
+                if (!HideOnStart)
+                    StartCoroutine(AnimateElementIn());
 
 
                 LoadingScreen.Instance.OnStartLoading += () =>

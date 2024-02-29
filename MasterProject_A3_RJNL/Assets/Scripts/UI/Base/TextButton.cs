@@ -1,4 +1,5 @@
 // Creator: Job
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -99,9 +100,10 @@ namespace ShadowUprising.UI
         private bool isPressed = false;
         [Header("Debug - DO NOT EDIT")][SerializeField] private Color targetColor;
 
-        private TMP_Text textComponent;
-        private float startingWidth;
-        private float animationTime = 0;
+        [SerializeField] private TMP_Text textComponent;
+        [SerializeField] private float startingWidth;
+        [SerializeField] private float animationTime = 0;
+        [SerializeField] private bool suspendColorAnimation = false;
 
         /// <summary>
         /// The normal <see cref="Transform"/> of the button cast to a <see cref="RectTransform"/>
@@ -277,6 +279,8 @@ namespace ShadowUprising.UI
         }
         private void UpdateColor()
         {
+            if (suspendColorAnimation) return;
+
             if (isDisabled)
                 targetColor = disabledColor;
             else
@@ -297,5 +301,12 @@ namespace ShadowUprising.UI
         {
             return Color.Lerp(current, targetColor, speed);
         }
+
+        /// <summary>
+        /// Suspends the color animation
+        /// </summary>
+        public void SuspendColorAnimation() => suspendColorAnimation = true;
+
+        public void ResumeColorAnimation() => suspendColorAnimation = false;
     }
 }
