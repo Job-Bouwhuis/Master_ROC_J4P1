@@ -4,7 +4,9 @@ using ShadowUprising.Utils;
 
 namespace ShadowUprising.AI
 {
-
+    /// <summary>
+    /// handles the attacking for the ai
+    /// </summary>
     public class AIAttackHandler : MonoBehaviour
     {
 

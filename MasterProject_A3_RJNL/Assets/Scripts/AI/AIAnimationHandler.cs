@@ -5,8 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.AI
 {
-
-
+    /// <summary>
+    /// handles al the animations of the Ai
+    /// </summary>
     public class AIAnimationHandler : MonoBehaviour
     {
         Animator animator;

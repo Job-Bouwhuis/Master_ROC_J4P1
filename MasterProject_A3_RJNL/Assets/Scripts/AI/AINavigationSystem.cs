@@ -6,6 +6,9 @@ using UnityEngine.AI;
 
 namespace ShadowUprising.AI
 {
+    /// <summary>
+    /// ai navigation system handles eveything that has to do with navmesh
+    /// </summary>
     public class AINavigationSystem : MonoBehaviour
     {
         NavMeshAgent navMesh;

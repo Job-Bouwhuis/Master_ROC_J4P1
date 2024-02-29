@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace ShadowUprising.AI
 {
+    /// <summary>
+    /// is the guard state of the ai guard
+    /// </summary>
     public class GuardState : MonoBehaviour
     {
         /// <summary>
