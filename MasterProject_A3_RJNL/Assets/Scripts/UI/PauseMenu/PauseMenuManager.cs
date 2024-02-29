@@ -1,4 +1,5 @@
 using ShadowUprising.UI.InGame;
+using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
 using System;
 using System.Collections;
@@ -76,6 +77,18 @@ namespace ShadowUprising.UI.PauseMenu
             Time.timeScale = 1;
 
             yield return null;
+        }
+
+        private void Start()
+        {
+            if(LoadingScreen.Instance != null)
+            {
+                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                {
+                    Unpause();
+                    return 1f;
+                });
+            }
         }
 
         private void Update()

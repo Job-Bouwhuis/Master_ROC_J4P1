@@ -41,6 +41,11 @@ namespace ShadowUprising.UI
         /// </summary>
         public bool IsAtVisiblePosition => Vector3.Distance(transform.localPosition, visiblePosition) < 0.01f;
 
+        /// <summary>
+        /// A private shortcut to the time variable that returns the unscaled time if <see cref="useUnscaledTime"/> is true
+        /// </summary>
+        private float time => useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+
         public void Show()
         {
             StopAllCoroutines();
@@ -91,8 +96,6 @@ namespace ShadowUprising.UI
         {
             OnAnimationStart(AnimationType.Enter);
 
-            float time = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
-
             while (Vector3.Distance(transform.localPosition, visiblePosition) > 0.01f)
             {
                 transform.localPosition = Vector3.Lerp(transform.localPosition, visiblePosition, animationSpeed * time);
@@ -109,8 +112,6 @@ namespace ShadowUprising.UI
         public IEnumerator AnimateElementOut()
         {
             OnAnimationStart(AnimationType.Exit);
-
-            float time = useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
             while (Vector3.Distance(transform.localPosition, hiddenPosition) > 0.01f)
             {
                 transform.localPosition = Vector3.Lerp(transform.localPosition, hiddenPosition, animationSpeed * time);
@@ -146,6 +147,8 @@ namespace ShadowUprising.UI
             });
         }
 
+
+
         private void Update()
         {
             if (LoadingScreen.Instance is not null and { IsLoading: true })
@@ -159,7 +162,7 @@ namespace ShadowUprising.UI
                 timeOnScreen = 0;
                 return;
             }
-            timeOnScreen += Time.deltaTime;
+            timeOnScreen += time;
 
 
 
