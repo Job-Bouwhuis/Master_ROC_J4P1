@@ -49,7 +49,6 @@ namespace ShadowUprising.Player
 
         public void UpdateMovementSpeedModifier(int modifier)
         {
-            print("test");
             movementSpeedModifier = modifier;
         }
 

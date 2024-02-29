@@ -13,6 +13,11 @@ namespace ShadowUprising.Player.MovementState
 
         }
 
+        public void UpdateState()
+        {
+
+        }
+
         public void ExitState()
         {
 
