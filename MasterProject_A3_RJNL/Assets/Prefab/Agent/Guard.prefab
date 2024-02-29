@@ -11,17 +11,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 4
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
@@ -144,7 +144,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.007
-  m_Speed: 0.2
+  m_Speed: 2
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 200
@@ -255,8 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9de559fbd6ea52d47bf7f2e47d95ec1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 1
-  scuffed: 0
+  currentState: 0
+  scuffed: 1
 --- !u!114 &2378473759086923461
 MonoBehaviour:
   m_ObjectHideFlags: 0
