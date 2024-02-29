@@ -1,0 +1,211 @@
+// Creator: Job
+using ShadowUprising.UnityUtils;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+#nullable enable
+
+namespace ShadowUprising.UI.Loading
+{
+    /// <summary>
+    /// A singleton class providing a loading screen to switch between scenes in the game. Make sure that within the entire lifetime of the game there is only one instance of this class. if there are more, one of them will be destroyed.
+    /// </summary>
+    [DontDestroyOnLoad]
+    public class LoadingScreen : Singleton<LoadingScreen>
+    {
+        [Tooltip("The speed at which the loading screen will cover up the screen")] 
+        public float coverupSpeed = 5;
+
+        [SerializeField] private GameObject loadingScreenParent;
+        [SerializeField] private LoadingSpinner spinner;
+        [SerializeField] private TMP_Text text;
+        [SerializeField] private TMP_Text tipText;
+        [SerializeField] private LoadingBar sceneLoadBar;
+        [SerializeField] private LoadingBar scenePrepBar;
+        [SerializeField] private Vector3 hiddenPos;
+        [SerializeField] private Vector3 shownPos;
+        [SerializeField] private Vector3 targetPos;
+
+        private AsyncOperation? sceneLoadOperation;
+        private bool scenePrepComplete = false;
+        private List<string> tips;
+
+        /// <summary>
+        /// Whether or not the loading screen is currently active.
+        /// </summary>
+        public bool IsLoading { get; private set; }
+
+        /// <summary>
+        /// Shows the loading screen, but does not load a scene.
+        /// </summary>
+        public void Show()
+        {
+            IsLoading = true;
+            targetPos = shownPos;
+            text.text = "Loading...";
+            spinner.StartSpinning();
+        }
+        /// <summary>
+        /// Hides the loading screen.
+        /// </summary>
+        public void Hide()
+        {
+            targetPos = hiddenPos;
+            spinner.StopSpinning();
+
+            IsLoading = false;
+        }
+        /// <summary>
+        /// Initiates the loading of a scene, and shows the loading screen.<br></br>
+        /// Once the scene is loaded and prepped, the loading screen will hide itself.
+        /// </summary>
+        /// <param name="sceneName"></param>
+        public void ShowAndLoad(string sceneName)
+        {
+            Show();
+
+            scenePrepComplete = false;
+
+            sceneLoadBar.progress = 0;
+            scenePrepBar.progress = 0;
+            sceneLoadBar.visualProgress = 0;
+            scenePrepBar.visualProgress = 0;
+            text.text = "Loading " + sceneName + "...";
+
+            sceneLoadOperation = SceneManager.LoadSceneAsync(sceneName);
+            sceneLoadOperation.allowSceneActivation = false;
+
+            StartCoroutine(WaitForSceneLoad());
+            StartCoroutine(DoTips());
+        }
+
+        private IEnumerator WaitForSceneLoad()
+        {
+            while (sceneLoadOperation.progress < .9f)
+            {
+                Log.Push("loading...");
+                sceneLoadBar.progress = sceneLoadOperation.progress * 100;
+                yield return new WaitForSeconds(1f);
+            }
+            Log.Push("Done");
+            sceneLoadBar.progress = 1;
+
+            StartCoroutine(PrepScene());
+        }
+        private IEnumerator DoTips()
+        {
+            Log.Push("Starting tips...");
+            while (!scenePrepComplete)
+            {
+                tipText.text = "";
+                string selectedTip = tips[Random.Range(0, tips.Count)];
+                Log.Push("Selected tip: " + selectedTip);
+                // animate tip text to appear on the text boxc
+                foreach(char c in selectedTip)
+                {
+                    if(scenePrepComplete)
+                        break;
+
+                    tipText.text += c;
+                    yield return new WaitForSeconds(.02f);
+                }
+
+                if (scenePrepComplete)
+                    break;
+                yield return new WaitForSeconds(2f);
+            }
+            Log.Push("Stopping Tips");
+        }
+        private IEnumerator PrepScene()
+        {
+            Log.Push("Prepping scene...");
+            sceneLoadOperation!.allowSceneActivation = true;
+            sceneLoadOperation = null;
+
+            yield return new WaitForSeconds(.5f);
+
+            // find all objects that implement IScenePrepOperation
+            var behaviors = FindObjectsOfType<MonoBehaviour>();
+
+            var scenePrepOperations = behaviors.OfType<IScenePrepOperation>().ToList();
+
+            float contribution = 100f / scenePrepOperations.Count();
+
+            foreach (var operation in scenePrepOperations)
+            {
+                operation.StartPrep();
+            }
+
+            int opIndex = 0;
+            IScenePrepOperation currentOp = scenePrepOperations.FirstOrDefault();
+
+            if (currentOp != null)
+                Log.Push($"Starting {currentOp.GetType().Name}...");
+
+            while (currentOp != null)
+            {
+                YieldInstruction? instruction = currentOp.Update();
+
+                if (instruction is Completed)
+                {
+                    currentOp.IsComplete = true;
+                    instruction = null;
+                }
+
+                if (instruction != null)
+                    yield return instruction;
+
+                yield return new WaitForSeconds(.05f);
+
+                if (currentOp.IsComplete)
+                {
+                    Log.Push("Completed " + currentOp.GetType().Name);
+                    opIndex++;
+                    currentOp = scenePrepOperations.ElementAtOrDefault(opIndex);
+                    scenePrepBar.progress += contribution;
+
+                    if (currentOp != null)
+                    {
+                        Log.Push($"Starting {currentOp.GetType().Name}...");
+                    }
+                }
+            }
+
+            scenePrepBar.progress = 1;
+            scenePrepComplete = true;
+
+            yield return new WaitForSeconds(1f);
+            Log.Push("Done");
+            Hide();
+        }
+
+        private void Start()
+        {
+            string rawTips = Resources.Load<TextAsset>("Loading/Tips").text;
+
+            tips = rawTips.Split('\n', System.StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            hiddenPos = Screen.height * 4 * Vector3.up;
+            hiddenPos.x = transform.position.x;
+            shownPos = transform.position;
+
+            targetPos = hiddenPos;
+
+            loadingScreenParent.transform.position = hiddenPos;
+            loadingScreenParent.SetActive(true);
+        }
+        private void Update()
+        {
+            loadingScreenParent.transform.position = Vector3.Lerp(loadingScreenParent.transform.position, targetPos, Time.deltaTime * coverupSpeed);
+
+            if (sceneLoadOperation != null)
+            {
+                sceneLoadBar.progress = sceneLoadOperation.progress;
+            }
+        }
+    }
+}
