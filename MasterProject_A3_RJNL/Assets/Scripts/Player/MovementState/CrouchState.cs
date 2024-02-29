@@ -40,7 +40,7 @@ namespace ShadowUprising.Player.MovementState
         void CheckForInput()
         {
             if (!Input.GetKey(KeyCode.LeftControl))
-                ps.ChangeState(new BaseState());
+                ps.ChangeState("baseState");
         }
 
         public void ExitState()

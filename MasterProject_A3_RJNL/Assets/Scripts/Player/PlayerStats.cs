@@ -25,43 +25,51 @@ namespace ShadowUprising.Player
         [Tooltip("The minimum amount of stamina the player needs to have in order to sprint")]
         [SerializeField] int minimumStaminaToSprint;
 
-        MovementState.IMovementState movementState = new MovementState.BaseState();
+        Dictionary<string, MovementState.IMovementState> movementStates = new Dictionary<string, MovementState.IMovementState>();
+        MovementState.IMovementState currentMovementState;
 
         private void Start()
         {
             pm = GetComponent<PlayerMovement>();
+            InitializeMovementStates();
+            currentMovementState = movementStates["baseState"];
+        }
+
+        private void InitializeMovementStates()
+        {
+            movementStates.Add("baseState", new MovementState.BaseState());
+            movementStates.Add("crouchState", new MovementState.CrouchState(pm, this, cameraTransform));
+            movementStates.Add("sprintState", new MovementState.SprintState(pm, this));
         }
 
         private void Update()
         {
             CheckForStateInputs();
-            movementState.UpdateState();
+            currentMovementState.UpdateState();
             UpdateStaminaRegen();
         }
 
         void CheckForStateInputs()
         {
             // Crouching has priority before sprinting
-            // States only get reverted to the default within the states themselves (primarily sprinting) to reactivate with same keypress
+            // States only get reverted to the default within the states themselves to avoid states (primarily sprinting) to reactivate with same keypress
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                ChangeState(new MovementState.CrouchState(pm, this, cameraTransform));
+                ChangeState("crouchState");
             }
             else if (Input.GetKeyDown(KeyCode.LeftShift) && stamina > minimumStaminaToSprint)
             {
-                ChangeState(new MovementState.SprintState(pm, this));
+                ChangeState("sprintState");
             }
         }
 
-        public void ChangeState(MovementState.IMovementState state)
+        public void ChangeState(string state)
         {
-            if (movementState.GetType() == state.GetType())
-            {
+            if (currentMovementState.GetType().Name == state)
                 return;
-            }
-            movementState.ExitState();
-            movementState = state;
-            movementState.EnterState();
+            currentMovementState.ExitState();
+            currentMovementState = movementStates[state];
+            currentMovementState.EnterState();
         }
 
         void UpdateStaminaRegen()
