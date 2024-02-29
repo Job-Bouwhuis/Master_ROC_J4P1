@@ -16,11 +16,11 @@ namespace ShadowUprising.Editors.Inspectors
     public class ItemInspector : Editor
     {
         /// <summary>
-        /// Draw the inspector for the item
+        /// Draws the inspector for the item
         /// </summary>
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
+            DrawDefaultInspector(); 
 
             if(ItemUtils.ItemFunctionTypes.Count is 0)
             {
