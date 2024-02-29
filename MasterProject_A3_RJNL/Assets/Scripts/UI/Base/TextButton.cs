@@ -87,10 +87,13 @@ namespace ShadowUprising.UI
         public float clickAnimationScaleIncrease = .2f;
 
         /// <summary>
-        /// Whether the button is toggled to true or false by default. only used when the button is set to Toggle mode
+        /// Whether the button is toggled to true or false by default. only used when <see cref="isToggle"/> is true
         /// </summary>
         [Tooltip("Whether the button is toggled to true or false by default. only used when the button is set to Toggle mode")]
         public bool toggleState = false;
+
+        [Tooltip("If true, the button will use unscaled time")]
+        public bool useUnscaledTime = false;
 
         private bool isHovered = false;
         private bool isPressed = false;
@@ -99,6 +102,16 @@ namespace ShadowUprising.UI
         private TMP_Text textComponent;
         private float startingWidth;
         private float animationTime = 0;
+
+        /// <summary>
+        /// The normal <see cref="Transform"/> of the button cast to a <see cref="RectTransform"/>
+        /// </summary>
+        public new RectTransform transform => (RectTransform)base.transform;
+
+        /// <summary>
+        /// A private shortcut to the time variable that returns the unscaled time if <see cref="useUnscaledTime"/> is true
+        /// </summary>
+        private float time => useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 
         /// <summary>
         /// Sets hover to enabled
@@ -110,8 +123,12 @@ namespace ShadowUprising.UI
         /// </summary>
         /// <param name="eventData"></param>
         public void OnPointerExit(PointerEventData eventData) => isHovered = false;
+        /// <summary>
+        /// Exists only for the <see cref="PauseMenu.TextButtonAnimator"/> so when the button is activated again it doesnt snap to the target color.
+        /// </summary>
+        public void ChangeTargetColor(Color color) => targetColor = color;
 
-        private void Start()
+        private void Awake()
         {
             textComponent = GetComponent<TMP_Text>();
 
@@ -119,7 +136,6 @@ namespace ShadowUprising.UI
                 return;
 
             startingWidth = textComponent.rectTransform.sizeDelta.x;
-
 
             // fill functions with components of type ButtonFunction
             // dont add if the function already exists
@@ -153,6 +169,7 @@ namespace ShadowUprising.UI
         }
         private void Update()
         {
+
 #if UNITY_EDITOR
             if (!Application.isPlaying && textComponent == null)
                 textComponent = GetComponent<TMP_Text>();
@@ -183,11 +200,11 @@ namespace ShadowUprising.UI
 
                 if (isHovered)
                 {
-                    animationTime = Mathf.Clamp(animationTime + Time.deltaTime * hoverAnimationSpeed, 0, 1);
+                    animationTime = Mathf.Clamp(animationTime + time * hoverAnimationSpeed, 0, 1);
                 }
                 else
                 {
-                    animationTime = Mathf.Clamp(animationTime - Time.deltaTime * hoverAnimationSpeed, 0, 1);
+                    animationTime = Mathf.Clamp(animationTime - time * hoverAnimationSpeed, 0, 1);
                 }
 
                 textComponent.rectTransform.sizeDelta = new Vector2(Mathf.Lerp(startingWidth, startingWidth + hoverAnimationExtend, animationTime), textComponent.rectTransform.sizeDelta.y);
@@ -198,11 +215,11 @@ namespace ShadowUprising.UI
             {
                 if (isPressed)
                 {
-                    transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * (1 + clickAnimationScaleIncrease), Time.deltaTime * clickAnimationSpeed);
+                    transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one * (1 + clickAnimationScaleIncrease), time * clickAnimationSpeed);
                 }
                 else
                 {
-                    transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, Time.deltaTime * clickAnimationSpeed);
+                    transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, time * clickAnimationSpeed);
                 }
             }
 
@@ -274,7 +291,7 @@ namespace ShadowUprising.UI
                     targetColor = normalColor;
             }
 
-            textComponent.color = LerpColor(textComponent.color, targetColor, colorFadeSpeed * Time.deltaTime);
+            textComponent.color = LerpColor(textComponent.color, targetColor, colorFadeSpeed * time);
         }
         private Color LerpColor(Color current, Color targetColor, float speed)
         {

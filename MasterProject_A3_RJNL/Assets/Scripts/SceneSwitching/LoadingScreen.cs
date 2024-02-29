@@ -119,7 +119,7 @@ namespace ShadowUprising.UI.Loading
 
         private IEnumerator WaitForSceneLoad()
         {
-            while (sceneLoadOperation.progress < .9f)
+            while (sceneLoadOperation!.progress < .9f)
             {
                 Log.Push("loading...");
                 sceneLoadBar.progress = sceneLoadOperation.progress * 100;
