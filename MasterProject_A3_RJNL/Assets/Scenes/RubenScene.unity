@@ -598,6 +598,10 @@ MonoBehaviour:
   stamina: 100
   staminaRegenRate: 10
   minimumStaminaToSprint: 20
+  crouchSpeedModifier: -130
+  crouchCameraHeight: -0.1
+  sprintSpeedModifier: 200
+  staminaDrainRate: 60
 --- !u!1 &767996357
 GameObject:
   m_ObjectHideFlags: 0

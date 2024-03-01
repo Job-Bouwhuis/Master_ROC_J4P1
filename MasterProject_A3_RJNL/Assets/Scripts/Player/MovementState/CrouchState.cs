@@ -1,5 +1,6 @@
 // Creator: Ruben
 // Edited by:
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,28 +9,33 @@ namespace ShadowUprising.Player.MovementState
 {
     public class CrouchState : IMovementState
     {
+        private const string BASE_STATE_STRING = "baseState";
 
-        private PlayerMovement pm;
-        private PlayerStats ps;
+        public Type StateType { get; }
+
+        private PlayerMovement playerMovement;
+        private PlayerStats playerStats;
         private Transform cameraTransform;
 
-        private float defaultCameraHeight; 
+        private float defaultCameraHeight;
+        private int crouchSpeed;
+        private float crouchCameraHeight;
 
-        const int CROUCH_SPEED = -130;
-        const float CROUCH_CAMERA_HEIGHT = -0.10f;
-
-        public CrouchState(PlayerMovement pm, PlayerStats ps, Transform cameraTransform)
+        public CrouchState(PlayerMovement playerMovement, PlayerStats playerStats, Transform cameraTransform, int crouchSpeed, float crouchCameraHeight)
         {
-            this.pm = pm;
-            this.ps = ps;
+            StateType = GetType();
+            this.playerMovement = playerMovement;
+            this.playerStats = playerStats;
             this.cameraTransform = cameraTransform;
+            this.crouchSpeed = crouchSpeed;
+            this.crouchCameraHeight = crouchCameraHeight;
         }
 
         public void EnterState()
         {
             defaultCameraHeight = cameraTransform.localPosition.y;
-            pm.UpdateMovementSpeedModifier(CROUCH_SPEED);
-            cameraTransform.localPosition = new Vector3(0, CROUCH_CAMERA_HEIGHT, 0);
+            playerMovement.UpdateMovementSpeedModifier(crouchSpeed);
+            cameraTransform.localPosition = new Vector3(0, crouchCameraHeight, 0);
         }
 
         public void UpdateState()
@@ -40,12 +46,12 @@ namespace ShadowUprising.Player.MovementState
         void CheckForInput()
         {
             if (!Input.GetKey(KeyCode.LeftControl))
-                ps.ChangeState("baseState");
+                playerStats.ChangeState(BASE_STATE_STRING);
         }
 
         public void ExitState()
         {
-            pm.ResetMovementSpeedModifier();
+            playerMovement.ResetMovementSpeedModifier();
             cameraTransform.localPosition = new Vector3(0, defaultCameraHeight, 0);
         }
     }

@@ -1,6 +1,6 @@
 // Creator: Ruben
 // Edited by:
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,27 +8,35 @@ namespace ShadowUprising.Player.MovementState
 {
     public class SprintState : IMovementState
     {
-        private PlayerMovement pm;
-        PlayerStats ps;
-        Rigidbody rb;
+        private const string BASE_STATE_STRING = "baseState";
 
-        const int SPRINT_SPEED = 300;
-        const float STAMINA_DRAIN_RATE = 60;
+        public Type StateType { get; }
+
+        private PlayerMovement playerMovement;
+        PlayerStats playerStats;
+        Rigidbody rigidbody;
+
         const float VELOCITY_THRESHOLD = 0.5f;
 
-        bool outOfStamina;
+        private int sprintSpeed;
+        private float staminaDrainRate;
+        private bool outOfStamina;
 
-        public SprintState(PlayerMovement pm, PlayerStats ps)
+        public SprintState(PlayerMovement playerMovement, PlayerStats playerStats, int sprintSpeed, float staminaDrainRate)
         {
-            this.pm = pm;
-            this.ps = ps;
+            StateType = GetType();
+            this.playerMovement = playerMovement;
+            this.playerStats = playerStats;
+            this.sprintSpeed = sprintSpeed;
+            this.staminaDrainRate = staminaDrainRate;
         }
 
         public void EnterState()
         {
-            ps.SetStaminaRegen(false);
-            pm.UpdateMovementSpeedModifier(SPRINT_SPEED);
-            rb = ps.GetComponent<Rigidbody>();
+            playerStats.SetStaminaRegen(false);
+            playerMovement.UpdateMovementSpeedModifier(sprintSpeed);
+            rigidbody = playerStats.GetComponent<Rigidbody>();
+            outOfStamina = false;
         }
 
         public void UpdateState()
@@ -39,29 +47,29 @@ namespace ShadowUprising.Player.MovementState
 
         void UpdateStamina()
         {
-            if (ps.stamina <= 0)
+            if (playerStats.stamina <= 0)
             {
                 outOfStamina = true;
-                pm.ResetMovementSpeedModifier();
+                playerMovement.ResetMovementSpeedModifier();
             }
             if (!outOfStamina)
             {
-                float velocity = Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.y);
+                float velocity = Mathf.Abs(rigidbody.velocity.x) + Mathf.Abs(rigidbody.velocity.y);
                 if (velocity >= VELOCITY_THRESHOLD)
-                    ps.stamina -= STAMINA_DRAIN_RATE * Time.deltaTime;
+                    playerStats.stamina -= staminaDrainRate * Time.deltaTime;
             }
         }
 
         void CheckForInput()
         {
             if (!Input.GetKey(KeyCode.LeftShift))
-                ps.ChangeState("baseState");
+                playerStats.ChangeState(BASE_STATE_STRING);
         }
 
         public void ExitState()
         {
-            pm.ResetMovementSpeedModifier();
-            ps.SetStaminaRegen(true);
+            playerMovement.ResetMovementSpeedModifier();
+            playerStats.SetStaminaRegen(true);
         }
     }
 }
