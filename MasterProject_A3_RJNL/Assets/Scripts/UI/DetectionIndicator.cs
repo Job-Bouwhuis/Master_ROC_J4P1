@@ -20,7 +20,7 @@ public class DetectionIndicator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        vignette = 
     }
 
     // Update is called once per frame
