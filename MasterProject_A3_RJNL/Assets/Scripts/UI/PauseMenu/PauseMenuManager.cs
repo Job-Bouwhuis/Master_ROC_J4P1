@@ -73,7 +73,6 @@ namespace ShadowUprising.UI.PauseMenu
             //lock mouse
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-
             Time.timeScale = 1;
 
             yield return null;

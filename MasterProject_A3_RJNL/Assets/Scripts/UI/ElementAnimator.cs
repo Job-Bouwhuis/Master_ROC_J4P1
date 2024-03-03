@@ -41,22 +41,40 @@ namespace ShadowUprising.UI
         /// </summary>
         public bool IsAtVisiblePosition => Vector3.Distance(transform.localPosition, visiblePosition) < 0.01f;
 
+        private bool ShouldBeVisible
+        {
+            get => shouldBeVisible;
+            set
+            {
+                shouldBeVisible = value;
+                    OnAnimationStart(value ? AnimationType.Enter : AnimationType.Exit);
+            }
+        }
+        private bool shouldBeVisible = false;
+
         /// <summary>
         /// A private shortcut to the time variable that returns the unscaled time if <see cref="useUnscaledTime"/> is true
         /// </summary>
-        private float time => useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+        private float time
+        {
+            get
+            {
+                if (useUnscaledTime)
+                    return Time.timeScale is 1 ? Time.deltaTime : Time.unscaledDeltaTime;
+                else
+                    return Time.deltaTime;
+            }
+        }
 
         public void Show()
         {
-            StopAllCoroutines();
-            StartCoroutine(AnimateElementIn());
+            shouldBeVisible = true;
             timeOnScreen = 0;
         }
 
         public void Hide()
         {
-            StopAllCoroutines();
-            StartCoroutine(AnimateElementOut());
+            shouldBeVisible = false;
         }
 
         public void ShowIndefinite()
@@ -67,92 +85,77 @@ namespace ShadowUprising.UI
 
         public void HideFromIndefinite()
         {
-            if (!IsAtVisiblePosition)
-            {
-                StartCoroutine(SetHideFromIndefinite());
-                return;
-            }
-
-            StopAllCoroutines();
             OnScreenIndefinitely = false;
         }
 
-        private IEnumerator SetHideFromIndefinite()
-        {
-            while (!IsAtVisiblePosition)
-            {
-                yield return null;
-            }
-
-            StopAllCoroutines();
-            OnScreenIndefinitely = false;
-        }
 
         /// <summary>
         /// Animates the element into the visible position
         /// </summary>
         /// <returns></returns>
-        public IEnumerator AnimateElementIn()
+        public bool AnimateElementIn()
         {
-            OnAnimationStart(AnimationType.Enter);
-
-            while (Vector3.Distance(transform.localPosition, visiblePosition) > 0.01f)
+            if (Vector3.Distance(transform.localPosition, visiblePosition) < 0.01f)
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, visiblePosition, animationSpeed * time);
-                yield return null;
+                transform.localPosition = visiblePosition;
+                return true;
             }
 
-            transform.localPosition = visiblePosition;
+
+            transform.localPosition = Vector3.Lerp(transform.localPosition, visiblePosition, animationSpeed * time);
+            return false;
         }
 
         /// <summary>
         /// Animates the element out to the hidden position
         /// </summary>
         /// <returns></returns>
-        public IEnumerator AnimateElementOut()
+        public bool AnimateElementOut()
         {
-            OnAnimationStart(AnimationType.Exit);
-            while (Vector3.Distance(transform.localPosition, hiddenPosition) > 0.01f)
+            if (Vector3.Distance(transform.localPosition, hiddenPosition) < 0.01f)
             {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, hiddenPosition, animationSpeed * time);
-                yield return null;
+                transform.localPosition = hiddenPosition;
+                return true;
             }
 
-            transform.localPosition = hiddenPosition;
+            transform.localPosition = Vector3.Lerp(transform.localPosition, hiddenPosition, animationSpeed * time);
+            return false;
         }
 
         void Start()
         {
-            if (LoadingScreen.Instance is null)
-            {
-                Log.PushError("LoadingScreen is null. please start the game from the main menu to get this.");
-
-                return;
-            }
-
             transform.localPosition = hiddenPosition;
+
+            if (LoadingScreen.Instance == null)
+                return;
+
 
             LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
             {
                 if (!HideOnStart)
-                    StartCoroutine(AnimateElementIn());
-
+                    shouldBeVisible = true;
 
                 LoadingScreen.Instance.OnStartLoading += () =>
                 {
-                    StartCoroutine(AnimateElementOut());
-
+                    shouldBeVisible = false;
                     return delayLoading;
                 };
             });
         }
 
-
-
         private void Update()
         {
             if (LoadingScreen.Instance is not null and { IsLoading: true })
-                return;
+            {
+                if (AnimateElementOut())
+                    return;
+            }
+
+            if (ShouldBeVisible)
+                AnimateElementIn();
+            else
+                AnimateElementOut();
+
 
             if (!IsAtVisiblePosition)
                 return;
@@ -169,7 +172,7 @@ namespace ShadowUprising.UI
             if (timeOnScreen >= TimeOnScreenBeforeHide)
             {
                 timeOnScreen = 0;
-                StartCoroutine(AnimateElementOut());
+                shouldBeVisible = false;
             }
 
         }

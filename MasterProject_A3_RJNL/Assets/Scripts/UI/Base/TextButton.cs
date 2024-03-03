@@ -113,7 +113,16 @@ namespace ShadowUprising.UI
         /// <summary>
         /// A private shortcut to the time variable that returns the unscaled time if <see cref="useUnscaledTime"/> is true
         /// </summary>
-        private float time => useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+        private float time
+        {
+            get
+            {
+                if (useUnscaledTime)
+                    return Time.timeScale is 1 ? Time.deltaTime : Time.unscaledDeltaTime;
+                else
+                    return Time.deltaTime;
+            }
+        }
 
         /// <summary>
         /// Sets hover to enabled

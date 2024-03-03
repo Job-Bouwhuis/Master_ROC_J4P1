@@ -1,4 +1,5 @@
 using ShadowUprising;
+using ShadowUprising.UI.Loading;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,20 +12,21 @@ using WinterRose;
 public class VignetteHandler : MonoBehaviour
 {
     [Header("Intensity Config")]
-    [SerializeField] private float targetIntensity = 0.0f;
-    [SerializeField] private float maxIntensity = 1.0f;
-    [SerializeField] private float minIntensity = 0.0f;
-    [SerializeField] private float speed = 1.0f;
+    public float maxIntensity = 1.0f;
+    public float minIntensity = 0.0f;
+    public float speed = 1.0f;
 
     [Header("Color Config")]
-    [SerializeField] private Color colorAtMinIntensity = Color.black;
-    [SerializeField] private Color colorAtMaxIntensity = Color.red;
+    public Color colorAtMinIntensity = Color.black;
+    public Color colorAtMaxIntensity = Color.red;
 
     [Header("Debug - DO NOT CHANGE")]
     [SerializeField] private Volume volume;
     [SerializeField] private Color currentColor;
+    [SerializeField] private float targetIntensity = 0.0f;
     [SerializeField] private float intensity = 0.0f;
     [SerializeField] private float colorPercentage = 0.0f;
+
 
     public float TargetPercentage
     {
@@ -46,6 +48,20 @@ public class VignetteHandler : MonoBehaviour
         targetIntensity = minIntensity;
         intensity = 0;
         volume = GetComponent<Volume>();
+    }
+
+    private void Start()
+    {
+        // This code is in start because we want to make sure that any users of the VignetteHandler
+        // have a chance to subscribe on the loading start event and stop their interaction with the VignetteHandler
+        if (LoadingScreen.Instance != null)
+        {
+            LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+            {
+                targetIntensity = minIntensity;
+                return 0;
+            });
+        }
     }
 
     public void Update()

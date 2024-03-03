@@ -1,5 +1,7 @@
+using ShadowUprising.UI.Loading;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -16,11 +18,25 @@ public class DetectionIndicator : MonoBehaviour
 
     [Header("References - DO NOT EDIT")]
     [SerializeField] private VignetteHandler vignette;
+    [SerializeField] private Color vignetteDefaultColor;
+    [SerializeField] private float vignetteMaxColor;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         vignette = GetComponent<VignetteHandler>();
+
+        // For the loading screen, we want to stop the detection process, so that the Vignette handler can reset itself when the loading screen is activated
+        if(LoadingScreen.Instance != null)
+        {
+            LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+            {
+                isDetected = false;
+                isDetecting = false;
+                vignette.colorAtMinIntensity = vignetteDefaultColor;
+                return 0;
+            });
+        }
     }
 
     // Update is called once per frame
