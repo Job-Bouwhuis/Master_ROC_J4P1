@@ -1,11 +1,13 @@
-using ShadowUprising;
+// Creator: Job
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace ShadowUprising.UI.SplashScreen
 {
+    /// <summary>
+    /// Component to animate the splash text on the splash screen.
+    /// </summary>
     public class SplashTextAnimator : MonoBehaviour
     {
         [Header("Settings")]
