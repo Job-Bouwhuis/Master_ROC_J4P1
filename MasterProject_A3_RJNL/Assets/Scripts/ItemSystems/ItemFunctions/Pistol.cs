@@ -25,7 +25,6 @@ namespace ShadowUprising.Items.ItemFunctions
             {
 
                 UseItem();
-                Debug.Log("clicked");
             }
         }
 
