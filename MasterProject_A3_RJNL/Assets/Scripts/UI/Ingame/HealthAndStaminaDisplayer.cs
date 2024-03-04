@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+// Creator: Job
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +9,17 @@ namespace ShadowUprising.UI.InGame
     /// </summary>
     public class HealthAndStaminaDisplayer : MonoBehaviour
     {
-        [SerializeField] private ElementAnimator healthAndStaminaElement;
-
-        [SerializeField] private Image healthBar;
-        [SerializeField] private Image staminaBar;
-
         /// <summary>
         /// To be changed to the actual player once this is implemented by Ruben.
         /// </summary>
+        [Header("Player")]
+        [Tooltip("The player to display the health and stamina of. (To be changed to the actual player script.)")]
         public DebugPlayerHealth player;
+
+        [Header("UI Elements")]
+        [SerializeField] private ElementAnimator healthAndStaminaElement;
+        [SerializeField] private Image healthBar;
+        [SerializeField] private Image staminaBar;
 
         private float lastHealth;
         private float lastStamina;
