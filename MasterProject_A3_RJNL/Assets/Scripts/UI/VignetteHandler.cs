@@ -32,8 +32,7 @@ public class VignetteHandler : MonoBehaviour
     {
         get
         {
-            // calculate the percentage of the current intensity between min and max
-            return colorPercentage;
+            return targetPercentage;
         }
         set
         {

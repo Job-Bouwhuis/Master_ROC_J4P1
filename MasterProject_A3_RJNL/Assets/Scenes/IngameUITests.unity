@@ -3065,10 +3065,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDetecting: 0
   isDetected: 0
-  detectionSpeed: 1
+  detectionSpeed: 3
+  vignetteFadeoutWhenDetected: 10
   vignette: {fileID: 0}
   vignetteDefaultColor: {r: 0, g: 0, b: 0, a: 0}
-  vignetteMaxColor: 0
+  lastIsDetected: 0
 --- !u!114 &2124687949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3083,7 +3084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxIntensity: 0.54
   minIntensity: 0.22
-  speed: 1
+  speed: 38
   colorAtMinIntensity: {r: 0, g: 0, b: 0, a: 1}
   colorAtMaxIntensity: {r: 1, g: 0, b: 0, a: 1}
   volume: {fileID: 0}
