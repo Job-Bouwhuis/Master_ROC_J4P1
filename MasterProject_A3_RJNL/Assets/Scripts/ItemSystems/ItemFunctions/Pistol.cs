@@ -14,7 +14,7 @@ namespace ShadowUprising.Items.ItemFunctions
     {
 
         public Action onPistolShot = delegate { };
-        public Action onPistolReload;
+        public Action onPistolReload = delegate { };
 
 
         private void Update()
@@ -26,6 +26,10 @@ namespace ShadowUprising.Items.ItemFunctions
 
                 UseItem();
             }
+
+            if (Input.GetKeyUp(KeyCode.R))
+                onPistolReload.Invoke();
+
         }
 
         public void UseItem()

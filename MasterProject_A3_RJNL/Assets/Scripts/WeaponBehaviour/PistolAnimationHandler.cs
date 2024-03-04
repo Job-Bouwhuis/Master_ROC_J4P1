@@ -17,7 +17,7 @@ public class PistolAnimationHandler : MonoBehaviour
 
     void OnPistolReload()
     {
-
+        pistolAnimator.SetTrigger("Reload");
     }
 
     void OnPistolShot()
