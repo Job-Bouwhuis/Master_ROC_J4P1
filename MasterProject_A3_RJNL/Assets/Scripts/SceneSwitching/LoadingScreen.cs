@@ -79,6 +79,14 @@ namespace ShadowUprising.UI.Loading
             StartCoroutine(WaitShowAndLoadScene(sceneName));
         }
 
+        public void LoadWithoutShow(string sceneName)
+        {
+            StartCoroutine(WaitForSceneAnimations());
+            SceneManager.LoadScene(sceneName);
+            StartCoroutine(PrepScene());
+
+        }
+
         private IEnumerator WaitForSceneAnimations()
         {
             var times = OnStartLoading.Invoke();
@@ -166,6 +174,15 @@ namespace ShadowUprising.UI.Loading
             var behaviors = FindObjectsOfType<MonoBehaviour>();
 
             var scenePrepOperations = behaviors.OfType<IScenePrepOperation>().ToList();
+            if(scenePrepOperations.Count == 0)
+            {
+                scenePrepComplete = true;
+                scenePrepBar.progress = 1;
+                yield return new WaitForSeconds(1f);
+                Log.Push("Done");
+                Hide();
+                yield break;
+            }
 
             float contribution = 100f / scenePrepOperations.Count();
 
