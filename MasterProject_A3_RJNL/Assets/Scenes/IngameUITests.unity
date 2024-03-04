@@ -686,7 +686,7 @@ MonoBehaviour:
   visiblePosition: {x: 0, y: -0.00009155273, z: 0}
   hiddenPosition: {x: 2151, y: -0.00009155273, z: 0}
   animationSpeed: 5
-  delayLoading: 1.7
+  delayLoading: 1.3
   TimeOnScreenBeforeHide: 0.1
   OnScreenIndefinitely: 0
   useUnscaledTime: 1
@@ -1841,7 +1841,7 @@ MonoBehaviour:
   visiblePosition: {x: 6, y: 0.00018310547, z: 0}
   hiddenPosition: {x: -2155, y: 0.00018310547, z: 0}
   animationSpeed: 5
-  delayLoading: 1.7
+  delayLoading: 1.3
   TimeOnScreenBeforeHide: 0.1
   OnScreenIndefinitely: 0
   useUnscaledTime: 1
@@ -3063,12 +3063,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155b393e9e387364488f1da3bebedd73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDetecting: 0
-  IsDetected: 0
-  detectionSpeed: 1
-  maxIntensity: 1
-  minIntensity: 0
+  isDetecting: 0
+  isDetected: 0
+  detectionSpeed: 3
+  vignetteFadeoutWhenDetected: 10
   vignette: {fileID: 0}
+  vignetteDefaultColor: {r: 0, g: 0, b: 0, a: 0}
+  lastIsDetected: 0
 --- !u!114 &2124687949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3081,14 +3082,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb77c2815e80a4e4ba66d7dc3106d392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetIntensity: 0
   maxIntensity: 0.54
   minIntensity: 0.22
-  speed: 1
+  speed: 38
   colorAtMinIntensity: {r: 0, g: 0, b: 0, a: 1}
   colorAtMaxIntensity: {r: 1, g: 0, b: 0, a: 1}
   volume: {fileID: 0}
   currentColor: {r: 0, g: 0, b: 0, a: 0}
+  targetIntensity: 0
   intensity: 0
   colorPercentage: 0
 --- !u!1660057539 &9223372036854775807
