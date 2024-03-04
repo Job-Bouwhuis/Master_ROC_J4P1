@@ -1,23 +1,22 @@
-using ShadowUprising.UI.InGame;
+// Creator: Job
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using WinterRose;
 
 namespace ShadowUprising.UI.PauseMenu
 {
+    /// <summary>
+    /// Manages the pause menu
+    /// 
+    /// <br></br><br></br>
+    /// Singleton, not in DontDestroyOnLoad
+    /// </summary>
     public class PauseMenuManager : Singleton<PauseMenuManager>
     {
-        [SerializeField] private ElementAnimator leftCover;
-        [SerializeField] private ElementAnimator rightCover;
-
-        [Tooltip("A list of UI elements to be called to show whenever the pause menu is activated")]
-        [SerializeField] private List<ElementAnimator> UIElements = new();
-
         /// <summary>
         /// Called when the pause menu is set to show
         /// </summary>
@@ -29,6 +28,19 @@ namespace ShadowUprising.UI.PauseMenu
         /// </summary>
         public MultipleReturnEvent<float> OnPauseMenuHide = new();
 
+        [Header("Settings")]
+        [Tooltip("The left cover of the pause menu")]
+        [SerializeField] private ElementAnimator leftCover;
+
+        [Tooltip("The right cover of the pause menu")]
+        [SerializeField] private ElementAnimator rightCover;
+
+        [Tooltip("A list of UI elements to be called to show whenever the pause menu is activated")]
+        [SerializeField] private List<ElementAnimator> UIElements = new();
+
+        /// <summary>
+        /// Pauses the game and shows the pause menu
+        /// </summary>
         public void Pause()
         {
             OnPauseMenuShow();
@@ -45,6 +57,9 @@ namespace ShadowUprising.UI.PauseMenu
             Time.timeScale = 0;
         }
 
+        /// <summary>
+        /// Unpauses the game and hides the pause menu
+        /// </summary>
         public void Unpause()
         {
             StartCoroutine(StartHidingProcess());
@@ -77,7 +92,6 @@ namespace ShadowUprising.UI.PauseMenu
 
             yield return null;
         }
-
         private void Start()
         {
             if(LoadingScreen.Instance != null)
@@ -89,7 +103,6 @@ namespace ShadowUprising.UI.PauseMenu
                 });
             }
         }
-
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
