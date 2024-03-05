@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using WinterRose;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace ShadowUprising.UI
 {
@@ -16,7 +17,7 @@ namespace ShadowUprising.UI
         // Start is called before the first frame update
         void Start()
         {
-            text.text = slider.value.ToString();
+            text.text = (slider.value * 100).FloorToInt().ToString();
             slider.onValueChanged.AddListener((value) => text.text = (value * 100).FloorToInt().ToString());
         }
     }

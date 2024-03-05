@@ -198,9 +198,9 @@ namespace ShadowUprising
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="message"></param>
-        public static void PushError(string tag, object message)
+        public static void PushError(object message)
         {
-            Push(LogType.Error, tag, message);
+            Push(LogType.Error, message);
         }
 
         /// <summary>
@@ -238,9 +238,9 @@ namespace ShadowUprising
         /// </summary>
         /// <param name="tag"></param>
         /// <param name="message"></param>
-        public static void PushWarning(string tag, object message)
+        public static void PushWarning(object message)
         {
-            Push(LogType.Warning, tag, message);
+            Push(LogType.Warning, message);
         }
 
         /// <summary>
