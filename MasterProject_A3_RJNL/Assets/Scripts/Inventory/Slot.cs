@@ -60,13 +60,9 @@ namespace ShadowUprising.Inventory
         public void newStackSize(int count)
         {
             if (count <= 1)
-            {
                 countText.text = "";
-            }
             else
-            {
                 countText.text = count.ToString();
-            }
         }
 
         /// <summary>

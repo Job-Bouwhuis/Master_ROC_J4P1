@@ -20,9 +20,14 @@ namespace ShadowUprising.Player
         private float rotateHorizontal;
         private float rotateVertical;
 
-        void Update()
+        private void Awake()
         {
             LockMouse();
+        }
+
+        void Update()
+        {
+           
             UpdateCamera();
         }
 
