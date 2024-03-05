@@ -55,9 +55,6 @@ namespace ShadowUprising.UI.SplashScreen
                 text.text = text.text.Remove(text.text.Length - 1);
                 yield return new WaitForSecondsRealtime(textChangeSpeed);
             }
-
-            // theres a bug in the loading screen that causes a null reference, but doesnt break the loading process. clear the console to avoid confusion
-            Debug.ClearDeveloperConsole();
         }
     }
 }

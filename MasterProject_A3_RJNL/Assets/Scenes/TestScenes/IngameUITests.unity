@@ -1746,10 +1746,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58c066196ee6ef4d85b1353e2d3a410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 1010225179}
   healthAndStaminaElement: {fileID: 1010225178}
   healthBar: {fileID: 886181166}
   staminaBar: {fileID: 798740432}
-  player: {fileID: 1010225179}
 --- !u!1 &1025128748
 GameObject:
   m_ObjectHideFlags: 0
@@ -3086,7 +3086,7 @@ MonoBehaviour:
   minIntensity: 0.22
   speed: 38
   colorAtMinIntensity: {r: 0, g: 0, b: 0, a: 1}
-  colorAtMaxIntensity: {r: 1, g: 0, b: 0, a: 1}
+  colorAtMaxIntensity: {r: 0, g: 0.9524913, b: 1, a: 1}
   volume: {fileID: 0}
   currentColor: {r: 0, g: 0, b: 0, a: 0}
   targetIntensity: 0

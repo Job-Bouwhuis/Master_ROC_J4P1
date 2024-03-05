@@ -27,7 +27,7 @@ namespace ShadowUprising.UI.SpottingIndicator
         [Tooltip("The speed at which the vignette fades out when the player is detected")]
         public float vignetteFadeoutWhenDetected = 50f;
 
-        [Header("References - DO NOT EDIT")]
+        [Header("Debug - DO NOT EDIT")]
         [SerializeField] private VignetteHandler vignette;
         [SerializeField] private Color vignetteDefaultColor;
         [SerializeField] private bool lastIsDetected = false;
