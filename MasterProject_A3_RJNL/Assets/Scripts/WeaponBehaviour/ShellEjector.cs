@@ -12,7 +12,7 @@ namespace ShadowUprising.WeaponBehaviour
 
         public void EjectShell()
         {
-            var gameObject = Instantiate(shell, ejectPosition.position, Quaternion.identity);
+            var gameObject = Instantiate(shell, ejectPosition.position, ejectPosition.rotation);
             var rigidBody = gameObject.GetComponent<Rigidbody>();
             rigidBody.AddForce(ejectPosition.up * Random.RandomRange(3,6), ForceMode.Impulse);
             Destroy(gameObject, 5);
