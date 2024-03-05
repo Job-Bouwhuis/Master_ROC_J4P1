@@ -165,8 +165,12 @@ namespace ShadowUprising.UI.Loading
         private IEnumerator PrepScene()
         {
             Log.Push("Prepping scene...");
-            sceneLoadOperation!.allowSceneActivation = true;
-            sceneLoadOperation = null;
+            if(sceneLoadOperation is not null)
+            {
+                sceneLoadOperation.allowSceneActivation = true;
+                sceneLoadOperation.allowSceneActivation = true;
+                sceneLoadOperation = null;
+            }
 
             yield return new WaitForSeconds(.5f);
 
