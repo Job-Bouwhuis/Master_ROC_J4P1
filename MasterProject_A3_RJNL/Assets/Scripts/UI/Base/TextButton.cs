@@ -304,7 +304,8 @@ namespace ShadowUprising.UI
                     targetColor = normalColor;
             }
 
-            textComponent.color = LerpColor(textComponent.color, targetColor, colorFadeSpeed * time);
+            Color c = LerpColor(textComponent.color, targetColor, colorFadeSpeed * time);
+            textComponent.color = c;
         }
         private Color LerpColor(Color current, Color targetColor, float speed)
         {

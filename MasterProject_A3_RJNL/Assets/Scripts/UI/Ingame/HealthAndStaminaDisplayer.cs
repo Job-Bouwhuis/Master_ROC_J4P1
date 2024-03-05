@@ -1,6 +1,7 @@
 // Creator: Job
 using UnityEngine;
 using UnityEngine.UI;
+using ShadowUprising.Player;
 
 namespace ShadowUprising.UI.InGame
 {
@@ -14,7 +15,7 @@ namespace ShadowUprising.UI.InGame
         /// </summary>
         [Header("Player")]
         [Tooltip("The player to display the health and stamina of. (To be changed to the actual player script.)")]
-        public DebugPlayerHealth player;
+        public PlayerStats player;
 
         [Header("UI Elements")]
         [SerializeField] private ElementAnimator healthAndStaminaElement;
@@ -40,7 +41,7 @@ namespace ShadowUprising.UI.InGame
         {
             if (lastHealth != player.health)
             {
-                healthBar.rectTransform.sizeDelta = new Vector2(healthBar.rectTransform.sizeDelta.x, healthHeightMax * (player.health / 500f));
+                healthBar.rectTransform.sizeDelta = new Vector2(healthBar.rectTransform.sizeDelta.x, healthHeightMax * ((float)player.health / player.maxHealth));
                 lastHealth = player.health;
 
                 healthAndStaminaElement.Show();
@@ -48,7 +49,7 @@ namespace ShadowUprising.UI.InGame
 
             if (lastStamina != player.stamina)
             {
-                staminaBar.rectTransform.sizeDelta = new Vector2(staminaBar.rectTransform.sizeDelta.x, staminaHeightMax * (player.stamina / 500f));
+                staminaBar.rectTransform.sizeDelta = new Vector2(staminaBar.rectTransform.sizeDelta.x, staminaHeightMax * (player.stamina / player.maxStamina));
                 lastStamina = player.stamina;
 
                 healthAndStaminaElement.Show();
