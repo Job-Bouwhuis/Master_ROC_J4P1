@@ -14,8 +14,12 @@ public class EnemyAudioDetector : MonoBehaviour
     private void OnPlayerSoundPlayed(AudioManager.AudioEventArgs obj)
     {
         // detemian distane between player and me
-
+        float distance = Vector3.Distance(obj.Position, transform.position);
         // if distance is smaller than hearDistnace
+        if(distance < hearDistance)
+        {
+            // go to position that heard form
+        }
 
         // go to position that heard form
     }
