@@ -38,6 +38,8 @@ namespace ShadowUprising.UI.PauseMenu
         [Tooltip("A list of UI elements to be called to show whenever the pause menu is activated")]
         [SerializeField] private List<ElementAnimator> UIElements = new();
 
+        public bool IsPaused { get; private set; }
+
         /// <summary>
         /// Pauses the game and shows the pause menu
         /// </summary>
@@ -53,7 +55,7 @@ namespace ShadowUprising.UI.PauseMenu
             // unlock mouse
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-
+            IsPaused = true;
             Time.timeScale = 0;
         }
 
@@ -62,6 +64,7 @@ namespace ShadowUprising.UI.PauseMenu
         /// </summary>
         public void Unpause()
         {
+            IsPaused = false;
             StartCoroutine(StartHidingProcess());
         }
 
@@ -79,9 +82,8 @@ namespace ShadowUprising.UI.PauseMenu
             if (maxTime > 0)
                 yield return new WaitForSecondsRealtime(maxTime);
 
-
-            leftCover.HideFromIndefinite();
-            rightCover.HideFromIndefinite();
+            leftCover.HideImmediately();
+            rightCover.HideImmediately();
 
             UIElements.Foreach(element => element.HideFromIndefinite());
 
@@ -89,7 +91,6 @@ namespace ShadowUprising.UI.PauseMenu
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             Time.timeScale = 1;
-
             yield return null;
         }
         private void Start()
@@ -107,7 +108,7 @@ namespace ShadowUprising.UI.PauseMenu
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
-                if (leftCover.IsAtVisiblePosition)
+                if (IsPaused)
                 {
                     Unpause();
                 }

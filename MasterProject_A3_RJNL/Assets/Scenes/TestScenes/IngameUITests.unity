@@ -301,7 +301,7 @@ MonoBehaviour:
   disabledColor: {r: 0, g: 0.119407654, b: 1, a: 0.33}
   functions: []
   isToggle: 0
-  isDisabled: 0
+  isDisabled: 1
   colorFadeSpeed: 40
   animaateOnHover: 1
   animateOnClick: 1
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 181576689}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34cf417b515828640b7d549bd4e77c9a, type: 3}
+  m_Script: {fileID: 11500000, guid: e4366bb99b3fdf9439a9cbac93f28a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &229157128
@@ -3086,7 +3086,7 @@ MonoBehaviour:
   minIntensity: 0.22
   speed: 38
   colorAtMinIntensity: {r: 0, g: 0, b: 0, a: 1}
-  colorAtMaxIntensity: {r: 0, g: 0.9524913, b: 1, a: 1}
+  colorAtMaxIntensity: {r: 0.4716981, g: 0.004393379, b: 0, a: 1}
   volume: {fileID: 0}
   currentColor: {r: 0, g: 0, b: 0, a: 0}
   targetIntensity: 0

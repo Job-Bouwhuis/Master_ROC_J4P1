@@ -51,6 +51,11 @@ namespace ShadowUprising.UI.SpottingIndicator
         }
         void Update()
         {
+            if(isDetected && isDetecting)
+            {
+                isDetecting = false;
+            }
+
             if (isDetecting)
             {
                 StopAllCoroutines();
@@ -79,6 +84,12 @@ namespace ShadowUprising.UI.SpottingIndicator
             {
                 StopAllCoroutines();
                 StartCoroutine(ResetVignetteColor());
+            }
+
+            if(!isDetected && !isDetecting && vignette.TargetPercentage > 0)
+            {
+                // lerp the vignette back to min intensity
+                vignette.TargetPercentage = Mathf.Lerp(vignette.TargetPercentage, 0, Time.deltaTime * vignetteFadeoutWhenDetected);
             }
 
             lastIsDetected = isDetected;
