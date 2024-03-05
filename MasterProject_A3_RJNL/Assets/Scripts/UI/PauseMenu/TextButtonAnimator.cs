@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI.PauseMenu
 {
+    /// <summary>
+    /// Animates the <see cref="TextButton"/> to appear and disappear in a fancy way
+    /// </summary>
     [RequireComponent(typeof(TextButton))]
     public class TextButtonAnimator : MonoBehaviour
     {
@@ -23,42 +26,32 @@ namespace ShadowUprising.UI.PauseMenu
         /// </summary>
         public float delayBeforeUnlock = 1.5f;
 
-        /// <summary>
-        /// The speed the button moves down in the first part of the enter animation
-        /// </summary>
         [Header("Animation Amounts")]
+        [Tooltip("The speed the button moves down in the first part of the enter animation")]
         public float moveDownSpeed = 1.0f;
-        /// <summary>
-        /// The speed the button moves left in the second part of the enter animation
-        /// </summary>
+
+        [Tooltip("The speed the button moves left in the second part of the enter animation")]
         public float moveLeftSpeed = 1.0f;
-        /// <summary>
-        /// The speed the button moves left in the exit animation
-        /// </summary>
+
+        [Tooltip("The speed the button moves left in the exit animation")]
         public float moveLeftOnHideSpeed = 1.0f;
-        /// <summary>
-        /// The speed the color of the button changes in the enter animation
-        /// </summary>
+
+        [Tooltip("The speed the color of the button changes in the enter animation")]
         public float colorChangeSpeed = 1.0f;
-        /// <summary>
-        /// The amount the button moves down in the enter animation
-        /// </summary>
+
+        [Tooltip("The amount the button moves down in the enter animation")]
         public float MoveDownAmount = 50.0f;
-        /// <summary>
-        /// The amount the button moves left in the enter animation
-        /// </summary>
+
+        [Tooltip("The amount the button moves left in the enter animation")]
         public float MoveLeftAmount = 100.0f;
-        /// <summary>
-        /// The amount the button moves left in the exit animation
-        /// </summary>
+
+        [Tooltip("The amount the button moves left in the exit animation")]
         public float MoveLeftOnHideAmount = 100.0f;
-        /// <summary>
-        /// The time the button stalls before the pause menu begins to hide
-        /// </summary>
+
+        [Tooltip("The time the button stalls before the pause menu begins to hide")]
         public float stallPauseMenuHide = 0.5f;
-        /// <summary>
-        /// The speed the color fades out in the exit animation
-        /// </summary>
+
+        [Tooltip("The speed the color fades out in the exit animation")]
         public float ColorFadeoutSpeed = 8;
 
         /// <summary>
