@@ -1,8 +1,12 @@
+//Creator: Luke
 using ShadowUprising.Items.ItemFunctions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// handles the animations of the animator
+/// </summary>
 public class PistolAnimationHandler : MonoBehaviour
 {
     Animator pistolAnimator;

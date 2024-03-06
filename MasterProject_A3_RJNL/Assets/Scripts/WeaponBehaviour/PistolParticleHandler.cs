@@ -1,3 +1,5 @@
+// Creator: Luke
+using ShadowUprising.Items.ItemFunctions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +7,9 @@ using UnityEngine;
 
 namespace ShadowUprising.WeaponBehaviour
 {
+    /// <summary>
+    /// handles the partciles for the gun
+    /// </summary>
     public class PistolParticleHandler : MonoBehaviour
     {
         /// <summary>
@@ -18,6 +23,11 @@ namespace ShadowUprising.WeaponBehaviour
         public void PlayParticles()
         {
             particles.Play();
+        }
+
+        private void Start()
+        {
+            GetComponent<Pistol>().onPistolShot += PlayParticles;
         }
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.WeaponBehaviour
 {
+    /// <summary>
+    /// makes it so the pistol ejects shells when the pistol is shot
+    /// </summary>
     public class ShellEjector : MonoBehaviour
     {
         [SerializeField] GameObject shell;
