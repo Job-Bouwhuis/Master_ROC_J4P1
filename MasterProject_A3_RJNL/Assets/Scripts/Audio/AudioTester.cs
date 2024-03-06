@@ -7,6 +7,11 @@ using UnityEngine;
 
 public class AudioTester : MonoBehaviour, IWorldInteractable
 {
+    [Header("Audio Settings"), Range(0.5f, 1.5f)]
+    public float maxPitch = 1.5f;
+    [Range(0.5f, 1.1f)]
+    public float minPitch = 0.9f;
+
     [SerializeField] private AudioClip[] audioClips;
     private AudioSource audioSource;
 
@@ -19,6 +24,11 @@ public class AudioTester : MonoBehaviour, IWorldInteractable
 
     public void Interact(WorldInteractor interactor)
     {
+        if (audioClips.Length == 0)
+            return;
+
+        audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
+
         if (audioClips.Length == 1)
         {
             audioSource.clip = audioClips[0];

@@ -114,7 +114,6 @@ namespace ShadowUprising.Inventory
 
             Log.Push("Inventory initialized.");
         }
-
         private void Start()
         {
             if (LoadingScreen.Instance != null)
@@ -161,7 +160,6 @@ namespace ShadowUprising.Inventory
             slotParent.gameObject.SetActive(false);
             slotParent.position = inventoryHiddenPos;
         }
-
         private void SetupReferenceChecks()
         {
             if (slotPrefab == null)
@@ -189,7 +187,6 @@ namespace ShadowUprising.Inventory
                 return;
             }
         }
-
         private void Update()
         {
             AnimateInvToPos();
@@ -201,7 +198,6 @@ namespace ShadowUprising.Inventory
             Scrolling();
             ApplyItemsToSlots();
         }
-
         private void AnimateInvToPos()
         {
             if(shouldBeOnScreen)
@@ -223,7 +219,6 @@ namespace ShadowUprising.Inventory
                 slotParent.position = inventoryHiddenPos;
             }
         }
-
         private void ApplyItemsToSlots()
         {
             // loop over all items in the inventory, and let the slot know about its item
@@ -240,7 +235,6 @@ namespace ShadowUprising.Inventory
                 }
             }
         }
-
         private void Scrolling()
         {
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
@@ -289,7 +283,6 @@ namespace ShadowUprising.Inventory
                 }
             }
         }
-
         private void InteractKeybind()
         {
             if (SelectedItem is null)
@@ -307,7 +300,6 @@ namespace ShadowUprising.Inventory
             if (mayInteract && SelectedItem.HasFunction)
                 SelectedItem.ItemFunction!.UseItem();
         }
-
         private void OemKeybinds()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))

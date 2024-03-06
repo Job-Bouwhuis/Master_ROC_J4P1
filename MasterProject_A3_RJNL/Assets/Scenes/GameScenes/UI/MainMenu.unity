@@ -4873,6 +4873,7 @@ GameObject:
   - component: {fileID: 1529710120}
   - component: {fileID: 1529710119}
   - component: {fileID: 1529710121}
+  - component: {fileID: 1529710122}
   m_Layer: 5
   m_Name: Ruben name
   m_TagString: Untagged
@@ -5030,6 +5031,19 @@ MonoBehaviour:
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
+--- !u!114 &1529710122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529710117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16616b2df4b3f294b81e8b026937236d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  link: https://github.com/Rubenhutten
 --- !u!1 &1540254942
 GameObject:
   m_ObjectHideFlags: 0

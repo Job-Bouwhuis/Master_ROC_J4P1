@@ -6,11 +6,13 @@ using ShadowUprising.AI;
 public class StateSetterTest : MonoBehaviour
 {
     public AIState currentState;
-    public bool scuffed = true;
+
+    [Header("DEBUG")]
+    [SerializeField] private bool lockState = false;
 
     private void Update()
     {
-        if (scuffed)
+        if (lockState)
             GetComponent<GuardState>().SetState(currentState);
     }
 
