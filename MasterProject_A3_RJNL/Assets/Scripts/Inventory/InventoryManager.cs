@@ -7,6 +7,7 @@ using ShadowUprising.UnityUtils;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -122,6 +123,7 @@ namespace ShadowUprising.Inventory
                 LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
                 {
                     shouldBeOnScreen = true;
+                    slotParent.gameObject.SetActive(true);
                 });
 
                 LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
@@ -134,7 +136,6 @@ namespace ShadowUprising.Inventory
             {
                 // set inventory pos to visible
                 slotParent.position = inventoryNormalPos;
-                slotParent.gameObject.SetActive(true);
             }
 
             if (PauseMenuManager.Instance != null)
@@ -142,8 +143,8 @@ namespace ShadowUprising.Inventory
                 Log.Push("Subscribing Inventory to pause menu event.");
                 PauseMenuManager.Instance.OnPauseMenuShow += () =>
                 {
-                    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                        return;
+                //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
+                //        return;
                     shouldBeOnScreen = false;
                 };
 
@@ -156,6 +157,9 @@ namespace ShadowUprising.Inventory
                     return 0;
                 });
             }
+
+            slotParent.gameObject.SetActive(false);
+            slotParent.position = inventoryHiddenPos;
         }
 
         private void SetupReferenceChecks()

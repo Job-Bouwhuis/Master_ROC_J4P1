@@ -89,6 +89,7 @@ namespace ShadowUprising.UI.Loading
 
         private IEnumerator WaitForSceneAnimations()
         {
+            IsLoading = true;
             var times = OnStartLoading.Invoke();
             Log.Push(times.Count + " subscribers to OnStartLoading");
 

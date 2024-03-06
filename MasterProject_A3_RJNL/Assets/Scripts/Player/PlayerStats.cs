@@ -61,6 +61,7 @@ namespace ShadowUprising.Player
         private void Update()
         {
             CheckForStateInputs();
+            currentMovementState ??= movementStates[BASE_STATE];
             currentMovementState.UpdateState();
             UpdateStaminaRegen();
         }
