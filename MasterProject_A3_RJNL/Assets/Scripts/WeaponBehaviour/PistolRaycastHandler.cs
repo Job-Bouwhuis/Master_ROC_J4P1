@@ -1,3 +1,4 @@
+//Creator: Luke
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,14 @@ using System;
 
 namespace ShadowUprising.WeaponBehaviour
 {
+    /// <summary>
+    /// handles the raycast of the pistol
+    /// </summary>
     public class PistolRaycastHandler : MonoBehaviour
     {
+        /// <summary>
+        /// is called when the pistol hits something
+        /// </summary>
         public Action<RaycastHit> onRaycastHit = delegate { };
 
         Transform camTransform;
