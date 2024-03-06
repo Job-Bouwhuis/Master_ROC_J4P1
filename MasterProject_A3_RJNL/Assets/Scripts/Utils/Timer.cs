@@ -6,6 +6,9 @@ using System;
 
 namespace ShadowUprising.Utils
 {
+    /// <summary>
+    /// requires <see cref="Timer.Update(float)"/> in update loop to works
+    /// </summary>
     public class Timer
     {
         /// <summary>

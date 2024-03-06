@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace ShadowUprising.AI
 {
-
+    /// <summary>
+    /// checks if the player is within the detection cone and if so it calls an event
+    /// </summary>
     public class AIPlayerConeDetector : MonoBehaviour
     {
 

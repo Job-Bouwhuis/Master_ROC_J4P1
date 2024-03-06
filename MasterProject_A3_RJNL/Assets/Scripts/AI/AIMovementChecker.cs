@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace ShadowUprising.AI
 {
-
+    /// <summary>
+    /// checks if the ai is moving
+    /// </summary>
     public class AIMovementChecker : MonoBehaviour
     {
 
