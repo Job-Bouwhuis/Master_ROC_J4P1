@@ -159,7 +159,7 @@ namespace ShadowUprising.Inventory
 
             slotParent.gameObject.SetActive(false);
             slotParent.position = inventoryHiddenPos;
-        }
+        }   
         private void SetupReferenceChecks()
         {
             if (slotPrefab == null)
