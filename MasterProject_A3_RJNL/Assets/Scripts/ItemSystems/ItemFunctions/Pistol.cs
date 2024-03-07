@@ -46,11 +46,10 @@ namespace ShadowUprising.Items.ItemFunctions
         {
             if (Input.GetKeyUp(KeyCode.R))
                 onPistolReload.Invoke();
-            if (Input.GetKeyUp(KeyCode.Mouse0))
-            {
-
-                UseItem();
-            }
+            //if (Input.GetKeyUp(KeyCode.Mouse0))
+            //{
+            //    UseItem();
+            //}
 
             if (Input.GetKeyUp(KeyCode.R))
                 onPistolReload.Invoke();
