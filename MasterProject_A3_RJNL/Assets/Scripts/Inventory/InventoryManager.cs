@@ -78,19 +78,12 @@ namespace ShadowUprising.Inventory
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
 
-        [SerializeField] private float slotsStartY = 70;
-        private Vector3 inventoryNormalPos;
-        private Vector3 inventoryHiddenPos;
-        private bool shouldBeOnScreen = true;
 
         protected override void Awake()
         {
             SetupReferenceChecks();
 
             base.Awake();
-
-            inventoryNormalPos = new Vector3(slotParent.position.x, slotsStartY, slotParent.position.z);
-            inventoryHiddenPos = new Vector3(slotParent.position.x, -slotsStartY, slotParent.position.z);
 
             SceneManager.sceneLoaded += OnNewSceneLoad;
 
@@ -121,20 +114,18 @@ namespace ShadowUprising.Inventory
                 Log.Push("Subscribing Inventory to loading screen event.");
                 LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
                 {
-                    shouldBeOnScreen = true;
                     slotParent.gameObject.SetActive(true);
                 });
 
                 LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
                 {
-                    shouldBeOnScreen = false;
-                    return 0.3f;
+                    return 0.0f;
                 });
             }
             else
             {
                 // set inventory pos to visible
-                slotParent.position = inventoryNormalPos;
+                slotParent.gameObject.SetActive(true);
             }
 
             if (PauseMenuManager.Instance != null)
@@ -142,9 +133,9 @@ namespace ShadowUprising.Inventory
                 Log.Push("Subscribing Inventory to pause menu event.");
                 PauseMenuManager.Instance.OnPauseMenuShow += () =>
                 {
-                //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                //        return;
-                    shouldBeOnScreen = false;
+                    //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
+                    //        return;
+                    slotParent.gameObject.SetActive(false);
                 };
 
                 PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
@@ -152,14 +143,16 @@ namespace ShadowUprising.Inventory
                     if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
                         return 0;
 
-                    shouldBeOnScreen = true;
+                    slotParent.gameObject.SetActive(true);
                     return 0;
                 });
             }
 
-            slotParent.gameObject.SetActive(false);
-            slotParent.position = inventoryHiddenPos;
-        }   
+            if(LoadingScreen.Instance != null)
+            {
+                slotParent.gameObject.SetActive(false);
+            }
+        }
         private void SetupReferenceChecks()
         {
             if (slotPrefab == null)
@@ -189,35 +182,12 @@ namespace ShadowUprising.Inventory
         }
         private void Update()
         {
-            AnimateInvToPos();
-
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
 
             OemKeybinds();
             InteractKeybind();
             Scrolling();
             ApplyItemsToSlots();
-        }
-        private void AnimateInvToPos()
-        {
-            if(shouldBeOnScreen)
-            {
-                if (slotParent.position.y < slotsStartY - 0.01f)
-                {
-                    slotParent.position = Vector3.Lerp(slotParent.position, inventoryNormalPos, slotAnimationSpeed * Time.unscaledDeltaTime);
-                }
-
-                slotParent.position = inventoryNormalPos;
-            }
-            else
-            {
-                // smoothly lerp the slot parent position up 800 units
-                if (slotParent.position.y > -slotsStartY + 0.01f)
-                {
-                    slotParent.position = Vector3.Lerp(slotParent.position, inventoryHiddenPos, slotAnimationSpeed * Time.unscaledDeltaTime);
-                }
-                slotParent.position = inventoryHiddenPos;
-            }
         }
         private void ApplyItemsToSlots()
         {

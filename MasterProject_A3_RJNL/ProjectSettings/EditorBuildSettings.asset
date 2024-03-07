@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PrefiewScenes/PreviewSprint1.unity
     guid: 5cd2127c6f116d24ba44bf55557537b6
+  - enabled: 1
+    path: Assets/Scenes/AppUpdaterScene.unity
+    guid: 11530931960645f4d9a0526195617a58
   m_configObjects: {}

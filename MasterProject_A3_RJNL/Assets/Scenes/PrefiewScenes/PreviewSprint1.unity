@@ -961,7 +961,7 @@ MonoBehaviour:
   MoveDownAmount: 25
   MoveLeftAmount: 60
   MoveLeftOnHideAmount: 60
-  stallPauseMenuHide: 1
+  stallPauseMenuHide: 0.3
   ColorFadeoutSpeed: 8
   useUnscaledTime: 1
   button: {fileID: 0}
@@ -988,8 +988,38 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
+      propertyPath: slotSpacing
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
       propertyPath: slotsStartY
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: inventoryHiddenPos.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: inventoryHiddenPos.y
+      value: -160
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: inventoryNormalPos.x
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: inventoryNormalPos.y
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: inventoryNormalPos.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5523791029620297030, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
@@ -1040,6 +1070,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7091182122913904030, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8231747199443175166, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
@@ -1248,7 +1283,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310635436}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -14.6}
+  m_LocalPosition: {x: 0, y: 0, z: -7.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1256,7 +1291,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55.97, y: -6.86}
+  m_AnchoredPosition: {x: 55.97, y: -3.1}
   m_SizeDelta: {x: 13.5, y: 11.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &310635438
@@ -1279,7 +1314,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: 'Item interaction: [E, LMB, RMB, or MMB]
+
+
+    Specific button depends
+    on item selected.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2471,7 +2510,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2885,7 +2924,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3271,9 +3310,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000061035156, y: -87.90006}
   m_SizeDelta: {x: 13.6, y: 175.8}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &798740432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3714,7 +3753,7 @@ MonoBehaviour:
   MoveDownAmount: 25
   MoveLeftAmount: 60
   MoveLeftOnHideAmount: 60
-  stallPauseMenuHide: 1
+  stallPauseMenuHide: 0.3
   ColorFadeoutSpeed: 8
   useUnscaledTime: 1
   button: {fileID: 0}
@@ -3999,7 +4038,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 55.97, y: -5.06}
+  m_AnchoredPosition: {x: 55.97, y: -1.39}
   m_SizeDelta: {x: 24.8, y: 11.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1020049741
@@ -4033,7 +4072,9 @@ MonoBehaviour:
     World interaction:
     F
 
-    Item interaction: [E, LMB, RMB, or MMB]'
+    Sprint: Shift
+
+    Crouch: CTRL'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4579,7 +4620,7 @@ MonoBehaviour:
   MoveDownAmount: 25
   MoveLeftAmount: 60
   MoveLeftOnHideAmount: 60
-  stallPauseMenuHide: 1
+  stallPauseMenuHide: 0.3
   ColorFadeoutSpeed: 8
   useUnscaledTime: 1
   button: {fileID: 0}
@@ -4789,7 +4830,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5219,6 +5260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097213188033748718, guid: fb6193e90794bca498b711d0feff21a0,
+        type: 3}
+      propertyPath: roamingState
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7097213188033748718, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
@@ -6247,7 +6293,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6467,7 +6513,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6981,7 +7027,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 94106c474d2110e49b97647ffefc3b05, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
