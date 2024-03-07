@@ -15,46 +15,70 @@ namespace ShadowUprising.AI
         /// </summary>
         public List<Transform> roamingPoints;
 
+        /// <summary>
+        /// determines the roaming state of the ai
+        /// </summary>
+        public RoamingState roamingState;
+
         AINavigationSystem aiSystem;
         Vector3 currentGoTo;
 
         bool roaming;
+        int roamingIndex;
+        const string toInvoke = "SetNewGoToPos";
 
+        int direction = 1;
 
         // Start is called before the first frame update
         void Start()
-        {
+        {         
             Asign();
+            SetState(AIState.Roaming);
         }
 
         void StandingAtLocation()
         {
-            if (roaming)
-                if (!IsInvoking("SetNewGoToPos"))
-                    Invoke("SetNewGoToPos", 3.5f);
-        }
-
-        void AIMovingToDestination()
-        {
-            CancelInvoke("SetNewGoToPos");
+            if (roaming && !IsInvoking(toInvoke))
+            {
+                Invoke(toInvoke, 3.5f);
+            }
         }
 
         void SetNewGoToPos()
         {
-            currentGoTo = roamingPoints[Random.RandomRange(0, roamingPoints.Count)].position;
+            currentGoTo = roamingPoints[NewPosIndex()].position;
             aiSystem.SetCurrentWayPoint(currentGoTo);
+        }
+
+        int NewPosIndex()
+        {
+            switch (roamingState)
+            {
+                case RoamingState.Random:
+                    return Random.Range(0, roamingPoints.Count);
+                case RoamingState.Loop:
+                    if (roamingIndex == roamingPoints.Count - 1)
+                        direction = -1;
+                    else if (roamingIndex == 0)
+                        direction = 1;
+                    return roamingIndex += direction;
+                case RoamingState.Sequential:
+                    return roamingIndex++ % roamingPoints.Count;
+                default:
+                    return 0;
+            }
         }
 
         void SetState(AIState currentState)
         {
             roaming = currentState == AIState.Roaming;
-            if (!roaming)
+            if (roaming)
             {
-                if (IsInvoking("SetNewGoToPos"))
-                    CancelInvoke("SetNewGoToPos");
+                if (!IsInvoking(toInvoke))
+                {
+                    Invoke(toInvoke, 3.5f);
+                }
             }
-            else
-                SetNewGoToPos();
 
         }
 
@@ -67,5 +91,9 @@ namespace ShadowUprising.AI
             GetComponent<AIMovementChecker>().onAIMoving += AIMovingToDestination;
         }
 
+        private void AIMovingToDestination()
+        {
+            CancelInvoke(toInvoke);
+        }
     }
 }
