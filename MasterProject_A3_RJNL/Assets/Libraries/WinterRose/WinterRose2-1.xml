@@ -538,6 +538,11 @@
             <param name="decimals"></param>
             <returns>the persentage calculated from the given parameters</returns>
         </member>
+        <member name="T:WinterRose.WIP.Redis.Exceptions.RedisException">
+            <summary>
+            An exception that is thrown when an error occurs when contacting the redis server.
+            </summary>
+        </member>
         <member name="T:WinterRose.WIP.Redis.RedisAnswer`1">
             <summary>
             Provides an easy way of telling the result of the Redis response
@@ -559,6 +564,11 @@
             Implicidly converts the RedisAnswer to its value
             </summary>
             <param name="answer"></param>
+        </member>
+        <member name="E:WinterRose.WIP.Redis.Framework.RedisConnectionBase.ProgressReporter">
+            <summary>
+            Event that is triggered when a progress report is available
+            </summary>
         </member>
         <member name="P:WinterRose.WIP.Redis.Framework.RedisConnectionBase.IsConnected">
             <summary>
