@@ -6,6 +6,7 @@ using UnityEngine;
 using WinterRose.WIP.Redis;
 using ShadowUprising.Settings;
 using ShadowUprising.UnityUtils;
+using ShadowUprising;
 
 public class UpdateChecker : Singleton<UpdateChecker>
 {
@@ -32,7 +33,7 @@ public class UpdateChecker : Singleton<UpdateChecker>
         {
             completed = true;
             text.text = "Checking for updates....";
-            string value = redis.Get<string, string>("A3MasterProjectVersion");
+            string value = redis.GetHashFieldValue("A3Games::GameData", "Version");
             string current = Resources.Load<TextAsset>("Version/GameVersion").text;
 
             bool isUpdateRequired = new System.Data.DataTable().Compute(current + " < " + value, null).ToString() is "True";
@@ -41,12 +42,16 @@ public class UpdateChecker : Singleton<UpdateChecker>
                 UpdateRequired = true;
 
             text.text = "";
+
+            redis.Dispose();
+            Log.Push("Terminated connection to database.");
         }
     }
 
     private async Task ConnectToRedis()
     {
-        await Task.Run(() =>
+        Log.Push("Connecting to Database...");
+        await Task.Run(async () =>
         {
             redis = new RedisConnection();
             try
@@ -54,10 +59,7 @@ public class UpdateChecker : Singleton<UpdateChecker>
                 redis.MakeConnection("212.132.69.23", 6379);
                 redis.Authenticate("q.$p.I>%");
             }
-            catch
-            {
- 
-            }
+            catch { } // ignore any exceptions, if they occur, the process of connecting to the server has fauled, and the game will treat it as no update required.
             ConnectingProcedureComplete = true;
         });
     }

@@ -47,6 +47,10 @@ namespace ShadowUprising.UI.SplashScreen
                 yield return new WaitForSecondsRealtime(textChangeSpeed);
             }
 
+            while(UpdateChecker.Instance.ConnectingProcedureComplete == false)
+            {
+                yield return new WaitForEndOfFrame();
+            }
             yield return new WaitForSecondsRealtime(textOnScreenTime);
             Log.Push("animating text out");
 
