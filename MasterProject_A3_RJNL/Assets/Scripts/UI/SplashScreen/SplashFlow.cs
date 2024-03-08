@@ -53,8 +53,9 @@ namespace ShadowUprising.UI.SplashScreen
                     logo.targetScale *= 1.15f;
                 }
             }
-            Log.Push(UpdateChecker.Instance.ConnectingProcedureComplete);
-            if(!UpdateChecker.Instance.ConnectingProcedureComplete)
+
+
+            if(UpdateChecker.Instance != null && !UpdateChecker.Instance.ConnectingProcedureComplete)
             {
                 time = 0;
             }
@@ -62,10 +63,15 @@ namespace ShadowUprising.UI.SplashScreen
             if (time >= splashDuration && !isloading)
             {
                 isloading = true;
-                if(UpdateChecker.Instance.UpdateRequired)
-                    LoadingScreen.Instance.LoadWithoutShow("AppUpdaterScene");
-                else
+                if(UpdateChecker.Instance == null)
                     LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                else
+                {
+                    if (UpdateChecker.Instance.UpdateRequired)
+                        LoadingScreen.Instance.LoadWithoutShow("AppUpdaterScene");
+                    else
+                        LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                }
 
                 foreach (var logo in logos)
                 {
