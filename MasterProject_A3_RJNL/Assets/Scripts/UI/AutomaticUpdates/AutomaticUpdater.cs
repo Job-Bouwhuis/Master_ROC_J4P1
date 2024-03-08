@@ -121,9 +121,22 @@ namespace ShadowUprising.AutoUpdates
 
             // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
 
-            string installerContent = Resources.Load<TextAsset>("InstallerApp/A3GamesInstaller").text;
-            string installerPath = Path.GetTempPath() + "A3Games\\Installer.exe";
-            FileManager.Write(installerPath, installerContent);
+            FileInfo installerPath = new(Path.GetTempPath() + "A3Games\\Installer.exe");
+            string internalInstallerPath = Application.streamingAssetsPath + @"\AppInstaller\A3GamesInstaller.exe";
+            if (!File.Exists(internalInstallerPath))
+            {
+                Log.PushError("Internal installer not found.");
+                Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
+
+                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                return;
+            }
+
+            if (File.Exists(installerPath.FullName))
+                File.Delete(installerPath.FullName);
+
+            File.Copy(internalInstallerPath, installerPath.FullName, true);
+
 
             // construct arguments for the installer
 
@@ -134,29 +147,38 @@ namespace ShadowUprising.AutoUpdates
               - gameRoot: path to the game's root directory.
              */
 
-            FileInfo exeFile = new DirectoryInfo(Application.dataPath).Parent.GetFiles().FirstOrDefault(x => x.Name == "MasterProject_A3_RJNL.exe");
-            Log.Push($"Found exe file at {exeFile.FullName}");
+            FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
+            Windows.MessageBox(exeFile.FullName);
             string packagePath = fileInfo.FullName;
-            Log.Push($"Package path: {packagePath}");
             DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
-            Log.Push($"Game root directory: {gameRootDir.FullName}");
-            Windows.MessageBox("");
 
-            string installerFolder = FileManager.PathOneUp(installerPath);
-            string argumentsFile = installerFolder + "\\installerargs.iargs"; // name of the file is required to be this. the installer will look for this file in the same directory as the installer.
+            //string installerFolder = FileManager.PathOneUp(installerPath.FullName);
+
+            //// due to my lack of coding skills before submitting the WinterRose library, i have to correct a mistake i made in this function.
+            //// path example: C:\Users\Job\Documents\A3Games\Installer.exe
+            //// the function would return C:Users\Job\Documents\A3Games
+            //// while the expected result is C:\Users\Job\Documents\A3Games
+            //// so i have to insert a backslash at the 2nd index of the string.
+            //// im too lazy to reimport the library and fix the function so i will just do this.
+            //installerFolder = installerFolder.Insert(2, "\\");
+            //FileInfo argumentsFile = new(installerFolder + "\\installerargs.iargs"); // name of the file is required to be this. the installer will look for this file in the same directory as the installer.
+
+#if !UNITY_EDITOR
 
             Log.Push("Starting installer...");
-            Process.Start(installerPath);
+            ProcessStartInfo installerStartInfo = new(installerPath.FullName);
+            installerStartInfo.Arguments = $"exePath=\"{exeFile.FullName}\" packagePath=\"{packagePath}\" gameRoot=\"{gameRootDir.FullName}\"";
+
+            Process.Start(installerStartInfo);
 
             redis.Dispose();
             Log.Push("Closing game...");
             Process.GetCurrentProcess().Kill();
-
+#endif
 
 #if UNITY_EDITOR
+            Log.Push("In Editor, playmode is disabled after downloading the app package due to otherwise having closed the editor and possibly corrupting its install, or the project files.");
             UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
 #endif
         }
 
