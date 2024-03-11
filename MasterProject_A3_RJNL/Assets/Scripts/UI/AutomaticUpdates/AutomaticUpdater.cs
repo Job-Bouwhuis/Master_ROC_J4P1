@@ -121,6 +121,8 @@ namespace ShadowUprising.AutoUpdates
 
             // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
 
+            string pathToInstaller = Application.streamingAssetsPath + "\\InstallerApp\\A3GamesInstaller.exe";
+
             string installerContent = Resources.Load<TextAsset>("InstallerApp/A3GamesInstaller").text;
             string installerPath = Path.GetTempPath() + "A3Games\\Installer.exe";
             FileManager.Write(installerPath, installerContent);

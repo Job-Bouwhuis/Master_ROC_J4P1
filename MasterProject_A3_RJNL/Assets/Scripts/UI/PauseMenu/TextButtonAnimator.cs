@@ -84,6 +84,7 @@ namespace ShadowUprising.UI.PauseMenu
 
             // The TextButton already requires a TMP_Text component, so we can safely assume it exists
             text = GetComponent<TMP_Text>();
+            text.enabled = true;
 
             button.transform.localPosition = startPos;
 
