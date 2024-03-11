@@ -2,6 +2,7 @@
 
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
+using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,6 +80,7 @@ namespace ShadowUprising.Inventory
         [SerializeField] private float slotsStartY = 70;
         private Vector3 inventoryNormalPos;
         private Vector3 inventoryHiddenPos;
+        private bool shouldBeOnScreen = true;
 
         protected override void Awake()
         {
@@ -90,26 +92,6 @@ namespace ShadowUprising.Inventory
             inventoryHiddenPos = new Vector3(slotParent.position.x, -slotsStartY, slotParent.position.z);
 
             SceneManager.sceneLoaded += OnNewSceneLoad;
-
-            if (LoadingScreen.Instance != null)
-            {
-                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
-                {
-                    StartCoroutine(AnimateInventoryIn());
-                });
-
-                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
-                {
-                    StartCoroutine(AnimateInventoryOut());
-                    return 0.3f;
-                });
-            }
-            else
-            {
-                // set inventory pos to visible
-                slotParent.position = inventoryNormalPos;
-                slotParent.gameObject.SetActive(true);
-            }
 
             // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
             // this helps to prevent a big lag spike when any item is interacted with for the first time.
@@ -131,7 +113,51 @@ namespace ShadowUprising.Inventory
 
             Log.Push("Inventory initialized.");
         }
-        
+
+        private void Start()
+        {
+            if (LoadingScreen.Instance != null)
+            {
+                Log.Push("Subscribing Inventory to loading screen event.");
+                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+                {
+                    shouldBeOnScreen = true;
+                });
+
+                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                {
+                    shouldBeOnScreen = false;
+                    return 0.3f;
+                });
+            }
+            else
+            {
+                // set inventory pos to visible
+                slotParent.position = inventoryNormalPos;
+                slotParent.gameObject.SetActive(true);
+            }
+
+            if (PauseMenuManager.Instance != null)
+            {
+                Log.Push("Subscribing Inventory to pause menu event.");
+                PauseMenuManager.Instance.OnPauseMenuShow += () =>
+                {
+                    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
+                        return;
+                    shouldBeOnScreen = false;
+                };
+
+                PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
+                {
+                    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
+                        return 0;
+
+                    shouldBeOnScreen = true;
+                    return 0;
+                });
+            }
+        }
+
         private void SetupReferenceChecks()
         {
             if (slotPrefab == null)
@@ -162,10 +188,36 @@ namespace ShadowUprising.Inventory
 
         private void Update()
         {
+            AnimateInvToPos();
+
+            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+
             OemKeybinds();
             InteractKeybind();
             Scrolling();
             ApplyItemsToSlots();
+        }
+
+        private void AnimateInvToPos()
+        {
+            if(shouldBeOnScreen)
+            {
+                if (slotParent.position.y < slotsStartY - 0.01f)
+                {
+                    slotParent.position = Vector3.Lerp(slotParent.position, inventoryNormalPos, slotAnimationSpeed * Time.unscaledDeltaTime);
+                }
+
+                slotParent.position = inventoryNormalPos;
+            }
+            else
+            {
+                // smoothly lerp the slot parent position up 800 units
+                if (slotParent.position.y > -slotsStartY + 0.01f)
+                {
+                    slotParent.position = Vector3.Lerp(slotParent.position, inventoryHiddenPos, slotAnimationSpeed * Time.unscaledDeltaTime);
+                }
+                slotParent.position = inventoryHiddenPos;
+            }
         }
 
         private void ApplyItemsToSlots()
@@ -187,6 +239,8 @@ namespace ShadowUprising.Inventory
 
         private void Scrolling()
         {
+            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+
             // scroll logic for switching selected slots using function SelectIndex
             if (Input.mouseScrollDelta.y < 0)
             {
@@ -459,31 +513,6 @@ namespace ShadowUprising.Inventory
 
             return item.Copy();
 
-        }
-        private IEnumerator AnimateInventoryIn()
-        {
-            slotParent.gameObject.SetActive(true);
-            // smoothly lerp the slot parent position down 800 units
-
-            while (slotParent.position.y < slotsStartY - 0.01f)
-            {
-                slotParent.position = Vector3.Lerp(slotParent.position, inventoryNormalPos, slotAnimationSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            slotParent.position = inventoryNormalPos;
-        }
-
-        private IEnumerator AnimateInventoryOut()
-        {
-            // smoothly lerp the slot parent position up 800 units
-            while (slotParent.position.y > -slotsStartY + 0.01f)
-            {
-                slotParent.position = Vector3.Lerp(slotParent.position, inventoryHiddenPos, slotAnimationSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            slotParent.gameObject.SetActive(false);
         }
     }
 }

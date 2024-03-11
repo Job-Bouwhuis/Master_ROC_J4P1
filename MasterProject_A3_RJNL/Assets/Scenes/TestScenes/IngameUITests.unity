@@ -460,6 +460,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3635892040171145425, guid: e8d2636f463a6ab489942f6453ba3876,
+        type: 3}
+      propertyPath: slotsStartY
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 5523791029620297030, guid: e8d2636f463a6ab489942f6453ba3876,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -989,6 +994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662228056}
+  - component: {fileID: 662228063}
   - component: {fileID: 662228062}
   - component: {fileID: 662228061}
   - component: {fileID: 662228060}
@@ -1147,6 +1153,29 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662228055}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &662228063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662228055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9591ff89349e1b44ea80ce679880ffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraTransform: {fileID: 1449627192}
+  maxHealth: 100
+  health: 0
+  maxStamina: 150
+  stamina: 0
+  staminaRegenRate: 40
+  minimumStaminaToSprint: 20
+  crouchSpeedModifier: 7
+  crouchCameraHeight: 0.2
+  sprintSpeedModifier: 1
+  staminaDrainRate: 10
 --- !u!1 &690328457
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,7 +1698,6 @@ GameObject:
   - component: {fileID: 1010225177}
   - component: {fileID: 1010225178}
   - component: {fileID: 1010225180}
-  - component: {fileID: 1010225179}
   m_Layer: 5
   m_Name: HealthAndStamina
   m_TagString: Untagged
@@ -1718,22 +1746,6 @@ MonoBehaviour:
   OnScreenIndefinitely: 0
   useUnscaledTime: 1
   HideOnStart: 0
---- !u!114 &1010225179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1010225176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dc2a43616931f74db16c7c756070e4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 0
-  stamina: 0
-  maxHealth: 500
-  maxStamina: 500
 --- !u!114 &1010225180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1746,7 +1758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58c066196ee6ef4d85b1353e2d3a410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1010225179}
+  player: {fileID: 662228063}
   healthAndStaminaElement: {fileID: 1010225178}
   healthBar: {fileID: 886181166}
   staminaBar: {fileID: 798740432}

@@ -19,11 +19,11 @@ namespace ShadowUprising.Player
         private const string SPRINT_STATE = "sprintState";
 
         [Tooltip("The max health the player can have")]
-        [SerializeField] private int maxHealth;
+        [SerializeField] public int maxHealth;
         [Tooltip("The player's Current Health")]
         public int health;
         [Tooltip("The max stamina the player can have")]
-        [SerializeField] private int maxStamina;
+        [SerializeField] public int maxStamina;
         [Tooltip("The player's stamina, Gets utilized while sprinting")]
         public float stamina;
         private bool regenStamina;
@@ -48,6 +48,7 @@ namespace ShadowUprising.Player
             playerMovement = GetComponent<PlayerMovement>();
             InitializeMovementStates();
             currentMovementState = movementStates[BASE_STATE];
+            SetStaminaRegen(true);
         }
 
         private void InitializeMovementStates()
