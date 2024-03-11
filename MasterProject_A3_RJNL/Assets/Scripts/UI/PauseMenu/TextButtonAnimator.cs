@@ -88,19 +88,6 @@ namespace ShadowUprising.UI.PauseMenu
 
             button.transform.localPosition = startPos;
 
-            PauseMenuManager.Instance.OnPauseMenuShow += () =>
-            {
-                StopAllCoroutines();
-                StartCoroutine(WaitToStartAnimation());
-            };
-
-            PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
-            {
-                StopAllCoroutines();
-                StartCoroutine(AnimationHide());
-                return delayBeforeUnlock;
-            });
-
             button.isDisabled = true;
             button.enabled = false;
 
@@ -111,7 +98,11 @@ namespace ShadowUprising.UI.PauseMenu
             button.ChangeTargetColor(color);
         }
 
-        IEnumerator WaitToStartAnimation()
+        /// <summary>
+        /// Starts the animation of the button appearing.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator WaitToStartAnimation()
         {
             // set color of button to disabled with alpha 0
             Color color = button.disabledColor;
@@ -125,7 +116,32 @@ namespace ShadowUprising.UI.PauseMenu
             StartCoroutine(AnimationDown());
             StartCoroutine(AnimationColor());
         }
-        IEnumerator AnimationDown()
+
+        public IEnumerator AnimationHide()
+        {
+            button.SuspendColorAnimation();
+            StartCoroutine(AnimationFadeColorOut());
+            Vector3 targetPos = new Vector3(startPos.x - MoveLeftOnHideAmount, startPos.y, 0);
+            button.enabled = false;
+
+            while (button.transform.localPosition.x > (targetPos.x + 0.04f))
+            {
+                // lerp the x position of the button to that of the start position
+                float newX = Mathf.Lerp(button.transform.localPosition.x, targetPos.x, time * moveLeftOnHideSpeed);
+
+                // set the new position
+                button.transform.localPosition = new Vector3(newX, button.transform.localPosition.y, button.transform.localPosition.z);
+
+                yield return null;
+            }
+
+            {
+                Vector3 pos = button.transform.localPosition;
+                pos.x = targetPos.x;
+                button.transform.localPosition = pos;
+            }
+        }
+        private IEnumerator AnimationDown()
         {
             button.OnPointerExit(null);
             // add MoveDownAmount to the y localPosition of the button
@@ -156,7 +172,7 @@ namespace ShadowUprising.UI.PauseMenu
                 button.transform.localPosition = pos;
             }
         }
-        IEnumerator AnimationLeft()
+        private IEnumerator AnimationLeft()
         {
             // animate the button left
             while (button.transform.localPosition.x > (startPos.x + 0.04f))
@@ -181,7 +197,7 @@ namespace ShadowUprising.UI.PauseMenu
             button.isDisabled = false;
             button.enabled = true;
         }
-        IEnumerator AnimationColor()
+        private IEnumerator AnimationColor()
         {
             // gradually change the alpha of the text to 1
 
@@ -198,31 +214,7 @@ namespace ShadowUprising.UI.PauseMenu
 
             button.ResumeColorAnimation();
         }
-        IEnumerator AnimationHide()
-        {
-            button.SuspendColorAnimation();
-            StartCoroutine(AnimationFadeColorOut());
-            Vector3 targetPos = new Vector3(startPos.x - MoveLeftOnHideAmount, startPos.y, 0);
-            button.enabled = false;
-
-            while (button.transform.localPosition.x > (targetPos.x + 0.04f))
-            {
-                // lerp the x position of the button to that of the start position
-                float newX = Mathf.Lerp(button.transform.localPosition.x, targetPos.x, time * moveLeftOnHideSpeed);
-
-                // set the new position
-                button.transform.localPosition = new Vector3(newX, button.transform.localPosition.y, button.transform.localPosition.z);
-
-                yield return null;
-            }
-
-            {
-                Vector3 pos = button.transform.localPosition;
-                pos.x = targetPos.x;
-                button.transform.localPosition = pos;
-            }
-        }
-        IEnumerator AnimationFadeColorOut()
+        private IEnumerator AnimationFadeColorOut()
         {
             while (text.color.a > 0.01f)
             {
@@ -243,7 +235,7 @@ namespace ShadowUprising.UI.PauseMenu
 
             StartCoroutine(AllowButtonReset());
         }
-        IEnumerator AllowButtonReset()
+        private IEnumerator AllowButtonReset()
         {
             button.enabled = true;
             button.isDisabled = true;
