@@ -56,7 +56,7 @@ namespace ShadowUprising.Items
         public IItemFunction? ItemFunction
         {
             get
-            {
+            {   
                 if (itemFunction is not null)
                 {
                     return itemFunction;
@@ -68,9 +68,7 @@ namespace ShadowUprising.Items
 
                 Type type = TypeWorker.FindType(ItemFunctionProviderName);
                 if (type == null)
-                {
                     return itemFunction;
-                }
 
                 // find if a component exists in the scene with the same type
                 if (type.IsAssignableTo(typeof(UnityEngine.Object)))

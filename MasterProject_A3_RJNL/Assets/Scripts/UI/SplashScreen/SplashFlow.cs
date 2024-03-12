@@ -1,6 +1,8 @@
 //Creator: Job
 using ShadowUprising.UI.Loading;
+using System.Collections;
 using UnityEngine;
+using WinterRose.WIP.Redis;
 
 namespace ShadowUprising.UI.SplashScreen
 {
@@ -52,10 +54,25 @@ namespace ShadowUprising.UI.SplashScreen
                 }
             }
 
+
+            if(UpdateChecker.Instance != null && !UpdateChecker.Instance.ConnectingProcedureComplete)
+            {
+                time = 0;
+            }
+
             if (time >= splashDuration && !isloading)
             {
                 isloading = true;
-                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                if(UpdateChecker.Instance == null)
+                    LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                else
+                {
+                    if (UpdateChecker.Instance.UpdateRequired)
+                        LoadingScreen.Instance.LoadWithoutShow("AppUpdaterScene");
+                    else
+                        LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                }
+
                 foreach (var logo in logos)
                 {
                     logo.targetScale = 0.0f;

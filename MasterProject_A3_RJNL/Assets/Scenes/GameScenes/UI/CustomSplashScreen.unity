@@ -205,6 +205,7 @@ MonoBehaviour:
   waitTime: 0.8
   targetScale: 0.65
   scaleSpeed: 10
+  time: 0
 --- !u!212 &388110719
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -676,8 +677,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 1.1
-  targetScale: 0.65
+  targetScale: 2.72402
   scaleSpeed: 10
+  time: 0
 --- !u!212 &935951283
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -719,7 +721,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ed94fb41f3f9eaf49a70406e63c405e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 428e7db065afb07429d986e2766b08a4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -740,7 +742,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.62, y: -6.05, z: 17.4}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_LocalScale: {x: 2.72402, y: 2.72402, z: 2.72402}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -986,8 +988,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waitTime: 0.5
-  targetScale: 0.65
+  targetScale: 0.26507
   scaleSpeed: 10
+  time: 0
 --- !u!212 &1410050181
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1029,8 +1032,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ed94fb41f3f9eaf49a70406e63c405e3, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: c1df0e7690f18764ebc5a502665f54fa, type: 3}
+  m_Color: {r: 0.8396226, g: 0.8396226, b: 0.8396226, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1050,7 +1053,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.73, y: -6.05, z: 17.4}
-  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_LocalScale: {x: 0.26507, y: 0.26507, z: 0.26507}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1155,6 +1158,7 @@ MonoBehaviour:
   waitTime: 0.3
   targetScale: 0.24
   scaleSpeed: 10
+  time: 0
 --- !u!1001 &1877120268
 PrefabInstance:
   m_ObjectHideFlags: 0

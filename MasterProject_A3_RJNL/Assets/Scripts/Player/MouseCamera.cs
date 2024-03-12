@@ -22,9 +22,12 @@ namespace ShadowUprising.Player
         private float rotateHorizontal;
         private float rotateVertical;
 
+        public bool useSensitivity = true;
+
         private void Awake()
         {
-            horizontalSensitivity = verticalSensitivity = GameSettings.Instance.sensitivity.FloorToInt();
+            if (useSensitivity)
+                horizontalSensitivity = verticalSensitivity = GameSettings.Instance.sensitivity.FloorToInt();
             LockMouse();
         }
 

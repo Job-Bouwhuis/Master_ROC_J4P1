@@ -145,6 +145,7 @@ namespace ShadowUprising.UI
                 LoadingScreen.Instance.OnStartLoading += () =>
                 {
                     shouldBeVisible = false;
+                    transform.localPosition = hiddenPosition;
                     return delayLoading;
                 };
             });

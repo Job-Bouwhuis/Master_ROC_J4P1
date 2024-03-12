@@ -1,9 +1,5 @@
 // Creator: Job
 using ShadowUprising.UI.Loading;
-using ShadowUprising.UI.PauseMenu;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using WinterRose;
 

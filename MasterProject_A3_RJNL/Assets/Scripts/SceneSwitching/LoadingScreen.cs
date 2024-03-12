@@ -89,6 +89,7 @@ namespace ShadowUprising.UI.Loading
 
         private IEnumerator WaitForSceneAnimations()
         {
+            IsLoading = true;
             var times = OnStartLoading.Invoke();
             Log.Push(times.Count + " subscribers to OnStartLoading");
 
@@ -165,8 +166,12 @@ namespace ShadowUprising.UI.Loading
         private IEnumerator PrepScene()
         {
             Log.Push("Prepping scene...");
-            sceneLoadOperation!.allowSceneActivation = true;
-            sceneLoadOperation = null;
+            if(sceneLoadOperation is not null)
+            {
+                sceneLoadOperation.allowSceneActivation = true;
+                sceneLoadOperation.allowSceneActivation = true;
+                sceneLoadOperation = null;
+            }
 
             yield return new WaitForSeconds(.5f);
 

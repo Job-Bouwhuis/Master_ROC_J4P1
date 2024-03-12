@@ -52,9 +52,8 @@ namespace ShadowUprising.UI.PauseMenu
 
             UIElements.Foreach(element => element.ShowIndefinite());
 
-            // unlock mouse
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            StartCoroutine(ShowMouse());
+
             IsPaused = true;
             Time.timeScale = 0;
         }
@@ -66,6 +65,20 @@ namespace ShadowUprising.UI.PauseMenu
         {
             IsPaused = false;
             StartCoroutine(StartHidingProcess());
+        }
+
+        IEnumerator ShowMouse()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+            Log.Push("Moving mouse Away");
+            // unlock mouse
+            Windows.SetMousePosition(0, 0);
+            yield return new WaitForSecondsRealtime(0.2f);
+            Log.Push("Moving mouse to center");
+            Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+            Windows.SetMousePosition(screenCenter.x.FloorToInt(), screenCenter.y.FloorToInt());
         }
 
         IEnumerator StartHidingProcess()
