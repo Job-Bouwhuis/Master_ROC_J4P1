@@ -1,8 +1,10 @@
 // Creator: Ruben
 // Edited by:
+using ShadowUprising.Settings;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WinterRose;
 
 namespace ShadowUprising.Player
 {
@@ -20,9 +22,18 @@ namespace ShadowUprising.Player
         private float rotateHorizontal;
         private float rotateVertical;
 
+        public bool useSensitivity = true;
+
+        private void Awake()
+        {
+            if (useSensitivity)
+                horizontalSensitivity = verticalSensitivity = GameSettings.Instance.sensitivity.FloorToInt();
+            LockMouse();
+        }
+
         void Update()
         {
-            LockMouse();
+
             UpdateCamera();
         }
 

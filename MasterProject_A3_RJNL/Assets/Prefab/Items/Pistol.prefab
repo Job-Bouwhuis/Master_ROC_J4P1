@@ -50,7 +50,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -9745,17 +9745,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 0ac028a2f16b8bc49b49e31c1669c539,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.246
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ac028a2f16b8bc49b49e31c1669c539,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.087
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ac028a2f16b8bc49b49e31c1669c539,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1.147
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0ac028a2f16b8bc49b49e31c1669c539,
         type: 3}
