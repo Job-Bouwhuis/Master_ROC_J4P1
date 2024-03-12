@@ -55,13 +55,13 @@ MonoBehaviour:
   maxHealth: 100
   health: 0
   maxStamina: 150
-  stamina: 0
+  stamina: 150
   staminaRegenRate: 40
   minimumStaminaToSprint: 20
-  crouchSpeedModifier: -100
-  crouchCameraHeight: 0.4
-  sprintSpeedModifier: 200
-  staminaDrainRate: 60
+  crouchSpeedModifier: -90
+  crouchCameraHeight: 0
+  sprintSpeedModifier: 160
+  staminaDrainRate: 100
 --- !u!33 &2331384112346303886
 MeshFilter:
   m_ObjectHideFlags: 0
