@@ -1,5 +1,5 @@
 // Creator: Ruben
-// Edited by:
+// Edited by: Job
 using ShadowUprising.Settings;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +22,7 @@ namespace ShadowUprising.Player
         private float rotateHorizontal;
         private float rotateVertical;
 
+        [Tooltip("Whether or not the script will use the games sensitivity setting found in PlayerPrefs")]
         public bool useSensitivity = true;
 
         private void Awake()

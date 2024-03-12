@@ -21,7 +21,7 @@ namespace ShadowUprising.Settings
         /// <summary>
         /// The sensitivity of the mouse in the game. 2 is double sensitivity, 1 is normal sensitivity, 0 is no sensitivity.
         /// </summary>
-        public float sensitivity = 1;
+        public float sensitivity = 170;
         /// <summary>
         /// Whether or not to use voice dialogue in the game.
         /// </summary>
