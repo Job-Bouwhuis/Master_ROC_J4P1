@@ -1,4 +1,5 @@
 // Created by Niels
+//Edited by: Luke
 using ShadowUprising.Items.ItemFunctions;
 using System;
 using System.Collections;
@@ -9,6 +10,7 @@ public class PistolAudioHandler : MonoBehaviour
 {
     public AudioClip weaponShot;
     public AudioClip weaponReload;
+    public AudioClip weaponShotEmpty;
     private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,13 @@ public class PistolAudioHandler : MonoBehaviour
         var comp = GetComponent<Pistol>();
         comp.onPistolReload += OnPistolReload;
         comp.onPistolShot += OnPistolShot;
+        comp.onPistolShootEmtpy += onPistolShotEmpty;
         audioSource = GetComponent<AudioSource>();
+    }
+
+    private void onPistolShotEmpty()
+    {
+        audioSource.PlayOneShot(weaponShotEmpty); ;
     }
 
     private void OnPistolShot()
