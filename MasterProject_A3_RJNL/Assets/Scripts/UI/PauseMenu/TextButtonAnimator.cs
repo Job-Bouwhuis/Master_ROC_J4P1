@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -77,6 +78,11 @@ namespace ShadowUprising.UI.PauseMenu
             }
         }
 
+        /// <summary>
+        /// When the animation starts, this event is called. passed true if the animation is the entry animation, false if it is the exit animation.
+        /// </summary>
+        public event Action<bool> OnAnimationStart = delegate { };
+
         // Start is called before the first frame update
         void Start()
         {
@@ -112,13 +118,14 @@ namespace ShadowUprising.UI.PauseMenu
 
             // set the color of the 
             yield return new WaitForSecondsRealtime(delayBeforeStart);
-            Log.Push("Delay Passed");
+            OnAnimationStart(true);
             StartCoroutine(AnimationDown());
             StartCoroutine(AnimationColor());
         }
 
         public IEnumerator AnimationHide()
         {
+            OnAnimationStart(false);
             button.SuspendColorAnimation();
             StartCoroutine(AnimationFadeColorOut());
             Vector3 targetPos = new Vector3(startPos.x - MoveLeftOnHideAmount, startPos.y, 0);

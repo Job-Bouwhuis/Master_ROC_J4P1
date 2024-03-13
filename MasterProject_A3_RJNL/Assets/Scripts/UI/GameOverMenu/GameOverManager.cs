@@ -2,6 +2,7 @@ using ShadowUprising.UI;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace ShadowUprising.GameOver
         /// where the last save will be initialized after the scene is reloaded.
         /// </summary>
         public bool IsGameOver { get; private set; }
+        public event Action OnGameOver = delegate { };
 
         [Header("References")]
         [SerializeField] private Image backgroundImage;
@@ -46,7 +48,7 @@ namespace ShadowUprising.GameOver
             StartCoroutine(restartButton.WaitToStartAnimation());
             StartCoroutine(mainMenuButton.WaitToStartAnimation());
 
-            Time.timeScale = 0;
+            OnGameOver();
         }
 
         public void HideGameOver()
@@ -64,9 +66,6 @@ namespace ShadowUprising.GameOver
             backgroundImage.color = new Color(backgroundImage.color.r, backgroundImage.color.g, backgroundImage.color.b, 0);
             backgroundImage.gameObject.SetActive(false);
             gameOverText.gameObject.SetActive(false);
-
-            StartCoroutine(restartButton.AnimationHide());
-            StartCoroutine(mainMenuButton.AnimationHide());
 
             if (LoadingScreen.Instance != null)
             {
@@ -93,8 +92,6 @@ namespace ShadowUprising.GameOver
             {
                 Time.timeScale = Mathf.Lerp(Time.timeScale, 0, 0.1f);
                 yield return null;
-
-                Debug.Log(Time.timeScale);
             }
 
             Time.timeScale = 0;

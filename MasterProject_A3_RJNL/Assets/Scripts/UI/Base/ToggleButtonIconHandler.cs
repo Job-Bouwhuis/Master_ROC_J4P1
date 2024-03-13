@@ -25,6 +25,8 @@ public class ToggleButtonIconHandler : MonoBehaviour
             Log.Push("Button is not in toggle mode. This script will be disabled, please use a different script");
             return;
         }
+
+        lastButtonToggleState = !button.toggleState;
     }
 
     // Update is called once per frame
