@@ -154,7 +154,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.83
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
         type: 3}
@@ -242,6 +242,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 606122861}
+    - targetCorrespondingSourceObject: {fileID: 65702495048144492, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 606122865}
+    - targetCorrespondingSourceObject: {fileID: 65702495048144492, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 606122864}
   m_SourcePrefab: {fileID: 100100000, guid: e0fb92e31e3afdc4ba055d19fae6aa90, type: 3}
 --- !u!1 &172621660
 GameObject:
@@ -510,8 +518,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759e602dd1065174196dc1cbac806817, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints: []
-  timeoutDuration: 0
+  waypoints:
+  - {fileID: 223936247}
+  - {fileID: 183207611}
+  speed: 1
+  timeoutDuration: 3
+--- !u!114 &606122864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606122859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411f3c8bb0e7f13468944585f45c4ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timer: 0
+  timerDecreaseSpeed: 0.01
+--- !u!114 &606122865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606122859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b677e0aa98abf904482c913c992436a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 50
+  coneAngle: 90
 --- !u!1 &628638752
 GameObject:
   m_ObjectHideFlags: 0
