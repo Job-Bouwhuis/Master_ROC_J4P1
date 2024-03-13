@@ -12,7 +12,8 @@ namespace ShadowUprising.UI
     public class TextBackgroundAnimator : MonoBehaviour
     {
         [Header("Settings")]
-        public float animationSpeed = 1.0f;
+        public float animationSpeed = 300;
+        public float buttonHoverAnimationSpeed = 1000;
         public bool animateOnStart = true;
         public float WaitBeforeAnimationStart = 0;
 
@@ -50,23 +51,42 @@ namespace ShadowUprising.UI
             OnAnimationStart(true);
             StartCoroutine(AnimateInCoroutine());
         }
-
-        private IEnumerator AnimateInCoroutine()
+        public void AnimateOut()
         {
-            yield return new WaitForSecondsRealtime(WaitBeforeAnimationStart);
+            StopAllCoroutines();
+            OnAnimationStart(false);
+            StartCoroutine(AnimateOutCoroutine());
+        }
 
-            while(transform.sizeDelta.x < startWidth)
+        public void IncreaseWidth(float hoverAnimationExtend)
+        {
+            StopAllCoroutines();
+            StartCoroutine(IncreaseWidthCoroutine(hoverAnimationExtend));
+        }
+        public void DecreaseWidth()
+        {
+            StopAllCoroutines();
+            StartCoroutine(DecreaseWidthCoroutine());
+        }
+
+        private IEnumerator IncreaseWidthCoroutine(float hoverAnimationExtend)
+        {
+            //transform.pivot = new Vector2(0, 0.5f);
+            while (transform.sizeDelta.x < startWidth + hoverAnimationExtend)
             {
                 transform.sizeDelta = new Vector2(transform.sizeDelta.x + (Time.unscaledDeltaTime * animationSpeed), transform.sizeDelta.y);
                 yield return null;
             }
         }
 
-        public void AnimateOut()
+        private IEnumerator DecreaseWidthCoroutine()
         {
-            StopAllCoroutines();
-            OnAnimationStart(false);
-            StartCoroutine(AnimateOutCoroutine());
+            while (transform.sizeDelta.x > startWidth)
+            {
+                transform.sizeDelta = new Vector2(transform.sizeDelta.x - (Time.unscaledDeltaTime * animationSpeed), transform.sizeDelta.y);
+                yield return null;
+            }
+            //transform.pivot = new Vector2(0.5f, 0.5f);
         }
 
         private IEnumerator AnimateOutCoroutine()
@@ -79,5 +99,18 @@ namespace ShadowUprising.UI
                 yield return null;
             }
         }
+
+        private IEnumerator AnimateInCoroutine()
+        {
+            yield return new WaitForSecondsRealtime(WaitBeforeAnimationStart);
+
+            while (transform.sizeDelta.x < startWidth)
+            {
+                transform.sizeDelta = new Vector2(transform.sizeDelta.x + (Time.unscaledDeltaTime * animationSpeed), transform.sizeDelta.y);
+                yield return null;
+            }
+        }
+
+
     }
 }
