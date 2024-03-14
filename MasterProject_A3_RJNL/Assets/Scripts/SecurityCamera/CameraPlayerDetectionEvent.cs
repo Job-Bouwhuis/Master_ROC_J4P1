@@ -35,11 +35,15 @@ namespace ShadowUprising.SecurityCamera
 
         void OnPlayerDetected(Vector3 playerPos)
         {
-            timer += Time.deltaTime;
             if (detecting == false)
                 if (DetectionManager.Instance != null)
                     DetectionManager.Instance.AddDetecting(this.gameObject);
             detecting = true;
+            timer += Time.deltaTime;
+
+            // TODO: add when Game Over screen is doen 
+            // if (timer => detectionSpeed)
+            //    GameOverManager.Instance.GameOver();
         }
 
         void OnPlayerNotDetected()
