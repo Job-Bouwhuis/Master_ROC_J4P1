@@ -1,5 +1,6 @@
 //Creator: Ruben
 using WinterRose;
+using ShadowUprising.UI.SpottingIndicator;
 using UnityEngine;
 using ShadowUprising.Detection;
 
@@ -9,17 +10,13 @@ namespace ShadowUprising.SecurityCamera
     {
         float timer;
         bool detecting;
+        [Tooltip("The speed at which the detection process occurs in seconds")]
         [SerializeField] float detectionSpeed;
+        [Tooltip("The amount the timer goes down per second")]
         [SerializeField] float timerDecreaseSpeed;
-        [SerializeField] UI.SpottingIndicator.DetectionIndicator detectionIndicator;
-
 
         void Start()
         {
-            if (DetectionManager.Instance == null)
-            {
-                Windows.MessageBox("Please add DetectionManager to the scene. This is required for the security camera to function", "Caution", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
-            }
             Asign();
         }
 
@@ -28,8 +25,12 @@ namespace ShadowUprising.SecurityCamera
             AI.AIPlayerConeDetector playerConeDetector = GetComponentInChildren<AI.AIPlayerConeDetector>(); 
             playerConeDetector.onPlayerDetected += OnPlayerDetected;
             playerConeDetector.onPlayerNotDetected += OnPlayerNotDetected;
-            if (detectionIndicator != null)
-                detectionSpeed = detectionIndicator.detectionSpeed;
+            if (DetectionManager.Instance == null)
+            {
+                Windows.MessageBox("Please add DetectionManager to the scene. This is required for the security camera to function", "Caution", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+            }
+            else
+                detectionSpeed = DetectionManager.Instance.detectionSpeed;
         }
 
         void OnPlayerDetected(Vector3 playerPos)

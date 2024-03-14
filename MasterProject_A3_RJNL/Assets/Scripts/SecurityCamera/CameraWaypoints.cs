@@ -7,12 +7,15 @@ namespace ShadowUprising.SecurityCamera
 {
     public class CameraWaypoints : MonoBehaviour
     {
+        [Tooltip("A list of transforms that act as waypoints for the camera's rotation. Only the rotation value of these transforms are used")]
         [SerializeField] List<Transform> waypoints;
+        [Tooltip("The speed at which the camera rotates to the next waypoint")]
         [SerializeField] float speed;
+        [Tooltip("The amount of time the camera will stay on a waypoint before going to the next in seconds")]
         [SerializeField] float timeoutDuration;
-        int waypointIndex;
         Transform currentWaypoint;
         Transform nextWaypoint;
+        int waypointIndex;
         float timer = 0.0f;
         bool timeout;
 

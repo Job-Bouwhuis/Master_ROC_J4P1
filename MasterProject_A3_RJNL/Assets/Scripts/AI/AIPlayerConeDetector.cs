@@ -44,7 +44,7 @@ namespace ShadowUprising.AI
             if (DetectPlayer())
                 OnPlayerDetected(playerTransform.position);
             else
-                onPlayerNotDetected();
+                OnPlayerNotDetected();
         }
 
         bool DetectPlayer()
