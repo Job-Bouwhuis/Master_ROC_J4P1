@@ -26,7 +26,7 @@ namespace ShadowUprising.UI.Loading
         /// <returns>A <see cref="YieldInstruction"/> used to be able to wait like it is a coroutine.<br></br>
         /// Return <see cref="Completed"/> to have the system set <see cref="IsComplete"/> to true. 
         /// setting <see cref="IsComplete"/> manually would work the same</returns>
-        YieldInstruction Update();
+        YieldInstruction PrepUpdate();
 
         /// <summary>
         /// Finalize the operation. called once when the preperation is complete, and after the last update is called.

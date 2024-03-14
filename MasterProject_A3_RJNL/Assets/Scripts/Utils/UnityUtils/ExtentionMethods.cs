@@ -1,6 +1,7 @@
 // Creator: Job
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using WinterRose;
 
@@ -36,5 +37,12 @@ namespace ShadowUprising.UnityUtils
 
             return results;
         }
+
+        public static bool IsDead(this GameObject obj) => obj.IsDestroyed();
     }
+}
+
+namespace ShadowUprising.UnityUtils
+{
+    
 }

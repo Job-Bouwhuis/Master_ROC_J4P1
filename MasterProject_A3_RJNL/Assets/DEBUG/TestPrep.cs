@@ -22,7 +22,7 @@ namespace ShadowUprising.DEBUG
         {
         }
 
-        YieldInstruction? IScenePrepOperation.Update()
+        YieldInstruction? IScenePrepOperation.PrepUpdate()
         {
             if (!waited)
             {

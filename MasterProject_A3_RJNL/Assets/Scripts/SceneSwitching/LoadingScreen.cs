@@ -46,6 +46,10 @@ namespace ShadowUprising.UI.Loading
         /// Whether or not the loading screen is currently active.
         /// </summary>
         public bool IsLoading { get; private set; }
+        /// <summary>
+        /// The name of the scene that is currently loaded.
+        /// </summary>
+        public string CurrentScene => SceneManager.GetActiveScene().name;
 
         /// <summary>
         /// Shows the loading screen, but does not load a scene.
@@ -191,10 +195,10 @@ namespace ShadowUprising.UI.Loading
 
             float contribution = 100f / scenePrepOperations.Count();
 
+            foreach(var operation in scenePrepOperations)
+                operation.IsComplete = false;
             foreach (var operation in scenePrepOperations)
-            {
                 operation.StartPrep();
-            }
 
             int opIndex = 0;
             IScenePrepOperation currentOp = scenePrepOperations.FirstOrDefault();
@@ -204,7 +208,7 @@ namespace ShadowUprising.UI.Loading
 
             while (currentOp != null)
             {
-                YieldInstruction? instruction = currentOp.Update();
+                YieldInstruction? instruction = currentOp.PrepUpdate();
 
                 if (instruction is Completed)
                 {
