@@ -1,4 +1,5 @@
 //Creator: Luke
+//Edited: Ruben
 using System;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace ShadowUprising.AI
         /// is called when the player is detected
         /// </summary>
         public Action<Vector3> onPlayerDetected = delegate { };
+        public Action onPlayerNotDetected = delegate { };
         Transform playerTransform;
 
         private void Start()
@@ -41,6 +43,8 @@ namespace ShadowUprising.AI
         {
             if (DetectPlayer())
                 OnPlayerDetected(playerTransform.position);
+            else
+                OnPlayerNotDetected();
         }
 
         bool DetectPlayer()
@@ -59,6 +63,11 @@ namespace ShadowUprising.AI
         void OnPlayerDetected(Vector3 playerPos)
         {
             onPlayerDetected.Invoke(playerPos);
+        }
+
+        void OnPlayerNotDetected()
+        {
+            onPlayerNotDetected.Invoke();
         }
 
     }
