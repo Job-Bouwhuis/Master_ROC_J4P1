@@ -1,6 +1,6 @@
 // Creator: Ruben
 // Edited by:
-using System.Collections;
+using ShadowUprising;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +12,13 @@ namespace ShadowUprising.Player
     public class PlayerStats : MonoBehaviour
     {
         private PlayerMovement playerMovement;
+        [Tooltip("The transform bound to the camera. This is used for adjusting the camera while crouching")]
         [SerializeField] private Transform cameraTransform;
 
         private const string BASE_STATE = "baseState";
         private const string CROUCH_STATE = "crouchState";
         private const string SPRINT_STATE = "sprintState";
+        private const string CARRY_STATE = "carryState";
 
         [Tooltip("The max health the player can have")]
         [SerializeField] public int maxHealth;
@@ -52,10 +54,14 @@ namespace ShadowUprising.Player
         }
 
         private void InitializeMovementStates()
+        {            AddState(BASE_STATE, new MovementState.BaseState());
+            AddState(CROUCH_STATE, new MovementState.CrouchState(playerMovement, this, cameraTransform, crouchSpeedModifier, crouchCameraHeight));
+            AddState(SPRINT_STATE, new MovementState.SprintState(playerMovement, this, sprintSpeedModifier, staminaDrainRate));
+        }
+
+        public void AddState(string name, MovementState.IMovementState movementState)
         {
-            movementStates.Add(BASE_STATE, new MovementState.BaseState());
-            movementStates.Add(CROUCH_STATE, new MovementState.CrouchState(playerMovement, this, cameraTransform, crouchSpeedModifier, crouchCameraHeight));
-            movementStates.Add(SPRINT_STATE, new MovementState.SprintState(playerMovement, this, sprintSpeedModifier, staminaDrainRate));
+            movementStates.Add(name, movementState);
         }
 
         private void Update()

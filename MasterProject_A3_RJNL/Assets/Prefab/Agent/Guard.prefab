@@ -160,7 +160,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.377
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
@@ -170,7 +170,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cc52c7c96810a0a4cbb031fd43c7f27b,
         type: 3}
@@ -432,3 +432,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 2
+  deadGuard: {fileID: 3771439049634383184, guid: 66210eea22b56b24189dc8bf72da3202,
+    type: 3}

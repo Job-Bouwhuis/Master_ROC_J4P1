@@ -8,6 +8,7 @@ namespace ShadowUprising.AI
     public class GuardHealth : MonoBehaviour
     {
         public int health;
+        public GameObject deadGuard;
 
         private void Update()
         {
@@ -17,8 +18,10 @@ namespace ShadowUprising.AI
         void CheckDeath()
         {
             if (health <= 0)
-                // TODO: add death event
-                return;
+            {
+                Instantiate(deadGuard, transform.position, transform.rotation);
+                Destroy(this.gameObject);
+            }
         }
 
         public void AddHealth(int addedHealth)
