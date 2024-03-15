@@ -27,7 +27,7 @@ namespace ShadowUprising.UI.Loading
         /// Can be used to animate out any UI elements that are currently on screen, or to play an animation before the loading screen starts.
         /// </summary>
         [HideInInspector] public MultipleReturnEvent<float> OnStartLoading { get; set; } = new();
-        [HideInInspector] public UnityEvent OnLoadingComplete { get; private set; } = new();
+        [HideInInspector] public ClearableEvent<int> OnLoadingComplete { get; set; } = new();
         [SerializeField] private GameObject loadingScreenParent;
         [SerializeField] private LoadingSpinner spinner;
         [SerializeField] private TMP_Text text;
@@ -69,7 +69,7 @@ namespace ShadowUprising.UI.Loading
             targetPos = hiddenPos;
             spinner.StopSpinning();
 
-            OnLoadingComplete.Invoke();
+            OnLoadingComplete.Invoke(0);
 
             IsLoading = false;
         }
@@ -83,6 +83,10 @@ namespace ShadowUprising.UI.Loading
             StartCoroutine(WaitShowAndLoadScene(sceneName));
         }
 
+        /// <summary>
+        /// Loads the scene without showing the loading screen. still handles the <see cref="IScenePrepOperation"/> stuff.
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void LoadWithoutShow(string sceneName)
         {
             StartCoroutine(WaitForSceneAnimations());
@@ -106,7 +110,10 @@ namespace ShadowUprising.UI.Loading
             if (waitTime > 0)
                 yield return new WaitForSecondsRealtime(waitTime);
 
+            Log.Push("Clearing loadingscreen event subs");
             OnStartLoading.Clear();
+            OnLoadingComplete.Clear();
+            Log.Push($"Done > subs: {OnStartLoading.Subscribers}");
         }
 
         private IEnumerator WaitShowAndLoadScene(string sceneName)

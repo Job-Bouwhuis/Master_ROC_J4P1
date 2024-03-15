@@ -137,7 +137,7 @@ namespace ShadowUprising.UI
                 return;
 
 
-            LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+            LoadingScreen.Instance.OnLoadingComplete += i =>
             {
                 if (!HideOnStart)
                     shouldBeVisible = true;
@@ -148,7 +148,7 @@ namespace ShadowUprising.UI
                     transform.localPosition = hiddenPosition;
                     return delayLoading;
                 };
-            });
+            };
         }
 
         private void Update()

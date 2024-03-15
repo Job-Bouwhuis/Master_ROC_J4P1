@@ -19,7 +19,6 @@ using static ShadowUprising.Inventory.InventoryInteractionResult;
 
 namespace ShadowUprising.Inventory
 {
-    [DontDestroyOnLoad]
     public class InventoryManager : Singleton<InventoryManager>
     {
         public readonly struct InventoryInteractResult
@@ -65,7 +64,7 @@ namespace ShadowUprising.Inventory
         [Tooltip("All the slots in the inventory")]
         public List<Slot> invSlots = new();
 
-        public UnityEvent<InventoryInteractResult> OnInventoryInteract { get; private set; } = new UnityEvent<InventoryInteractResult>();
+        public ClearableEvent<InventoryInteractResult> OnInventoryInteract { get; set; } = new();
 
         /// <summary>
         /// The amount of unique items in the inventory
@@ -222,20 +221,18 @@ namespace ShadowUprising.Inventory
             OnInventoryInteract?.Invoke(result);
             return result;
         }
-        private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
-        {
-            Log.Push("New scene loaded. clearing interaction event subscribers");
-            OnInventoryInteract.RemoveAllListeners();
-            if (scene.name == "MainMenu")
-            {
-                Log.Push("The new scene is the Main Menu. Destroying inventory");
-                Destroy(gameObject);
-                SceneManager.sceneLoaded -= OnNewSceneLoad;
-                return;
-            }
-
-            AssignEvents();
-        }
+        //private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
+        //{
+        //    Log.Push("New scene loaded. clearing interaction event subscribers");
+        //    OnInventoryInteract.Clear();
+        //    if (scene.name == "MainMenu")
+        //    {
+        //        Log.Push("The new scene is the Main Menu. Destroying inventory");
+        //        Destroy(gameObject);
+        //        SceneManager.sceneLoaded -= OnNewSceneLoad;
+        //        return;
+        //    }
+        //}
         /// <summary>
         /// Validates the given item and adds it the the <see cref="allItems"/> list if it is not already in there. and inits the item
         /// </summary>
@@ -291,8 +288,9 @@ namespace ShadowUprising.Inventory
             base.Awake();
 
             if(gameObject.IsDestroyed())
+                return;
 
-            SceneManager.sceneLoaded += OnNewSceneLoad;
+            //SceneManager.sceneLoaded += OnNewSceneLoad;
 
             // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
             // this helps to prevent a big lag spike when any item is interacted with for the first time.
@@ -312,25 +310,29 @@ namespace ShadowUprising.Inventory
 
             invSlots[0].IsSelected = true;
 
+            AssignEvents();
+
             Log.Push("Inventory initialized.");
         }
 
-        private void AssignEvents()
+        /// <summary>
+        /// Only reason this is public is because it is called from the <see cref="DeathSaves.DeathSaveManager"/> class when the game is reloaded.
+        /// </summary>
+        public void AssignEvents()
         {
-            Log.Push("EVENTSSSSSSSSSSSS");
             if (LoadingScreen.Instance != null)
             {
                 Log.Push("Subscribing Inventory to loading screen event.");
-                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+                LoadingScreen.Instance.OnLoadingComplete += i =>
                 {
                     slotParent.gameObject.SetActive(true);
-                });
+                };
 
-                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                LoadingScreen.Instance.OnStartLoading += () =>
                 {
                     slotParent.gameObject.SetActive(false);
                     return 0.0f;
-                });
+                };
             }
             else
             {
@@ -341,27 +343,19 @@ namespace ShadowUprising.Inventory
             if (PauseMenuManager.Instance != null)
             {
                 Log.Push("Subscribing Inventory to pause menu event.");
-                PauseMenuManager.Instance.OnPauseMenuShow += () =>
-                {
-                    //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                    //        return;
-                    slotParent.gameObject.SetActive(false);
-                };
-
-                PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
+                PauseMenuManager.Instance.OnPauseMenuShow += i => slotParent.gameObject.SetActive(false);
+                PauseMenuManager.Instance.OnPauseMenuHide += () =>
                 {
                     if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
                         return 0;
 
                     slotParent.gameObject.SetActive(true);
                     return 0;
-                });
+                };
             }
 
             if (LoadingScreen.Instance != null)
-            {
                 slotParent.gameObject.SetActive(false);
-            }
         }
         private void SetupReferenceChecks()
         {

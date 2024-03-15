@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using WinterRose;
 
 namespace ShadowUprising.UnityUtils
 {
@@ -9,17 +10,15 @@ namespace ShadowUprising.UnityUtils
     /// An event that returns the return value of all subscribers.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MultipleReturnEvent<T>
+    public class ClearableEvent<T>
     {
-        List<Func<T>> events = new();
-
-        public int Subscribers => events.Count;
+        List<Action<T>> events = new();
 
         /// <summary>
         /// Subscribes to the event.
         /// </summary>
         /// <param name="action"></param>
-        public void Subscribe(Func<T> action)
+        public void Subscribe(Action<T> action)
         {
             events.Add(action);
         }
@@ -36,19 +35,9 @@ namespace ShadowUprising.UnityUtils
         /// INvokes the event
         /// </summary>
         /// <returns>All the return values from the subscribers in order of when they subscribed</returns>
-        public List<T> Invoke()
-        {
-            List<T> result = new();
+        public void Invoke(T arg) => events.Foreach(e => e.Invoke(arg));
 
-            foreach (var e in events)
-            {
-                result.Add(e());
-            }
-
-            return result;
-        }
-
-        public static MultipleReturnEvent<T> operator +(MultipleReturnEvent<T> evnt, Func<T> func)
+        public static ClearableEvent<T> operator +(ClearableEvent<T> evnt, Action<T> func)
         {
             evnt.Subscribe(func);
             return evnt;

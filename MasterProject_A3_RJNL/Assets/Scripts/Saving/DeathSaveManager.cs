@@ -2,7 +2,6 @@ using ShadowUprising.Inventory;
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using WinterRose;
@@ -30,15 +29,15 @@ namespace ShadowUprising.DeathSaves
 
             dataSnapshot = DeathSaveData.Empty;
 
-            if(LoadingScreen.Instance != null)
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, mode) =>
             {
-                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+                LoadingScreen.Instance.OnLoadingComplete += i =>
                 {
                     string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
                     if (currentScene == "MainMenu")
                         Destroy(gameObject);
-                });
-            }
+                };
+            };
         }
 
         /// <summary>
@@ -56,15 +55,15 @@ namespace ShadowUprising.DeathSaves
         public void LoadSnapshot()
         {
             IsResetting = false;
-            if(dataSnapshot is null)
+            if (dataSnapshot is null)
             {
                 Debug.Log("No snapshot made. Cant load. ");
                 return;
             }
 
             InventoryManager.Instance.ClearInventory();
-                
-            foreach(var item in dataSnapshot.PlayerInventory)
+
+            foreach (var item in dataSnapshot.PlayerInventory)
             {
                 item.ResetFunction();
                 InventoryManager.Instance.AddItem(item);
