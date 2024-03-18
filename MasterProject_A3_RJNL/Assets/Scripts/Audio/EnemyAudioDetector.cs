@@ -2,30 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAudioDetector : MonoBehaviour
+namespace ShadowUprising.Audio
 {
-    public float hearDistance = 10f;
-
-    void Start()
+    public class EnemyAudioDetector : MonoBehaviour
     {
-        AudioManager.Instance.OnPlayerSoundPlayed += OnPlayerSoundPlayed;
-    }
-
-    private void OnPlayerSoundPlayed(AudioManager.AudioEventArgs obj)
-    {
-        // detemian distane between player and me
-        float distance = Vector3.Distance(obj.Position, transform.position);
-        // if distance is smaller than hearDistnace
-        if(distance < hearDistance)
+        public float hearDistance = 10f;
+        void Start()
         {
-            // go to position that heard form
+            AudioManager.Instance.OnPlayerSoundPlayed += OnPlayerSoundPlayed;
         }
 
-        // go to position that heard form
-    }
+        private void OnPlayerSoundPlayed(AudioManager.AudioEventArgs obj)
+        {
+            // detemian distane between player and me
+            float distance = Vector3.Distance(obj.Position, transform.position);
+            // if distance is smaller than hearDistnace
+            if (distance < hearDistance + (int)obj.Container.audioType)
+            {
+                // go to pos
+            }
+        }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(transform.position, hearDistance);
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(transform.position, hearDistance);
+        }
+#endif
     }
 }

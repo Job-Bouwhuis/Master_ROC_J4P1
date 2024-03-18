@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3779ee1f90ec034c85ed829df12bd88, type: 3}
+  m_Name: WeaponShot
+  m_EditorClassIdentifier: 
+  audioClips:
+  - {fileID: 8300000, guid: f9dec3b94f46c7c45afdc258b708141d, type: 3}
+  audioType: 5
+  minPitch: 1.1
+  maxPitch: 0.933

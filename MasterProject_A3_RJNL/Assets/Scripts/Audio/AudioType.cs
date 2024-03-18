@@ -1,15 +1,46 @@
+//Created by Niels
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AudioType
+namespace ShadowUprising.Audio
 {
-    playerWalk,
-    playerCrouch,
-    playerSprint,
-    playerShoot,
-    playerReload,
-    playerHeal,
-    playerGrabItem,
-    playerWorldInteract,
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum AudioType
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        playerWalk = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerCrouch = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerSprint = 3,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerShoot = 5,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerReload = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerHeal = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerGrabItem = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        playerWorldInteract = 0,
+    }
 }

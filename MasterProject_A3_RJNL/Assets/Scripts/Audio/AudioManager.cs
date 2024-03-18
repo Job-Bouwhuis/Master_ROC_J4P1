@@ -6,41 +6,45 @@ using UnityEngine;
 using System.Linq;
 using System;
 
+namespace ShadowUprising.Audio
+{
+
 #nullable enable
 
-[DontDestroyOnLoad]
-[RequireComponent(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
-{
-    public readonly struct AudioEventArgs
+    [DontDestroyOnLoad]
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioManager : Singleton<AudioManager>
     {
-        public readonly AudioContainer Container { get; }
-        public readonly Vector3 Position { get; }
-
-        public AudioEventArgs(AudioContainer container, Vector3 position)
+        public readonly struct AudioEventArgs
         {
-            Container = container;
-            Position = position;
+            public readonly AudioContainer Container { get; }
+            public readonly Vector3 Position { get; }
+
+            public AudioEventArgs(AudioContainer container, Vector3 position)
+            {
+                Container = container;
+                Position = position;
+            }
         }
-    }
 
-    public List<AudioContainer> audioContainers = new();
-    private AudioSource audioSource;
-    public event Action<AudioEventArgs> OnPlayerSoundPlayed = delegate { };
+        private AudioSource audioSource;
+        public event Action<AudioEventArgs> OnPlayerSoundPlayed = delegate { };
 
-    protected override void Awake()
-    {
-        base.Awake();
-        audioSource = GetComponent<AudioSource>();
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            audioSource = GetComponent<AudioSource>();
+        }
 
-    public void Play(AudioType audioType, Vector3 position) 
-    {
-        AudioContainer? container = audioContainers.Where(x => x.audioType == audioType).FirstOrDefault();
-        if (container == null)
-            return;
-        audioSource.clip = container.audioClip;
-        audioSource.Play();
-        OnPlayerSoundPlayed(new(container, position));
+        public void Play(AudioContainer audio, Vector3 position)
+        {
+            var clip = audio.GetClip();
+            if (audio == null)
+                return;
+            audioSource.clip = clip.clip;
+            audioSource.pitch = clip.pitch;
+            audioSource.Play();
+            OnPlayerSoundPlayed(new(audio, position));
+        }
     }
 }
