@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 75742501}
   - component: {fileID: 75742500}
   m_Layer: 0
-  m_Name: text (1)
+  m_Name: updateChecker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,8 +307,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35f0f54603d9b834cac17a0b9d4891d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetText: Checking for updates...
-  changeText: 1
   completed: 0
 --- !u!1 &160888240
 GameObject:

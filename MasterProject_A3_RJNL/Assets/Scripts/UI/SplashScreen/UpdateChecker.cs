@@ -18,6 +18,7 @@ public class UpdateChecker : Singleton<UpdateChecker>
 
     public bool UpdateRequired { get; private set; } = false;
     [SerializeField] bool completed = false;
+
     // Start is called before the first frame update
     protected override void Awake()
     {
@@ -36,6 +37,8 @@ public class UpdateChecker : Singleton<UpdateChecker>
             string value = redis.GetHashFieldValue("A3Games::GameData", "Version");
             string current = Resources.Load<TextAsset>("Version/GameVersion").text;
 
+            // i know this is very complicated for a simple comparison, but doing it normally strangely doesnt work.
+            // this does work, so lets keep it.
             bool isUpdateRequired = new System.Data.DataTable().Compute(current + " < " + value, null).ToString() is "True";
 
             if(isUpdateRequired)
@@ -51,7 +54,7 @@ public class UpdateChecker : Singleton<UpdateChecker>
     private async Task ConnectToRedis()
     {
         Log.Push("Connecting to Database...");
-        await Task.Run(async () =>
+        await Task.Run(() =>
         {
             redis = new RedisConnection();
             try
@@ -59,7 +62,9 @@ public class UpdateChecker : Singleton<UpdateChecker>
                 redis.MakeConnection("212.132.69.23", 6379);
                 redis.Authenticate("q.$p.I>%");
             }
-            catch { } // ignore any exceptions, if they occur, the process of connecting to the server has fauled, and the game will treat it as no update required.
+            catch { } // ignore any exceptions,
+                      // if they occur, the process of connecting to the server has fauled,
+                      // and the game will treat it as no update required.
             ConnectingProcedureComplete = true;
         });
     }

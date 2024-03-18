@@ -35,13 +35,13 @@ namespace ShadowUprising.AutoUpdates
         // Start is called before the first frame update
         void Start()
         {
-//#if UNITY_EDITOR
-//            Windows.MessageBox("Hey there naughty boy, dont just go change the version file and start the game though the splash screen or even the updator scene while being in the editor.\n" +
-//                "This would cause an update to happen which might corrupt the unity editor install.\n" +
-//                "Luckily for you i have made this check to prevent this from happening. Thank me later.", "You naughty boy", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
-//            UnityEditor.EditorApplication.isPlaying = false;
-//            return;
-//#endif
+            //#if UNITY_EDITOR
+            //            Windows.MessageBox("Hey there naughty boy, dont just go change the version file and start the game though the splash screen or even the updator scene while being in the editor.\n" +
+            //                "This would cause an update to happen which might corrupt the unity editor install.\n" +
+            //                "Luckily for you i have made this check to prevent this from happening. Thank me later.", "You naughty boy", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+            //            UnityEditor.EditorApplication.isPlaying = false;
+            //            return;
+            //#endif
 
             logText.text = "";
             Log.OnLogPushed += Log_OnLogPushed;
@@ -88,80 +88,86 @@ namespace ShadowUprising.AutoUpdates
 
         private void Update()
         {
-            if (downloadTask is null)
-                return;
-            if (hasFaulted)
+            try
             {
-                Log.PushError("Failed to download update.");
-                Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
+                if (downloadTask is null)
+                    return;
+                if (hasFaulted)
+                {
+                    Log.PushError("Failed to download update.");
+                    Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
 
-                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
-                return;
-            }
-            if (!isDownloadComplete)
-                return;
+                    LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                    return;
+                }
+                if (!isDownloadComplete)
+                    return;
 
-            if (isDownloadComplete)
-                Log.Push("Downloaded update.");
-            else
-                return;
+                if (isDownloadComplete)
+                    Log.Push("Downloaded update.");
+                else
+                    return;
 
-            downloadTask.Join();
+                downloadTask.Join();
 
-            progressText.text = "Preparing to install...";
+                progressText.text = "Preparing to install...";
 
-            var dir = new DirectoryInfo(Path.GetTempPath() + "A3Games");
-            if (!dir.Exists)
-                dir.Create();
-            FileInfo fileInfo = new FileInfo(Path.GetTempPath() + "A3Games\\GameFiles.apkg");
-            if (fileInfo.Exists)
-                fileInfo.Delete();
+                var dir = new DirectoryInfo(Path.GetTempPath() + "A3Games");
+                if (!dir.Exists)
+                    dir.Create();
+                FileInfo packageFile = new FileInfo(Path.GetTempPath() + "A3Games\\GameFiles.apkg");
+                if (packageFile.Exists)
+                    packageFile.Delete();
 
-            FileManager.Write(fileInfo.FullName, downloadedPackage);
+                FileManager.Write(packageFile.FullName, downloadedPackage);
 
-            // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
+                // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
 
-            FileInfo installerPath = new(Path.GetTempPath() + "A3Games\\Installer.exe");
-            string internalInstallerPath = Application.streamingAssetsPath + @"\AppInstaller\A3GamesInstaller.exe";
-            if (!File.Exists(internalInstallerPath))
-            {
-                Log.PushError("Internal installer not found.");
-                Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
+                DirectoryInfo installerDir = new(Path.GetTempPath() + "A3Games");
+                DirectoryInfo installerPath = new(Path.GetTempPath() + "A3Games\\WinterRosePackageInstaller.exe");
+                FileInfo internalInstallerPath = new(Application.streamingAssetsPath + @"\AppInstaller\A3GamesInstaller.exe");
+                DirectoryInfo internalInstallerDir = new(Path.GetDirectoryName(internalInstallerPath.FullName));
 
-                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
-                return;
-            }
+                if (!File.Exists(internalInstallerPath.FullName))
+                {
+                    Log.PushError("Internal installer not found.");
+                    Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
 
-            if (File.Exists(installerPath.FullName))
-                File.Delete(installerPath.FullName);
+                    LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                    return;
+                }
 
-            File.Copy(internalInstallerPath, installerPath.FullName, true);
+                if (installerDir.Exists)
+                    installerDir.Delete(true);
+                installerDir.Create();
 
+                CopyFiles(internalInstallerDir, installerDir);
 
-            // construct arguments for the installer
+                // construct arguments for the installer
 
-            /*
-             installer arguments:
-              - exePath: path to the exe of the game.
-              - packagePath: path to the package the game downloaded.
-              - gameRoot: path to the game's root directory.
-             */
+                /*
+                 installer arguments:
+                  - exePath: path to the exe of the game.
+                  - packagePath: path to the package the game downloaded.
+                  - gameRoot: path to the game's root directory.
+                 */
 
-            FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
-            Windows.MessageBox(exeFile.FullName);
-            string packagePath = fileInfo.FullName;
-            DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
+                // get path to our executable
+                string myExecutablePath = Process.GetCurrentProcess().MainModule!.FileName;
+                string rootDir = Path.GetDirectoryName(myExecutablePath)!;
+                myExecutablePath = Path.Combine(rootDir, "MasterProject_A3_RJNL.exe");
 
-            //string installerFolder = FileManager.PathOneUp(installerPath.FullName);
+                string updaterArgs =
+                        $"onlyInstall " +
+                        $"packagePath=\"{packageFile.FullName}\" " +
+                        $"executablePath=\"{myExecutablePath}\" " +
+                        $"appRootDirectory=\"{rootDir}\" " +
+                        $"databaseKey=\"A3Games\"";
 
-            //// due to my lack of coding skills before submitting the WinterRose library, i have to correct a mistake i made in this function.
-            //// path example: C:\Users\Job\Documents\A3Games\Installer.exe
-            //// the function would return C:Users\Job\Documents\A3Games
-            //// while the expected result is C:\Users\Job\Documents\A3Games
-            //// so i have to insert a backslash at the 2nd index of the string.
-            //// im too lazy to reimport the library and fix the function so i will just do this.
-            //installerFolder = installerFolder.Insert(2, "\\");
-            //FileInfo argumentsFile = new(installerFolder + "\\installerargs.iargs"); // name of the file is required to be this. the installer will look for this file in the same directory as the installer.
+                FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
+                Windows.MessageBox(exeFile.FullName);
+                string packagePath = packageFile.FullName;
+                DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
 
 #if !UNITY_EDITOR
 
@@ -177,9 +183,20 @@ namespace ShadowUprising.AutoUpdates
 #endif
 
 #if UNITY_EDITOR
-            Log.Push("In Editor, playmode is disabled after downloading the app package due to otherwise having closed the editor and possibly corrupting its install, or the project files.");
-            UnityEditor.EditorApplication.isPlaying = false;
+                Log.Push("In Editor, playmode is disabled after downloading the app package due to otherwise " +
+                    "having closed the editor and possibly corrupting its install, or the project files.\n\n");
+
+                Log.Push($"using arguments: {updaterArgs}");
+                UnityEditor.EditorApplication.isPlaying = false;
 #endif
+            }
+            catch (Exception e)
+            {
+                Log.PushError(e.Message);
+                Log.PushError(e.StackTrace);
+
+                Windows.MessageBox($"Message: {e.Message}\n\n{e.StackTrace}");
+            }
         }
 
         private void OnApplicationQuit()
@@ -188,6 +205,19 @@ namespace ShadowUprising.AutoUpdates
             downloadTask?.Abort();
         }
 
+        private void CopyFiles(DirectoryInfo source, DirectoryInfo target)
+        {
+            foreach (FileInfo file in source.GetFiles())
+            {
+                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
+            }
+
+            foreach (DirectoryInfo sourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo targetSubDir = target.CreateSubdirectory(sourceSubDir.Name);
+                CopyFiles(sourceSubDir, targetSubDir);
+            }
+        }
 
         async void DownloadUpdate()
         {
