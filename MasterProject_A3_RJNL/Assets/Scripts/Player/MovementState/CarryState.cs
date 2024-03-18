@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using ShadowUprising.Inventory;
 
 namespace ShadowUprising.Player.MovementState
 {
@@ -24,12 +25,15 @@ namespace ShadowUprising.Player.MovementState
             StateType = GetType();
             this.playerMovement = playerMovement;
             this.playerStats = playerStats;
+            this.guardHolder = guardHolder;
             this.carrySpeed = carrySpeed;
         }
 
         public void EnterState()
         {
             playerMovement.UpdateMovementSpeedModifier(carrySpeed);
+            if (InventoryManager.Instance != null)
+                InventoryManager.Instance.LockInventory(true);
         }
 
         public void UpdateState()
@@ -39,7 +43,7 @@ namespace ShadowUprising.Player.MovementState
 
         void CheckForInput()
         {
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.X))
             {
                 playerStats.ChangeState(BASE_STATE_STRING);
             }
@@ -47,7 +51,10 @@ namespace ShadowUprising.Player.MovementState
 
         public void ExitState()
         {
+            guardHolder.DropGuard();
             playerMovement.ResetMovementSpeedModifier();
+            if (InventoryManager.Instance != null)
+                InventoryManager.Instance.LockInventory(false);
         }
     }
 }

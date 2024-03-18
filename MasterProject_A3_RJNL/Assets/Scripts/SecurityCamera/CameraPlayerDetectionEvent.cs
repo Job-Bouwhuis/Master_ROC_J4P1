@@ -23,8 +23,8 @@ namespace ShadowUprising.SecurityCamera
         void Asign()
         {
             AI.AIPlayerConeDetector playerConeDetector = GetComponentInChildren<AI.AIPlayerConeDetector>(); 
-            playerConeDetector.onPlayerDetected += OnPlayerDetected;
-            playerConeDetector.onPlayerNotDetected += OnPlayerNotDetected;
+            playerConeDetector.onObjectDetected += OnObjectDetected;
+            playerConeDetector.onNothingDetected += OnNothingDetected;
             if (DetectionManager.Instance == null)
             {
                 Windows.MessageBox("Please add DetectionManager to the scene. This is required for the security camera to function", "Caution", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
@@ -33,7 +33,7 @@ namespace ShadowUprising.SecurityCamera
                 detectionSpeed = DetectionManager.Instance.detectionSpeed;
         }
 
-        void OnPlayerDetected(Vector3 playerPos)
+        void OnObjectDetected(GameObject gameObject)
         {
             if (detecting == false)
                 if (DetectionManager.Instance != null)
@@ -46,7 +46,7 @@ namespace ShadowUprising.SecurityCamera
             //    GameOverManager.Instance.GameOver();
         }
 
-        void OnPlayerNotDetected()
+        void OnNothingDetected()
         {
             if (timer > 0)
                 timer -= timerDecreaseSpeed * Time.deltaTime;

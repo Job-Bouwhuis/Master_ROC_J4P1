@@ -386,6 +386,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.157
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214296481502503722, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.159
+      objectReference: {fileID: 0}
     - target: {fileID: 3809698042447345592, guid: aba31a4777620c343ad85c11ebe787eb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -443,6 +473,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6055867116384534780, guid: aba31a4777620c343ad85c11ebe787eb,
         type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000,
+        type: 0}
+    - target: {fileID: 6055867116384534780, guid: aba31a4777620c343ad85c11ebe787eb,
+        type: 3}
       propertyPath: m_Name
       value: Guard Holder
       objectReference: {fileID: 0}
@@ -459,6 +495,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4581590752066497794, guid: aba31a4777620c343ad85c11ebe787eb, type: 3}
+    - {fileID: 8969390901701278986, guid: aba31a4777620c343ad85c11ebe787eb, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6055867116384534780, guid: aba31a4777620c343ad85c11ebe787eb,
@@ -732,7 +769,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -1168,6 +1205,7 @@ MonoBehaviour:
     type: 3}
   deadGuardViemodelPrefab: {fileID: 3384975352440874487, guid: a9b8cf9b21d4db54ba282f0d4f7c07e6,
     type: 3}
+  carrySpeedModifier: -100
 --- !u!1001 &1976424130
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -18,7 +18,6 @@ namespace ShadowUprising.Player
         private const string BASE_STATE = "baseState";
         private const string CROUCH_STATE = "crouchState";
         private const string SPRINT_STATE = "sprintState";
-        private const string CARRY_STATE = "carryState";
 
         [Tooltip("The max health the player can have")]
         [SerializeField] public int maxHealth;
@@ -59,6 +58,11 @@ namespace ShadowUprising.Player
             AddState(SPRINT_STATE, new MovementState.SprintState(playerMovement, this, sprintSpeedModifier, staminaDrainRate));
         }
 
+        /// <summary>
+        /// Add a state to the list of MovementState objects
+        /// </summary>
+        /// <param name="name">Name of the state</param>
+        /// <param name="movementState">MovementState object</param>
         public void AddState(string name, MovementState.IMovementState movementState)
         {
             movementStates.Add(name, movementState);
