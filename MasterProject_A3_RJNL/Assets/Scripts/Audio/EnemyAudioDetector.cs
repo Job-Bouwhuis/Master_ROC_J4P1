@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ShadowUprising.Audio
 {
     /// <summary>
-    /// Enemy audio detector for detecting player sounds
+    /// Enemy audio detector is responsible to be the ears of the enemy
     /// </summary>
     public class EnemyAudioDetector : MonoBehaviour
     {
