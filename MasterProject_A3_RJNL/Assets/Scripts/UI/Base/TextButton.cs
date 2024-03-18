@@ -1,6 +1,7 @@
-// Creator: Job
+﻿// Creator: Job
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace ShadowUprising.UI
     /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI)), ExecuteAlways]
     public class TextButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-    {
+    { 
         [Header("Text"), Tooltip("The text  that appears as the button")]
         public string text;
 
@@ -186,7 +187,7 @@ namespace ShadowUprising.UI
                 textComponent = GetComponent<TMP_Text>();
 #endif
 
-            textComponent.text = text;
+                textComponent.text = text;
 
 #if UNITY_EDITOR
             // if not in playmode, return
@@ -304,7 +305,8 @@ namespace ShadowUprising.UI
                     targetColor = normalColor;
             }
 
-            textComponent.color = LerpColor(textComponent.color, targetColor, colorFadeSpeed * time);
+            Color c = LerpColor(textComponent.color, targetColor, colorFadeSpeed * time);
+            textComponent.color = c;
         }
         private Color LerpColor(Color current, Color targetColor, float speed)
         {

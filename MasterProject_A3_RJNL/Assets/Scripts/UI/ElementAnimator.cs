@@ -88,6 +88,13 @@ namespace ShadowUprising.UI
             OnScreenIndefinitely = false;
         }
 
+        public void HideImmediately()
+        {
+            OnScreenIndefinitely = false;
+            shouldBeVisible = false;
+            timeOnScreen = TimeOnScreenBeforeHide;
+        }
+
 
         /// <summary>
         /// Animates the element into the visible position
@@ -138,6 +145,7 @@ namespace ShadowUprising.UI
                 LoadingScreen.Instance.OnStartLoading += () =>
                 {
                     shouldBeVisible = false;
+                    transform.localPosition = hiddenPosition;
                     return delayLoading;
                 };
             });

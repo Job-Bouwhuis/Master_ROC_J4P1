@@ -1,10 +1,15 @@
+//Creator: Job
 using ShadowUprising.Inventory;
 using UnityEngine;
 
 namespace ShadowUprising.UI.InGame
 {
+    /// <summary>
+    /// This class is responsible for displaying the ammo of the weapon of the player
+    /// </summary>
     public class AmmoDisplayer : MonoBehaviour
     {
+        [Tooltip("The ammo element in the UI")]
         public ElementAnimator AmmoElement;
 
         private void Start()
@@ -30,7 +35,9 @@ namespace ShadowUprising.UI.InGame
                     AmmoElement.ShowIndefinite();
                 }
                 else
+                {
                     AmmoElement.HideFromIndefinite();
+                }
             }
         }
     }

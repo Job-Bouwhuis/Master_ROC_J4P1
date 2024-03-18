@@ -28,8 +28,9 @@ public class AudioManager : Singleton<AudioManager>
     private AudioSource audioSource;
     public event Action<AudioEventArgs> OnPlayerSoundPlayed = delegate { };
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         audioSource = GetComponent<AudioSource>();
     }
 

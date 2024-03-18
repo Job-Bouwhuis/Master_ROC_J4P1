@@ -1,4 +1,5 @@
 // Creator: Job
+using System.Collections;
 using UnityEngine;
 
 namespace ShadowUprising.UI.MainMenu
@@ -61,13 +62,25 @@ namespace ShadowUprising.UI.MainMenu
             settingsMenu.transform.position = hiddenPosition;
             creditsMenu.transform.position = hiddenPosition;
 
+            mainMenu.SetActive(true);
+            settingsMenu.SetActive(false);
+            creditsMenu.SetActive(false);
+
             state = MenuState.Main;
+            StartCoroutine(SetMenusActiveAgain());
         }
 
         // Update is called once per frame
         void Update()
         {
             UpdateMenus();
+        }
+
+        private IEnumerator SetMenusActiveAgain()
+        {
+            yield return new WaitForSecondsRealtime(1);
+            settingsMenu.SetActive(true);
+            creditsMenu.SetActive(true);
         }
 
         private void UpdateMenus()

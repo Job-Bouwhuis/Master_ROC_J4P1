@@ -100,10 +100,12 @@ namespace ShadowUprising.UI.MainMenu
             optionsButton.enabled = false;
             creditsButton.enabled = false;
             quitButton.enabled = false;
+
+            
         }
         private void Start()
         {
-            if (Time.realtimeSinceStartup > 10)
+            if (Time.realtimeSinceStartup > 20)
                 waitTime = 2f;
             StartCoroutine(AnimateText());
         }

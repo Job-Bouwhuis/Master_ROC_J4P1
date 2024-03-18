@@ -46,5 +46,15 @@ namespace ShadowUprising.Player
                 return true;
             return false;
         }
+
+        public void UpdateMovementSpeedModifier(int modifier)
+        {
+            movementSpeedModifier = modifier;
+        }
+
+        public void ResetMovementSpeedModifier()
+        {
+            movementSpeedModifier = 0;
+        }
     }
 }
