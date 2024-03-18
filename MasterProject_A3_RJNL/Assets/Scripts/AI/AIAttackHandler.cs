@@ -72,10 +72,12 @@ namespace ShadowUprising.AI
 
         void OnPlayerDetected(Vector3 playerPos)
         {
-            SetGuardState();
-            lastPlayerLoc = playerPos;
-            aiSystem.SetCurrentWayPoint(playerPos);
-            timer.ZeroTimer();
+            if (state.CurrentState == AIState.Attacking)
+            {
+                lastPlayerLoc = playerPos;
+                aiSystem.SetCurrentWayPoint(playerPos);
+                timer.ZeroTimer();
+            }
         }
 
     }
