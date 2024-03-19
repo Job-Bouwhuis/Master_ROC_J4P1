@@ -64,6 +64,7 @@ namespace ShadowUprising.UI.PauseMenu
         public void Unpause()
         {
             IsPaused = false;
+            StopAllCoroutines();
             StartCoroutine(StartHidingProcess());
         }
 

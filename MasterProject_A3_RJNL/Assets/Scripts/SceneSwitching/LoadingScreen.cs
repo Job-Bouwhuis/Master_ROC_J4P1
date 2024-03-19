@@ -32,8 +32,8 @@ namespace ShadowUprising.UI.Loading
         [SerializeField] private LoadingSpinner spinner;
         [SerializeField] private TMP_Text text;
         [SerializeField] private TMP_Text tipText;
-        [SerializeField] private LoadingBar sceneLoadBar;
-        [SerializeField] private LoadingBar scenePrepBar;
+        [SerializeField] private ProgressBar sceneLoadBar;
+        [SerializeField] private ProgressBar scenePrepBar;
         [SerializeField] private Vector3 hiddenPos;
         [SerializeField] private Vector3 shownPos;
         [SerializeField] private Vector3 targetPos;
