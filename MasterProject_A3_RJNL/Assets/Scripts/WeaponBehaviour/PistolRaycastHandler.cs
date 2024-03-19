@@ -37,7 +37,6 @@ namespace ShadowUprising.WeaponBehaviour
         {
             if (Physics.Raycast(camTransform.position, camTransform.forward, out RaycastHit hitinfo, hitDistance))
             {
-                Debug.Log(hitinfo.transform.gameObject.name);
                 onRaycastHit.Invoke(hitinfo);
             }
         }
