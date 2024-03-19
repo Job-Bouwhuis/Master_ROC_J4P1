@@ -17,6 +17,7 @@ namespace ShadowUprising.AI
         {
             obj.GetComponent<NavMeshAgent>().enabled = false;
             obj.transform.position = transform.position;
+            obj.transform.rotation = transform.rotation;
             obj.GetComponent<Animator>().SetTrigger("PushingButton");
         }
 

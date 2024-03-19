@@ -33,7 +33,8 @@ namespace ShadowUprising.AI
         // Update is called once per frame
         void Update()
         {
-            navMesh.SetDestination(currentGoToPos);
+            if (navMesh.enabled)
+                navMesh.SetDestination(currentGoToPos);
         }
 
         void Asign()
