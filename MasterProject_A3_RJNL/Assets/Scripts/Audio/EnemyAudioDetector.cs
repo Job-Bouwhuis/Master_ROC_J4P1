@@ -1,3 +1,4 @@
+// Created by Niels
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace ShadowUprising.Audio
         /// hearing distance of the enemy
         /// </summary>
         public float hearDistance = 10f;
+        private int threshold = 2;
+        
         void Start()
         {
             AudioManager.Instance.OnPlayerSoundPlayed += OnPlayerSoundPlayed;
@@ -21,7 +24,7 @@ namespace ShadowUprising.Audio
         private void OnPlayerSoundPlayed(AudioManager.AudioEventArgs obj)
         {
             float distance = Vector3.Distance(obj.Position, transform.position);
-            if (distance < hearDistance + (int)obj.Container.audioType)
+            if (distance < hearDistance && (int)obj.Container.audioType >= threshold)
             {
                 // go to pos
             }
