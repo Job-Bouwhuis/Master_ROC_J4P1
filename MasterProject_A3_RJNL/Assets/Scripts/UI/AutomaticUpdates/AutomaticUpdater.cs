@@ -37,13 +37,11 @@ namespace ShadowUprising.AutoUpdates
         // Start is called before the first frame update
         void Start()
         {
-            //#if UNITY_EDITOR
-            //            Windows.MessageBox("Hey there naughty boy, dont just go change the version file and start the game though the splash screen or even the updator scene while being in the editor.\n" +
-            //                "This would cause an update to happen which might corrupt the unity editor install.\n" +
-            //                "Luckily for you i have made this check to prevent this from happening. Thank me later.", "You naughty boy", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
-            //            UnityEditor.EditorApplication.isPlaying = false;
-            //            return;
-            //#endif
+#if UNITY_EDITOR
+            Log.PushWarning("Updates can not be happening in unity editor. that can corrupt the unity editor install.");
+            LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+            return;
+#endif
 
             // Create a new Process object.
 

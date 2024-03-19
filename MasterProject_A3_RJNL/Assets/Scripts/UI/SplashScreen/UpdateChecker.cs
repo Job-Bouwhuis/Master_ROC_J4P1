@@ -11,7 +11,6 @@ using ShadowUprising;
 public class UpdateChecker : Singleton<UpdateChecker>
 {
     private RedisConnection redis;
-    private TMP_Text text;
 
     public bool ConnectingProcedureComplete { get; private set; } = false;
     public bool IsConnected => redis.IsConnected;
@@ -24,7 +23,6 @@ public class UpdateChecker : Singleton<UpdateChecker>
     {
         base.Awake();
         _ = ConnectToRedis();
-        text = GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
@@ -33,7 +31,6 @@ public class UpdateChecker : Singleton<UpdateChecker>
         if(ConnectingProcedureComplete && !completed)
         {
             completed = true;
-            text.text = "Checking for updates....";
             string value = redis.GetHashFieldValue("A3Games::GameData", "Version");
             string current = Resources.Load<TextAsset>("Version/GameVersion").text;
 
@@ -43,8 +40,6 @@ public class UpdateChecker : Singleton<UpdateChecker>
 
             if(isUpdateRequired)
                 UpdateRequired = true;
-
-            text.text = "";
 
             redis.Dispose();
             Log.Push("Terminated connection to database.");
