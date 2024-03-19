@@ -7,7 +7,7 @@ namespace ShadowUprising.ScenePreps
 {
     public class MouseStateOnScenePrep : MonoBehaviour, IScenePrepOperation
     {
-        public CursorLockMode mode = CursorLockMode.None;
+        public CursorLockMode lockMode = CursorLockMode.None;
         public bool showCursor = false;
 
         public bool IsComplete { get; set; }
@@ -16,10 +16,10 @@ namespace ShadowUprising.ScenePreps
 
         public void StartPrep()
         {
-            Cursor.lockState = mode;
+            Cursor.lockState = lockMode;
             Cursor.visible = showCursor;
 
-            Log.Push("Mouse state switched to: " + mode.ToString());
+            Log.Push("Mouse state switched to: " + lockMode.ToString());
         }
 
         public YieldInstruction Update()

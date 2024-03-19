@@ -1,4 +1,5 @@
 // Creator: Job
+using ShadowUprising.GameOver;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
 using System;
@@ -45,6 +46,9 @@ namespace ShadowUprising.UI.PauseMenu
         /// </summary>
         public void Pause()
         {
+            if(GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
+
             OnPauseMenuShow();
 
             leftCover.ShowIndefinite();
@@ -63,7 +67,11 @@ namespace ShadowUprising.UI.PauseMenu
         /// </summary>
         public void Unpause()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
+
             IsPaused = false;
+            StopAllCoroutines();
             StartCoroutine(StartHidingProcess());
         }
 

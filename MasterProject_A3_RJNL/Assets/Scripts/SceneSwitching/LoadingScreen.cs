@@ -32,8 +32,8 @@ namespace ShadowUprising.UI.Loading
         [SerializeField] private LoadingSpinner spinner;
         [SerializeField] private TMP_Text text;
         [SerializeField] private TMP_Text tipText;
-        [SerializeField] private LoadingBar sceneLoadBar;
-        [SerializeField] private LoadingBar scenePrepBar;
+        [SerializeField] private ProgressBar sceneLoadBar;
+        [SerializeField] private ProgressBar scenePrepBar;
         [SerializeField] private Vector3 hiddenPos;
         [SerializeField] private Vector3 shownPos;
         [SerializeField] private Vector3 targetPos;
@@ -100,7 +100,7 @@ namespace ShadowUprising.UI.Loading
             Log.Push("Waiting for " + waitTime + " seconds before starting loading process...");
 
             if (waitTime > 0)
-                yield return new WaitForSeconds(waitTime);
+                yield return new WaitForSecondsRealtime(waitTime);
 
             OnStartLoading.Clear();
         }
@@ -132,7 +132,7 @@ namespace ShadowUprising.UI.Loading
             {
                 Log.Push("loading...");
                 sceneLoadBar.progress = sceneLoadOperation.progress * 100;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSecondsRealtime(1f);
             }
             Log.Push("Done");
             sceneLoadBar.progress = 1;
@@ -154,12 +154,12 @@ namespace ShadowUprising.UI.Loading
                         break;
 
                     tipText.text += c;
-                    yield return new WaitForSeconds(.02f);
+                    yield return new WaitForSecondsRealtime(.02f);
                 }
 
                 if (scenePrepComplete)
                     break;
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSecondsRealtime(2f);
             }
             Log.Push("Stopping Tips");
         }
@@ -173,7 +173,7 @@ namespace ShadowUprising.UI.Loading
                 sceneLoadOperation = null;
             }
 
-            yield return new WaitForSeconds(.5f);
+            yield return new WaitForSecondsRealtime(.5f);
 
             // find all objects that implement IScenePrepOperation
             var behaviors = FindObjectsOfType<MonoBehaviour>();
@@ -183,7 +183,7 @@ namespace ShadowUprising.UI.Loading
             {
                 scenePrepComplete = true;
                 scenePrepBar.progress = 1;
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSecondsRealtime(1f);
                 Log.Push("Done");
                 Hide();
                 yield break;
@@ -215,7 +215,7 @@ namespace ShadowUprising.UI.Loading
                 if (instruction != null)
                     yield return instruction;
 
-                yield return new WaitForSeconds(.05f);
+                yield return new WaitForSecondsRealtime(.05f);
 
                 if (currentOp.IsComplete)
                 {
@@ -234,7 +234,7 @@ namespace ShadowUprising.UI.Loading
             scenePrepBar.progress = 1;
             scenePrepComplete = true;
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSecondsRealtime(1f);
             Log.Push("Done");
             Hide();
         }
@@ -256,7 +256,7 @@ namespace ShadowUprising.UI.Loading
         }
         private void Update()
         {
-            loadingScreenParent.transform.position = Vector3.Lerp(loadingScreenParent.transform.position, targetPos, Time.deltaTime * coverupSpeed);
+            loadingScreenParent.transform.position = Vector3.Lerp(loadingScreenParent.transform.position, targetPos, Time.unscaledDeltaTime * coverupSpeed);
 
             if (sceneLoadOperation != null)
             {
