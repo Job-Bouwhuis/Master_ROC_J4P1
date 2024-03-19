@@ -1,4 +1,5 @@
 // Creator: job
+// Edited: Ruben
 
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
@@ -8,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -47,6 +49,7 @@ namespace ShadowUprising.Inventory
         public Transform slotParent;
         [Tooltip("The speed at which the slots will animate in and out when this is needed")]
         public float slotAnimationSpeed = 1.2f;
+        public Action<bool> lockInventory;
 
         /// <summary>
         /// All items that can be found in the game<br></br><br></br>
@@ -78,6 +81,7 @@ namespace ShadowUprising.Inventory
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
 
+        public bool IsLocked;
 
         protected override void Awake()
         {
@@ -183,6 +187,7 @@ namespace ShadowUprising.Inventory
         private void Update()
         {
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+            if (IsLocked) return;
 
             OemKeybinds();
             InteractKeybind();
@@ -479,6 +484,13 @@ namespace ShadowUprising.Inventory
 
             return item.Copy();
 
+        }
+
+        public void LockInventory(bool value)
+        {
+            IsLocked = value;
+            slotParent.gameObject.SetActive(!value);
+            lockInventory.Invoke(value);
         }
     }
 }

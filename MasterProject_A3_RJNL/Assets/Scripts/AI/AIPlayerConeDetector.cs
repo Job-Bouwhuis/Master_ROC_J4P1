@@ -1,7 +1,9 @@
 //Creator: Luke
 //Edited: Ruben
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using ShadowUprising.Detection;
 
 namespace ShadowUprising.AI
 {
@@ -22,11 +24,14 @@ namespace ShadowUprising.AI
         public int coneAngle;
 
         /// <summary>
-        /// is called when the player is detected
+        /// Is called when an object is detected and returns the Object that has been detected
         /// </summary>
-        public Action<Vector3> onPlayerDetected = delegate { };
-        public Action onPlayerNotDetected = delegate { };
-        Transform playerTransform;
+        public Action<GameObject> onObjectDetected = delegate { };
+        /// <summary>
+        /// Is called when the enemy goes through its detection cycle and finds nothing
+        /// </summary>
+        public Action onNothingDetected = delegate { };
+        DetectableObjects detectableObjects;
 
         private void Start()
         {
@@ -35,40 +40,51 @@ namespace ShadowUprising.AI
 
         void Asign()
         {
-            playerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+            detectableObjects = FindAnyObjectByType<DetectableObjects>();
+            if (detectableObjects == null) 
+                Log.PushWarning("No DetectableObjects component in scene. Without this enemies will not detect players and other detectableObjects. This component should be in the Object 'DetectionManager'. This object should have a prefab");
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (DetectPlayer())
-                OnPlayerDetected(playerTransform.position);
+            UpdateDetection();
+        }
+
+        void UpdateDetection()
+        {
+            if (detectableObjects == null)
+                return;
+            GameObject detectedObject = Detect(detectableObjects.targets);
+            if (detectedObject != null)
+                OnObjectDetected(detectedObject);
             else
-                OnPlayerNotDetected();
+                OnNothingDetected();
         }
 
-        bool DetectPlayer()
+        GameObject Detect(List<GameObject> targets)
         {
-            var heading = (playerTransform.position - transform.position).normalized;
-            if (Vector3.Angle(heading, transform.forward) < coneAngle)
+            foreach (GameObject target in targets)
             {
-                Physics.Raycast(new Ray(transform.position, heading), out RaycastHit hitinfo, range);
-                if (hitinfo.transform != null)
-                    if (hitinfo.transform.tag == "Player")
-                        return true;
+                var heading = (target.transform.position - transform.position).normalized;
+                if (Vector3.Angle(heading, transform.forward) < coneAngle)
+                {
+                    Physics.Raycast(new Ray(transform.position, heading), out RaycastHit hitinfo, range);
+                    if (hitinfo.transform.gameObject == target)
+                        return hitinfo.transform.gameObject;
+                }
             }
-            return false;
+            return null;
         }
 
-        void OnPlayerDetected(Vector3 playerPos)
+        void OnObjectDetected(GameObject detectedObject)
         {
-            onPlayerDetected.Invoke(playerPos);
+            onObjectDetected.Invoke(detectedObject);
         }
 
-        void OnPlayerNotDetected()
+        void OnNothingDetected()
         {
-            onPlayerNotDetected.Invoke();
+            onNothingDetected.Invoke();
         }
-
     }
 }
