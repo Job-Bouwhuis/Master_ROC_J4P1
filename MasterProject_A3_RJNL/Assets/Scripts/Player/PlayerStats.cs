@@ -7,7 +7,7 @@ using UnityEngine;
 namespace ShadowUprising.Player
 {
     /// <summary>
-    /// 
+    /// Component that holds all the stats of the player and manages the MovementStates.
     /// </summary>
     public class PlayerStats : MonoBehaviour
     {

@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace ShadowUprising.WeaponBehaviour
 {
+    /// <summary>
+    /// This component manages the interaction between the gun and the objects it hits.
+    /// This component REQUIRES a PistolRaycastHandler in the same object to function correctly.
+    /// </summary>
+    [RequireComponent(typeof(PistolRaycastHandler))]
     public class PistolHitRegistration : MonoBehaviour
     {
         void Start()

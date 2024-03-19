@@ -8,12 +8,19 @@ using UnityEngine;
 
 namespace ShadowUprising.AI.Bodies
 {
+    /// <summary>
+    /// This class is to be applied to the dead bodies of guard. This script manages the player interaction with bodies, letting the player pick up the bodies.
+    /// </summary>
     public class GuardDeadBodies : MonoBehaviour, IWorldInteractable
     {
+        [Tooltip("Parent of all components in the Guard Ragdoll. Used to destroy entire prefab when needed")]
         public GameObject guardBody;
         DetectableObjects detectableObjects;
         GuardHolder guardHolder;
 
+        /// <summary>
+        /// The priority of the object for the player interaction
+        /// </summary>
         public int Priority => 0;
 
         private void Start()
@@ -35,12 +42,13 @@ namespace ShadowUprising.AI.Bodies
             detectableObjects.AddDetectableObject(this.gameObject);
         }
 
+        /// <summary>
+        /// Function that gets callled by the WorldInteractor system when the player looks at the body and presses the F key
+        /// This function calls the Guard Holder within the player letting that component manage the player behavior relating to picking up a body
+        /// </summary>
+        /// <param name="interactor">The WorldInteractor component that called this function</param>
         public void Interact(WorldInteractor interactor)
         {
-            // TODO: ADD InventoryManager.Instance.lock();
-            //if (InventoryManager.Instance != null)
-            //    InventoryManager.Instance.;
-
             if (guardHolder == null)
             {
                 Log.PushError("Player cannot pickup dead guard because GuardHolder cannot be found in scene. this object should be contained within the player");
@@ -49,6 +57,9 @@ namespace ShadowUprising.AI.Bodies
             guardHolder.GrabGuard(this);
         }
 
+        /// <summary>
+        /// Function called that destroys the current guard and removes it from the list of detectableObjects
+        /// </summary>
         public void DestroyGuard()
         {
             if (detectableObjects != null)

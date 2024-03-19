@@ -8,10 +8,16 @@ using ShadowUprising.Inventory;
 
 namespace ShadowUprising.Player.MovementState
 {
+    /// <summary>
+    /// MovementState used when carrying a guard. This state is only created when the GuardHolder Component exists within the player
+    /// </summary>
     public class CarryState : IMovementState
     {
         private const string BASE_STATE_STRING = "baseState";
 
+        /// <summary>
+        /// The specific type of this class. Used to get the current state within other classes
+        /// </summary>
         public Type StateType { get; }
 
         private PlayerMovement playerMovement;
@@ -20,6 +26,13 @@ namespace ShadowUprising.Player.MovementState
 
         private int carrySpeed;
 
+        /// <summary>
+        /// Constructor for the CarryState
+        /// </summary>
+        /// <param name="playerMovement">PlayerMovement Component within the player</param>
+        /// <param name="playerStats">PlayerStats Component within the player</param>
+        /// <param name="guardHolder">GuardHolder Component within the guard holder object. This should be the component that constructs this class</param>
+        /// <param name="carrySpeed">The speed modifier applied to the player while carrying body</param>
         public CarryState(PlayerMovement playerMovement, PlayerStats playerStats, GuardHolder guardHolder, int carrySpeed)
         {
             StateType = GetType();

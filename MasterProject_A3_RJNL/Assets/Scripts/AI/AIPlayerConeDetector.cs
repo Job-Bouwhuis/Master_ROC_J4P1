@@ -24,9 +24,12 @@ namespace ShadowUprising.AI
         public int coneAngle;
 
         /// <summary>
-        /// is called when the player is detected
+        /// Is called when an object is detected and returns the Object that has been detected
         /// </summary>
         public Action<GameObject> onObjectDetected = delegate { };
+        /// <summary>
+        /// Is called when the enemy goes through its detection cycle and finds nothing
+        /// </summary>
         public Action onNothingDetected = delegate { };
         DetectableObjects detectableObjects;
 
