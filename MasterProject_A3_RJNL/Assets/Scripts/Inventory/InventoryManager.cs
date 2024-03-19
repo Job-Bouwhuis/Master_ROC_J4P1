@@ -489,7 +489,7 @@ namespace ShadowUprising.Inventory
         public void LockInventory(bool value)
         {
             IsLocked = value;
-            uiCanvas.SetActive(!value);
+            slotParent.gameObject.SetActive(!value);
             lockInventory.Invoke(value);
         }
     }
