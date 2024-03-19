@@ -46,12 +46,6 @@ namespace ShadowUprising.AI
             state.SetState(AIState.Roaming);
         }
 
-        void SetGuardState()
-        {
-            if (state.CurrentState != AIState.Attacking)
-                state.SetState(AIState.Attacking);
-        }
-
         void CheckForReturnToRoaming()
         {
             if (IsAIAtLocation())

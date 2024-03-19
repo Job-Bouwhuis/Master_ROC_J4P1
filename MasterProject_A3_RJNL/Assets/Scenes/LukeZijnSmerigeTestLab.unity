@@ -2594,7 +2594,7 @@ Transform:
   m_GameObject: {fileID: 662228055}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7081171, z: -0, w: 0.7060951}
-  m_LocalPosition: {x: 7.2, y: 1.84, z: -22.1}
+  m_LocalPosition: {x: 3.81, y: 1.84, z: -24.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4480,7 +4480,7 @@ PrefabInstance:
     - target: {fileID: 7334403422383879072, guid: df04e9b656d0ee74f887958c9d81d590,
         type: 3}
       propertyPath: m_Name
-      value: Button (1)
+      value: AlarmButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5342,7 +5342,7 @@ PrefabInstance:
     - target: {fileID: 1546858014393884630, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 47.12098
+      value: 26.07
       objectReference: {fileID: 0}
     - target: {fileID: 1546858014393884630, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
@@ -5352,7 +5352,7 @@ PrefabInstance:
     - target: {fileID: 1546858014393884630, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -56.50249
+      value: -51.69
       objectReference: {fileID: 0}
     - target: {fileID: 1546858014393884630, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
@@ -8075,6 +8075,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1470097452053745428, guid: df04e9b656d0ee74f887958c9d81d590,
+        type: 3}
+      propertyPath: activationRange
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7334403422383879072, guid: df04e9b656d0ee74f887958c9d81d590,
         type: 3}
