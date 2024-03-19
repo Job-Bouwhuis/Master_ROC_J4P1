@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace ShadowUprising.AI
+namespace ShadowUprising.AI.Alarm
 {
     public class AlarmActivationHandler : MonoBehaviour
     {

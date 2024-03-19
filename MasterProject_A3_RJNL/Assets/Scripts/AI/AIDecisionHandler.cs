@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShadowUprising.AI
+namespace ShadowUprising.AI.Alarm
 {
     /// <summary>
     /// Makes the decisions for the ai
