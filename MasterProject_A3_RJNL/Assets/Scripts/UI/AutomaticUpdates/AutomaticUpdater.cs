@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using ShadowUprising.Utils;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ShadowUprising.AutoUpdates
 {
@@ -31,6 +32,7 @@ namespace ShadowUprising.AutoUpdates
         Thread downloadTask;
 
         string downloadedPackage;
+        bool lastVisualupdate = false;
 
         // Start is called before the first frame update
         void Start()
@@ -42,6 +44,73 @@ namespace ShadowUprising.AutoUpdates
             //            UnityEditor.EditorApplication.isPlaying = false;
             //            return;
             //#endif
+
+            // Create a new Process object.
+
+            bool found = IsDotNET8Installed();
+            if (!found)
+            {
+                Windows.DialogResult result = Windows.MessageBox("Failed to find .NET 8.0 SDK on your machine.\nThis is required for automatic updates to be available.\n\n" +
+                    "Would you like to install this now?", ".NET 8.0 not installed", Windows.MessageBoxButtons.YesNo, Windows.MessageBoxIcon.Error);
+
+                if (result == Windows.DialogResult.Yes)
+                {
+                    Windows.MessageBox("Please enter 'y' whenever the console window that will pop up momentarily asks for it.\n" +
+                        "it is required for the .NET 8.0 to be installed");
+
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = "/c winget install Microsoft.DotNet.DesktopRuntime.8",
+                        UseShellExecute = true,
+                    };
+
+                    Process cmd = Process.Start(startInfo);
+
+                    cmd.WaitForExit();
+                }
+                else
+                {
+                    Windows.MessageBox("Automatic updates will not be available. loading Main Menu so the game can still be played.",
+                        "Automatic updates not available", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+
+                    LoadingScreen.Instance.ShowAndLoad("MainMenu");
+                    return;
+                }
+            }
+            if (!IsDotNET8Installed())
+            {
+                Windows.DialogResult result = Windows.MessageBox("Failed to install .NET 8.0 automatically. Download manually?",
+                    ".NET8 download failed",
+                    Windows.MessageBoxButtons.YesNo, Windows.MessageBoxIcon.Error);
+
+                if (result == Windows.DialogResult.Yes)
+                {
+                    // open browser to the download page depending on the architecture of the machine.
+                    // always use windows platform as the game is only available on windows.
+
+                    if(RuntimeInformation.OSArchitecture == Architecture.X64)
+                    {
+                        Process.Start("https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-windows-x64-installer");
+                    }
+                    else
+                    {
+                        Process.Start("https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-windows-x86-installer");
+                    }
+
+                    Windows.MessageBox("Please install .NET 8.0 manually and restart the game.", "Manual installation required", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Information);
+                    Process.GetCurrentProcess().Kill();
+                }
+                else
+                {
+                    Windows.MessageBox("Automatic updates will not be available. loading Main Menu so the game can still be played.",
+                                               "Automatic updates not available", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+
+                    LoadingScreen.Instance.ShowAndLoad("MainMenu");
+                    return;
+                }
+            }
+            Log.Push(".NET 8.0 installed. Proceeding with update...");
 
             logText.text = "";
             Log.OnLogPushed += Log_OnLogPushed;
@@ -79,6 +148,22 @@ namespace ShadowUprising.AutoUpdates
             downloadTask.Start();
         }
 
+        private static bool IsDotNET8Installed()
+        {
+            DirectoryInfo dotNET = new("C:\\Program Files\\dotnet\\sdk");
+            bool found = false;
+            foreach (var dir in dotNET.GetDirectories())
+            {
+                if (dir.Name.Contains("8.0"))
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
         void Log_OnLogPushed(Log.LogEventArgs args)
         {
             if (args.message is "Done")
@@ -108,9 +193,14 @@ namespace ShadowUprising.AutoUpdates
                 else
                     return;
 
-                downloadTask.Join();
-
-                progressText.text = "Preparing to install...";
+                if (!lastVisualupdate)
+                {
+                    downloadTask.Join();
+                    Log.Push("Preparing to install...");
+                    progressText.text = "Preparing to install...";
+                    lastVisualupdate = true;
+                    return;
+                }
 
                 var dir = new DirectoryInfo(Path.GetTempPath() + "A3Games");
                 if (!dir.Exists)
@@ -123,12 +213,11 @@ namespace ShadowUprising.AutoUpdates
 
                 // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
 
-                DirectoryInfo installerDir = new(Path.GetTempPath() + "A3Games");
-                DirectoryInfo installerPath = new(Path.GetTempPath() + "A3Games\\WinterRosePackageInstaller.exe");
-                FileInfo internalInstallerPath = new(Application.streamingAssetsPath + @"\AppInstaller\A3GamesInstaller.exe");
-                DirectoryInfo internalInstallerDir = new(Path.GetDirectoryName(internalInstallerPath.FullName));
+                DirectoryInfo installerDir = new(Path.GetTempPath() + "A3Games" + "\\Installer");
+                DirectoryInfo installerPath = new(Path.GetTempPath() + "A3Games\\Installer\\WinterRosePackageInstaller.exe");
+                DirectoryInfo internalInstallerDir = new(Application.streamingAssetsPath.Replace('/', '\\') + @"\AppInstaller");
 
-                if (!File.Exists(internalInstallerPath.FullName))
+                if (!internalInstallerDir.Exists)
                 {
                     Log.PushError("Internal installer not found.");
                     Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
@@ -143,15 +232,6 @@ namespace ShadowUprising.AutoUpdates
 
                 CopyFiles(internalInstallerDir, installerDir);
 
-                // construct arguments for the installer
-
-                /*
-                 installer arguments:
-                  - exePath: path to the exe of the game.
-                  - packagePath: path to the package the game downloaded.
-                  - gameRoot: path to the game's root directory.
-                 */
-
                 // get path to our executable
                 string myExecutablePath = Process.GetCurrentProcess().MainModule!.FileName;
                 string rootDir = Path.GetDirectoryName(myExecutablePath)!;
@@ -165,7 +245,6 @@ namespace ShadowUprising.AutoUpdates
                         $"databaseKey=\"A3Games\"";
 
                 FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
-                Windows.MessageBox(exeFile.FullName);
                 string packagePath = packageFile.FullName;
                 DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
 
@@ -173,7 +252,7 @@ namespace ShadowUprising.AutoUpdates
 
             Log.Push("Starting installer...");
             ProcessStartInfo installerStartInfo = new(installerPath.FullName);
-            installerStartInfo.Arguments = $"exePath=\"{exeFile.FullName}\" packagePath=\"{packagePath}\" gameRoot=\"{gameRootDir.FullName}\"";
+            installerStartInfo.Arguments = updaterArgs;
 
             Process.Start(installerStartInfo);
 
@@ -209,6 +288,8 @@ namespace ShadowUprising.AutoUpdates
         {
             foreach (FileInfo file in source.GetFiles())
             {
+                if (file.Extension == ".meta")
+                    continue;
                 file.CopyTo(Path.Combine(target.FullName, file.Name), true);
             }
 
