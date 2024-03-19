@@ -41,6 +41,7 @@ namespace ShadowUprising.AI
                         // ga naar knop
                         GetComponent<AINavigationSystem>().SetCurrentWayPoint(item.transform.position);
                         GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
+                        item.GetComponentInChildren<AIDistanceChecker>().AddAI(gameObject);
                         decisionMade = true;
                         return;
                     }
