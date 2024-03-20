@@ -9,6 +9,7 @@ namespace ShadowUprising.WorldInteraction
     /// </summary>
     public interface IWorldInteractable
     {
+        int Priority { get; }
         /// <summary>
         /// When implemented, will allow the player to interact with the object.
         /// </summary>

@@ -14,6 +14,15 @@ namespace ShadowUprising.Items
     [CreateAssetMenu(fileName = "New Item", menuName = "Items/Item")]
     public class Item : ScriptableObject
     {
+        public enum ItemInteractButton
+        {
+            LeftClick,
+            RightClick,
+            MiddleClick,
+            E,
+            None
+        }
+
         /// <summary>
         /// The unique index ID within the <see cref="Inventory.InventoryManager.allItems"/> that this item finds itself
         /// </summary>
@@ -31,6 +40,15 @@ namespace ShadowUprising.Items
         /// The icon of the item
         /// </summary>
         public Sprite icon;
+        /// <summary>
+        /// The prefab of the item.
+        /// </summary>
+        [Tooltip("The game object that should be used for this specific item")]
+        public GameObject prefab;
+
+        [Tooltip("The button that will be used to interact with the item when selected in the inventory")]
+        public ItemInteractButton interactButton = ItemInteractButton.E;
+
 
         /// <summary>
         /// The function that the item will execute when used. can be null to have no function
@@ -38,7 +56,7 @@ namespace ShadowUprising.Items
         public IItemFunction? ItemFunction
         {
             get
-            {
+            {   
                 if (itemFunction is not null)
                 {
                     return itemFunction;
@@ -50,9 +68,7 @@ namespace ShadowUprising.Items
 
                 Type type = TypeWorker.FindType(ItemFunctionProviderName);
                 if (type == null)
-                {
                     return itemFunction;
-                }
 
                 // find if a component exists in the scene with the same type
                 if (type.IsAssignableTo(typeof(UnityEngine.Object)))
@@ -97,6 +113,11 @@ namespace ShadowUprising.Items
         public bool IsStackable => maxStackSize > 1;
 
         /// <summary>
+        /// Whether or not the item has a function
+        /// </summary>
+        public bool HasFunction => ItemFunction != null;
+
+        /// <summary>
         /// The type name of the item function provider. this is assigned by in the editor.<br></br><br></br>
         /// 
         /// <b>DO NOT CHANGE THROUGH CODE</b>
@@ -122,6 +143,8 @@ namespace ShadowUprising.Items
             newItem.currentStackSize = currentStackSize;
             newItem.itemGiveIncrement = itemGiveIncrement;
             newItem.ItemFunctionProviderName = ItemFunctionProviderName;
+            newItem.interactButton = interactButton;
+            newItem.id = id;
 
             return newItem;
         }
