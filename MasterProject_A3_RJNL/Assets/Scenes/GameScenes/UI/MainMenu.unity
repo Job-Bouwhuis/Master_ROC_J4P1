@@ -896,7 +896,7 @@ MonoBehaviour:
   entrySpeed: 1
   dragRotationSpeed: 0.5
   returnToConstantSpeed: 0.5
-  returnToOriginalTime: 1
+  returnToOriginalTime: 0.2
   models: []
   currentModel: 0
   waitTime: 0
