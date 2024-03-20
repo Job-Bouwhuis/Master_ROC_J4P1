@@ -802,7 +802,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 235919380}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2307228, y: 0.2936686, z: -0.07326979, w: 0.9247471}
+  m_LocalRotation: {x: -0.23072281, y: 0.29366863, z: -0.0732698, w: 0.92474717}
   m_LocalPosition: {x: 0.89, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -892,8 +892,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d76aa24962028c947a9fa23b170a4ffe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.1
+  constantRotationSpeed: 0.1
   entrySpeed: 1
+  dragRotationSpeed: 0.5
+  returnToConstantSpeed: 0.5
+  returnToOriginalTime: 0.2
   models: []
   currentModel: 0
   waitTime: 0
@@ -4663,6 +4666,7 @@ GameObject:
   - component: {fileID: 1480924730}
   - component: {fileID: 1480924729}
   - component: {fileID: 1480924731}
+  - component: {fileID: 1480924732}
   m_Layer: 5
   m_Name: Voice actor name
   m_TagString: Untagged
@@ -4798,7 +4802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4921e450e9ec71e40b534042c4353813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Jonathan Ikayah
+  text: Layi Eicker
   normalColor: {r: 0.4669811, g: 1, b: 0.7720296, a: 1}
   hoverColor: {r: 1, g: 0.5518868, b: 0.8894627, a: 1}
   pressedColor: {r: 1, g: 0, b: 0.86508846, a: 1}
@@ -4820,6 +4824,19 @@ MonoBehaviour:
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
+--- !u!114 &1480924732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480924727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16616b2df4b3f294b81e8b026937236d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  link: https://open.spotify.com/artist/7vo4wrGw8pnSUb5NkMcRV1?si=dbd3911539494d45
 --- !u!1 &1514010897
 GameObject:
   m_ObjectHideFlags: 0
