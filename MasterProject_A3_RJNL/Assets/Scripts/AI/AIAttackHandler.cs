@@ -29,7 +29,7 @@ namespace ShadowUprising.AI
         private void Update()
         {
             timer.Update(Time.deltaTime);
-            CheckForReturnToRoaming();
+            CheckForSoundAlarm();
         }
 
         void Asign()
@@ -37,18 +37,13 @@ namespace ShadowUprising.AI
             GetComponent<AIPlayerConeDetector>().onPlayerDetected += OnPlayerDetected;
             state = GetComponent<GuardState>();
             aiSystem = GetComponent<AINavigationSystem>();
-            timer.elapsed += PlayerLost;
+            timer.elapsed += GetComponent<Alarm.AIDecisionHandler>().SoundClosestAlarm;
         }
 
-        private void PlayerLost()
-        {
-            state.SetState(AIState.Roaming);
-        }
-
-        void CheckForReturnToRoaming()
+        void CheckForSoundAlarm()
         {
             if (IsAIAtLocation())
-                ReturnToRoaming();
+                SoundAlarm();
         }
 
         bool IsAIAtLocation()
@@ -58,7 +53,7 @@ namespace ShadowUprising.AI
             return false;
         }
 
-        void ReturnToRoaming()
+        void SoundAlarm()
         {
             if (state.CurrentState == AIState.Attacking)
                 timer.StartTimer();
