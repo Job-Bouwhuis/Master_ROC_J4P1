@@ -1,6 +1,8 @@
 // Creator: Job
+using ShadowUprising.Utils;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using WinterRose;
 
 namespace ShadowUprising
@@ -10,6 +12,13 @@ namespace ShadowUprising
     /// </summary>
     public static class Log
     {
+        public struct LogEventArgs
+        {
+            public LogType logType;
+            public string message;
+        }
+
+
         /// <summary>
         /// Whether or not the console is enabled. will show a message box if trying to enable the console in the editor.
         /// </summary>
@@ -19,8 +28,11 @@ namespace ShadowUprising
             set
             {
 #if UNITY_EDITOR
-                Windows.MessageBox("Cant use console inside the editor. use uniy's default debugger console.", "Warning", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
-                return;
+                if(SceneManager.GetActiveScene().name != "AppUpdaterScene")
+                {
+                    Windows.MessageBox("Cant use console inside the editor. use uniy's default debugger console.", "Warning", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+                    return;
+                }
 #endif
 
                 consoleEnabled = value;
@@ -37,8 +49,11 @@ namespace ShadowUprising
         }
         private static bool consoleEnabled = false;
 
+        public static ClearableEvent<LogEventArgs> OnLogPushed = new();
+
         static Log()
         {
+            SceneManager.sceneLoaded += (scene, mode) => OnLogPushed.Clear();
         }
 
         /// <summary>
@@ -256,6 +271,8 @@ namespace ShadowUprising
 
         private static void WriteToConsole(string message, ConsoleColor color)
         {
+            OnLogPushed.Invoke(new LogEventArgs() { logType = LogType.Log, message = message });
+
 #if UNITY_EDITOR
             string colorPrefix = "";
 

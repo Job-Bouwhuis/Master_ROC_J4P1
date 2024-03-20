@@ -1,4 +1,5 @@
 //Creator: Job
+//Edited: Ruben
 using ShadowUprising.Inventory;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace ShadowUprising.UI.InGame
             if (InventoryManager.Instance == null)
                 return;
             InventoryManager.Instance.OnInventoryInteract.AddListener(InventorySelected);
+            InventoryManager.Instance.lockInventory += LockInventory;
         }
 
         private void InventorySelected(InventoryManager.InventoryInteractResult result)
@@ -44,6 +46,11 @@ namespace ShadowUprising.UI.InGame
                         Gun.SetActive(false);
                 }
             }
+        }
+
+        private void LockInventory(bool value)
+        {
+            Gun.SetActive(!value);
         }
     }
 }

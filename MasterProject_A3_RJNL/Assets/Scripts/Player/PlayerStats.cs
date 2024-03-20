@@ -1,17 +1,18 @@
 // Creator: Ruben
 // Edited by:
-using System.Collections;
+using ShadowUprising;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShadowUprising.Player
 {
     /// <summary>
-    /// 
+    /// Component that holds all the stats of the player and manages the MovementStates.
     /// </summary>
     public class PlayerStats : MonoBehaviour
     {
         private PlayerMovement playerMovement;
+        [Tooltip("The transform bound to the camera. This is used for adjusting the camera while crouching")]
         [SerializeField] private Transform cameraTransform;
 
         private const string BASE_STATE = "baseState";
@@ -52,10 +53,19 @@ namespace ShadowUprising.Player
         }
 
         private void InitializeMovementStates()
+        {            AddState(BASE_STATE, new MovementState.BaseState());
+            AddState(CROUCH_STATE, new MovementState.CrouchState(playerMovement, this, cameraTransform, crouchSpeedModifier, crouchCameraHeight));
+            AddState(SPRINT_STATE, new MovementState.SprintState(playerMovement, this, sprintSpeedModifier, staminaDrainRate));
+        }
+
+        /// <summary>
+        /// Add a state to the list of MovementState objects
+        /// </summary>
+        /// <param name="name">Name of the state</param>
+        /// <param name="movementState">MovementState object</param>
+        public void AddState(string name, MovementState.IMovementState movementState)
         {
-            movementStates.Add(BASE_STATE, new MovementState.BaseState());
-            movementStates.Add(CROUCH_STATE, new MovementState.CrouchState(playerMovement, this, cameraTransform, crouchSpeedModifier, crouchCameraHeight));
-            movementStates.Add(SPRINT_STATE, new MovementState.SprintState(playerMovement, this, sprintSpeedModifier, staminaDrainRate));
+            movementStates.Add(name, movementState);
         }
 
         private void Update()

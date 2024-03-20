@@ -1,4 +1,5 @@
 //Creator: Luke
+//Edited: Ruben
 using UnityEngine;
 using ShadowUprising.Utils;
 
@@ -34,7 +35,7 @@ namespace ShadowUprising.AI
 
         void Asign()
         {
-            GetComponent<AIPlayerConeDetector>().onPlayerDetected += OnPlayerDetected;
+            GetComponent<AIPlayerConeDetector>().onObjectDetected += OnObjectDetected;
             state = GetComponent<GuardState>();
             aiSystem = GetComponent<AINavigationSystem>();
             timer.elapsed += PlayerLost;
@@ -70,11 +71,11 @@ namespace ShadowUprising.AI
                 timer.StartTimer();
         }
 
-        void OnPlayerDetected(Vector3 playerPos)
+        void OnObjectDetected(GameObject gameObject)
         {
             SetGuardState();
-            lastPlayerLoc = playerPos;
-            aiSystem.SetCurrentWayPoint(playerPos);
+            lastPlayerLoc = gameObject.transform.position;
+            aiSystem.SetCurrentWayPoint(gameObject.transform.position);
             timer.ZeroTimer();
         }
 
