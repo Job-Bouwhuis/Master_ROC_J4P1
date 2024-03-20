@@ -11,31 +11,43 @@ using System.Threading;
 using System.Threading.Tasks;
 using ShadowUprising.Utils;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace ShadowUprising.AutoUpdates
 {
+    /// <summary>
+    /// Component responsible for downloading the latest update from the server and starting the installer application.
+    /// </summary>
     public class AutomaticUpdater : MonoBehaviour
     {
+        /// <summary>
+        /// Text component to display the current version and the version being updated to.
+        /// </summary>
         public TMP_Text versionText;
+        /// <summary>
+        /// Text component to display the log found from <see cref="Log"/>
+        /// </summary>
         public TMP_Text logText;
+        /// <summary>
+        /// Text component to display the progress of the download.
+        /// </summary>
         public TMP_Text progressText;
 
+        /// <summary>
+        /// The progress bar to display the download progress.
+        /// </summary>
         public ProgressBar progressBar;
 
-        RedisConnection redis;
-        bool consoleWasOpen = false;
-        bool isDownloadComplete = false;
-        bool hasFaulted = false;
-
-        Thread downloadTask;
-
-        string downloadedPackage;
-        bool lastVisualupdate = false;
+        private RedisConnection redis;
+        private bool consoleWasOpen = false;
+        private bool isDownloadComplete = false;
+        private bool hasFaulted = false;
+        private Thread downloadTask;
+        private string downloadedPackage;
+        private bool lastVisualupdate = false;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
 #if UNITY_EDITOR
             Log.PushWarning("Updates can not be happening in unity editor. that can corrupt the unity editor install.");
@@ -145,7 +157,6 @@ namespace ShadowUprising.AutoUpdates
             downloadTask = new Thread(DownloadUpdate);
             downloadTask.Start();
         }
-
         private static bool IsDotNET8Installed()
         {
             DirectoryInfo dotNET = new("C:\\Program Files\\dotnet\\sdk");
@@ -161,14 +172,12 @@ namespace ShadowUprising.AutoUpdates
 
             return found;
         }
-
-        void Log_OnLogPushed(Log.LogEventArgs args)
+        private void Log_OnLogPushed(Log.LogEventArgs args)
         {
             if (args.message is "Done")
                 return;
             logText.text += args.message + "\n";
         }
-
         private void Update()
         {
             try
@@ -275,13 +284,11 @@ namespace ShadowUprising.AutoUpdates
                 Windows.MessageBox($"Message: {e.Message}\n\n{e.StackTrace}");
             }
         }
-
         private void OnApplicationQuit()
         {
             redis?.Dispose();
             downloadTask?.Abort();
         }
-
         private void CopyFiles(DirectoryInfo source, DirectoryInfo target)
         {
             foreach (FileInfo file in source.GetFiles())
@@ -297,8 +304,7 @@ namespace ShadowUprising.AutoUpdates
                 CopyFiles(sourceSubDir, targetSubDir);
             }
         }
-
-        async void DownloadUpdate()
+        private async void DownloadUpdate()
         {
             await Task.Run(() =>
             {

@@ -78,7 +78,10 @@ namespace ShadowUprising.UI.Loading
         {
             StartCoroutine(WaitShowAndLoadScene(sceneName));
         }
-
+        /// <summary>
+        /// Loads the scene without showing the loading screen. still waits for the requirested time and handles scene preps.
+        /// </summary>
+        /// <param name="sceneName"></param>
         public void LoadWithoutShow(string sceneName)
         {
             StartCoroutine(WaitForSceneAnimations());
@@ -104,7 +107,6 @@ namespace ShadowUprising.UI.Loading
 
             OnStartLoading.Clear();
         }
-
         private IEnumerator WaitShowAndLoadScene(string sceneName)
         {
             yield return StartCoroutine(WaitForSceneAnimations());
@@ -125,7 +127,6 @@ namespace ShadowUprising.UI.Loading
             StartCoroutine(WaitForSceneLoad());
             StartCoroutine(DoTips());
         }
-
         private IEnumerator WaitForSceneLoad()
         {
             while (sceneLoadOperation!.progress < .9f)

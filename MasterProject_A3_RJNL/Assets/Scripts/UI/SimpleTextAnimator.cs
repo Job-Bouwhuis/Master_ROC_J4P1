@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI
 {
+    /// <summary>
+    /// Animates a text element by appending characters to it
+    /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class SimpleTextAnimator : MonoBehaviour
     {
@@ -25,7 +28,13 @@ namespace ShadowUprising.UI
 
         private TMP_Text tmpText;
 
+        /// <summary>
+        /// Start writing the text
+        /// </summary>
         public void StartWriting() => StartCoroutine(WriteText());
+        /// <summary>
+        /// Clears the text character by character from the end to the start
+        /// </summary>
         public void ClearText() => StartCoroutine(ClearTextField());
 
         // Start is called before the first frame update

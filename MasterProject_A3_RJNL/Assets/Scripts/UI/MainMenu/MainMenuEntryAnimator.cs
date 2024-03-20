@@ -12,7 +12,13 @@ namespace ShadowUprising.UI.MainMenu
     /// </summary>
     public class MainMenuEntryAnimator : MonoBehaviour
     {
+        /// <summary>
+        /// The speed at which the animation will play.
+        /// </summary>
         public float animationSpeed = 1;
+        /// <summary>
+        /// The time to wait before the animation starts.
+        /// </summary>
         public float waitTime = 0;
 
         [SerializeField] private TextMeshProUGUI title;
@@ -44,9 +50,7 @@ namespace ShadowUprising.UI.MainMenu
         private TextMeshProUGUI quitButtonText;
 
         private Color titleDesiredColor;
-
         private float time;
-
         private bool mayAnimate = false;
 
         private void Awake()

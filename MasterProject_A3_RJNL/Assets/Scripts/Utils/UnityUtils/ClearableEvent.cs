@@ -1,9 +1,8 @@
+// Creator: Job
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WinterRose;
-using ShadowUprising.Utils;
-
 namespace ShadowUprising.Utils
 {
     /// <summary>

@@ -3,10 +3,7 @@
 using ShadowUprising.UI.Loading;
 using ShadowUprising.Detection;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ShadowUprising.UI.SpottingIndicator
 {

@@ -46,6 +46,12 @@ namespace ShadowUprising.UnityUtils
             return result;
         }
 
+        /// <summary>
+        /// Subscribes to the event.
+        /// </summary>
+        /// <param name="evnt"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
         public static MultipleReturnEvent<T> operator +(MultipleReturnEvent<T> evnt, Func<T> func)
         {
             evnt.Subscribe(func);

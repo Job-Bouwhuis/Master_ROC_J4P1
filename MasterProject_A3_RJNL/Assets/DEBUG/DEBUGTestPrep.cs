@@ -8,7 +8,7 @@ namespace ShadowUprising.DEBUG
 
 #nullable enable
 
-    public class TestPrep : MonoBehaviour, IScenePrepOperation
+    public class DEBUGTestPrep : MonoBehaviour, IScenePrepOperation
     {
         public bool IsComplete { get; set; }
 

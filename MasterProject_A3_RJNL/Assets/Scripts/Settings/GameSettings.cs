@@ -1,9 +1,6 @@
 // Creator: job
 using ShadowUprising.Utils;
-using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using WinterRose.Serialization;
 
 namespace ShadowUprising.Settings
 {
