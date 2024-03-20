@@ -38,7 +38,15 @@ namespace ShadowUprising.UI.PauseMenu
         [Tooltip("A list of UI elements to be called to show whenever the pause menu is activated")]
         [SerializeField] private List<ElementAnimator> UIElements = new();
 
+        [Tooltip("The root object for the options menu.")]
+        [SerializeField] private GameObject optionsRoot;
+
+        [Tooltip("The root for the buttons on the pause menu")]
+        [SerializeField] private GameObject buttonsRoot;
+
         public bool IsPaused { get; private set; }
+
+        public bool OptionsOpen { get; private set; }
 
         /// <summary>
         /// Pauses the game and shows the pause menu
@@ -82,6 +90,34 @@ namespace ShadowUprising.UI.PauseMenu
             Windows.SetMousePosition(screenCenter.x.FloorToInt(), screenCenter.y.FloorToInt());
         }
 
+        public void OpenOptions()
+        {
+            OptionsOpen = true;
+            UIElements.Foreach(UIElements => UIElements.HideImmediately());
+            optionsRoot.SetActive(true);
+            buttonsRoot.SetActive(false);
+
+            foreach(Transform transform in optionsRoot.transform)
+            {
+                if (transform.TryGetComponent(out TextButton button))
+                    button.OnPointerExit(null);
+            }
+        }
+
+        public void CloseOptions()
+        {
+            OptionsOpen = false;
+            UIElements.Foreach(UIElements => UIElements.ShowIndefinite());
+            optionsRoot.SetActive(false);
+            buttonsRoot.SetActive(true);
+
+            foreach (Transform transform in buttonsRoot.transform)
+            {
+                if (transform.TryGetComponent(out TextButton button))
+                    button.OnPointerExit(null);
+            }
+        }
+
         IEnumerator StartHidingProcess()
         {
             var times = OnPauseMenuHide.Invoke();
@@ -117,6 +153,9 @@ namespace ShadowUprising.UI.PauseMenu
                     return 1f;
                 });
             }
+
+            optionsRoot.SetActive(false);
+            buttonsRoot.SetActive(true);
         }
         private void Update()
         {

@@ -28,13 +28,18 @@ namespace ShadowUprising.Player
         private void Awake()
         {
             if (useSensitivity)
-                horizontalSensitivity = verticalSensitivity = GameSettings.Instance.sensitivity.FloorToInt();
+                horizontalSensitivity = verticalSensitivity = GameSettings.Instance.Sensitivity.FloorToInt();
             LockMouse();
+
+            GameSettings.Instance.OnSettingsChanged += b => 
+            {
+                if (useSensitivity)
+                    horizontalSensitivity = verticalSensitivity = GameSettings.Instance.Sensitivity.FloorToInt();
+            };
         }
 
         void Update()
         {
-
             UpdateCamera();
         }
 
