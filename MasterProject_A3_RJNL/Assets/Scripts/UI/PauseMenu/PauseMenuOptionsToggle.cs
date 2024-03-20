@@ -1,7 +1,4 @@
-using ShadowUprising.UI;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+// Creator: Job
 
 namespace ShadowUprising.UI.PauseMenu
 {
