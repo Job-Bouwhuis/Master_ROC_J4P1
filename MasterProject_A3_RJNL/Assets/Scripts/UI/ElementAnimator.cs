@@ -1,3 +1,4 @@
+// Creator: Job
 using ShadowUprising;
 using ShadowUprising.UI.Loading;
 using System;
@@ -8,8 +9,14 @@ using WinterRose;
 
 namespace ShadowUprising.UI
 {
+    /// <summary>
+    /// Animates an element from a hidden position to a visible position and vice versa
+    /// </summary>
     public class ElementAnimator : MonoBehaviour
     {
+        /// <summary>
+        /// The type of animation that is being performed
+        /// </summary>
         public enum AnimationType
         {
             Enter,
@@ -34,6 +41,9 @@ namespace ShadowUprising.UI
         public bool HideOnStart = false;
         private float timeOnScreen = 0;
 
+        /// <summary>
+        /// Invoked when the animation starts
+        /// </summary>
         public Action<AnimationType> OnAnimationStart = delegate { };
 
         /// <summary>
@@ -66,28 +76,43 @@ namespace ShadowUprising.UI
             }
         }
 
+        /// <summary>
+        /// Shows the element
+        /// </summary>
         public void Show()
         {
             shouldBeVisible = true;
             timeOnScreen = 0;
         }
 
+        /// <summary>
+        /// Hides the element
+        /// </summary>
         public void Hide()
         {
             shouldBeVisible = false;
         }
 
+        /// <summary>
+        /// Shows the element indefinitely
+        /// </summary>
         public void ShowIndefinite()
         {
             OnScreenIndefinitely = true;
             Show();
         }
 
+        /// <summary>
+        /// Stops showing the element indefinitely. Still waits for the <see cref="TimeOnScreenBeforeHide"/> to hide
+        /// </summary>
         public void HideFromIndefinite()
         {
             OnScreenIndefinitely = false;
         }
 
+        /// <summary>
+        /// Hides the element immediately. Does not wait for the <see cref="TimeOnScreenBeforeHide"/> to hide
+        /// </summary>
         public void HideImmediately()
         {
             OnScreenIndefinitely = false;

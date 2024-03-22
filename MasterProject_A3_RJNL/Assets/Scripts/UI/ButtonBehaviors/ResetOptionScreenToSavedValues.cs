@@ -8,7 +8,7 @@ namespace ShadowUprising.UI.ButtonFunctions
     /// <summary>
     /// Button function to reset the options screen to the saved values
     /// </summary>
-    public class ResetUptionScreenToSavedValues : ButtonFunction
+    public class ResetOptionScreenToSavedValues : ButtonFunction
     {
         [SerializeField] private SettingsApplyer settingsApplyer;
 

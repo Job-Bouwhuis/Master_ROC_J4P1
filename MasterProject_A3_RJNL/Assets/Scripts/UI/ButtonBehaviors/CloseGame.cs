@@ -18,7 +18,6 @@ namespace ShadowUprising.UI.ButtonFunctions
         public override void Invoke(TextButton button)
         {
 #if UNITY_EDITOR
-            Windows.MessageBox("In build, has closed the app", "CLOSING", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Information);
             UnityEditor.EditorApplication.ExitPlaymode();
             return;
 #endif

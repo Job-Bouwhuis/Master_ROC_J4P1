@@ -1,4 +1,5 @@
 // Creator: Job
+using ShadowUprising.AutoUpdates;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -11,8 +12,6 @@ namespace ShadowUprising.UI.SplashScreen
     public class SplashTextAnimator : MonoBehaviour
     {
         [Header("Settings")]
-        //[Tooltip("The time the text will wait before showing")]
-        //public float textWaitTime = 1f;
         [Tooltip("The speed at which the text will change")]
         public float textChangeSpeed = 0.5f;
         [Tooltip("The time the text will stay on screen before going away again")]
@@ -20,7 +19,6 @@ namespace ShadowUprising.UI.SplashScreen
         [Tooltip("The text to display")]
         public string textToDisplay;
 
-        [Header("Debug - DO NOT CHANGE")]
         TMP_Text text;
 
         // Start is called before the first frame update

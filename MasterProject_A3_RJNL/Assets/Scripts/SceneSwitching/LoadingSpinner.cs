@@ -1,6 +1,4 @@
 // Creator: job
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShadowUprising.UI.Loading

@@ -5,8 +5,14 @@ using WinterRose;
 
 namespace ShadowUprising.UI.ButtonFunctions
 {
+    /// <summary>
+    /// Button function to load a scene.
+    /// </summary>
     public class LoadScene : ButtonFunction
     {
+        /// <summary>
+        /// The name of the scene to load.
+        /// </summary>
         public string sceneName;
 
         public override void Invoke(TextButton button)

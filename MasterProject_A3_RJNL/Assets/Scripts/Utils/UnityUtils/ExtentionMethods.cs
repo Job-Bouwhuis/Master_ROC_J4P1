@@ -8,6 +8,9 @@ using WinterRose;
 
 namespace ShadowUprising.UnityUtils
 {
+    /// <summary>
+    /// Provides some extention methods for Unity classes
+    /// </summary>
     public static class ExtentionMethods
     {
         /// <summary>

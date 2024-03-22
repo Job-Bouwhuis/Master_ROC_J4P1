@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI.ButtonFunctions
 {
+    /// <summary>
+    /// Button function to toggle the log console on and off. Only works in the build
+    /// </summary>
     public class ToggleLoggingConsole : ButtonFunction
     {
         private void Awake()

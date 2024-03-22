@@ -1,7 +1,8 @@
+// Creator: Job
 using UnityEngine;
 using System.Collections;
 
-namespace ShadowUprising.UI.MainMenu
+namespace ShadowUprising.UI
 {
     /// <summary>
     /// The model preview, rotates the model and scales it up when entering the main menu.

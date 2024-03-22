@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI.InGame
 {
+    /// <summary>
+    /// Component to display the gun model when the gun is equipped
+    /// </summary>
     public class GunModelDisplayer : MonoBehaviour
     { 
         [Tooltip("The gun object")]

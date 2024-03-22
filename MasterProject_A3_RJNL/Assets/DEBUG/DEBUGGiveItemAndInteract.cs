@@ -9,8 +9,11 @@ namespace ShadowUprising.DEBUG
     /// <summary>
     /// Used for testing the giving of and interacting with items
     /// </summary>
-    public class GiveItemAndInteract : MonoBehaviour
+    public class DEBUGGiveItemAndInteract : MonoBehaviour
     {
+        /// <summary>
+        /// The item that is given when the player pressed G
+        /// </summary>
         [Header("press E to interact, press G to give and select")]
         public Item item;
 

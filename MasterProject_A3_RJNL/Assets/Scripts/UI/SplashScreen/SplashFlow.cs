@@ -1,9 +1,8 @@
 //Creator: Job
+using ShadowUprising.AutoUpdates;
 using ShadowUprising.UI.Loading;
-using System.Collections;
 using UnityEngine;
 using WinterRose;
-using WinterRose.WIP.Redis;
 
 namespace ShadowUprising.UI.SplashScreen
 {

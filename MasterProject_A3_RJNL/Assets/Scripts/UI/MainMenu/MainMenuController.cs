@@ -32,8 +32,10 @@ namespace ShadowUprising.UI.MainMenu
             Credits
         }
 
-        [Tooltip("The current state of the main menu")] public MenuState state;
-        [Tooltip("The time it takes to swtich from one menu to another")] public float transitionSpeed = 4;
+        [Tooltip("The current state of the main menu")] 
+        public MenuState state;
+        [Tooltip("The time it takes to swtich from one menu to another")] 
+        public float transitionSpeed = 4;
 
         [SerializeField] private GameObject mainMenu;
         [SerializeField] private GameObject settingsMenu;
@@ -51,8 +53,7 @@ namespace ShadowUprising.UI.MainMenu
             normalPosition = new Vector2(Screen.width / 2 - Screen.width / 4, Screen.height / 2);
         }
 
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             mainMenu.SetActive(true);
             settingsMenu.SetActive(true);
@@ -69,20 +70,16 @@ namespace ShadowUprising.UI.MainMenu
             state = MenuState.Main;
             StartCoroutine(SetMenusActiveAgain());
         }
-
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             UpdateMenus();
         }
-
         private IEnumerator SetMenusActiveAgain()
         {
             yield return new WaitForSecondsRealtime(1);
             settingsMenu.SetActive(true);
             creditsMenu.SetActive(true);
         }
-
         private void UpdateMenus()
         {
             normalPosition = new Vector2(Screen.width / 2 - Screen.width / 6, Screen.height / 2 + Screen.width / 8);
