@@ -8,11 +8,14 @@ namespace ShadowUprising.UI
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class SimpleTextAnimator : MonoBehaviour
     {
-        [Multiline, SerializeField, Tooltip("The text that will be displayed on the screen")]
-        string text;
+        [Multiline, Tooltip("The text that will be displayed on the screen")]
+        public string text;
 
         [SerializeField, Tooltip("The time to wait before appending the next character")]
-        float timeInBetweenCharacters = 0.1f;
+        float timeInBetweenCharacterWrite = 0.1f;
+
+        [SerializeField, Tooltip("The time to wait before removing the next character")]
+        float timeInBetweenCharacterClear = 0.001f;
 
         [SerializeField, Tooltip("The time to wait before clearing the text (-1 to disable)")]
         float timeToWaitBeforeClearing = -1f;
@@ -57,9 +60,9 @@ namespace ShadowUprising.UI
             {
                 tmpText.text += c;
                 if (useUnscaledTime)
-                    yield return new WaitForSecondsRealtime(timeInBetweenCharacters);
+                    yield return new WaitForSecondsRealtime(timeInBetweenCharacterWrite);
                 else
-                    yield return new WaitForSeconds(timeInBetweenCharacters);
+                    yield return new WaitForSeconds(timeInBetweenCharacterWrite);
             }
         }
 
@@ -71,11 +74,14 @@ namespace ShadowUprising.UI
                 yield return new WaitForSeconds(timeToWaitBeforeClearing);
             for (int i = tmpText.text.Length; i >= 0; i--)
             {
-                tmpText.text = tmpText.text.Remove(i);
+                tmpText.text = tmpText.text[..Mathf.Max(tmpText.text.Length - 1, 0)];
+                if(tmpText.text.Length == 0)
+                    break;
+
                 if (useUnscaledTime)
-                    yield return new WaitForSecondsRealtime(timeInBetweenCharacters);
+                    yield return new WaitForSecondsRealtime(timeInBetweenCharacterClear);
                 else
-                    yield return new WaitForSeconds(timeInBetweenCharacters);
+                    yield return new WaitForSeconds(timeInBetweenCharacterClear);
             }
         }
     }
