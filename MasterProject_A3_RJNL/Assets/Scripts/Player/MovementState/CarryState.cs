@@ -46,7 +46,7 @@ namespace ShadowUprising.Player.MovementState
         {
             playerMovement.UpdateMovementSpeedModifier(carrySpeed);
             if (InventoryManager.Instance != null)
-                InventoryManager.Instance.LockInventory(true);
+                InventoryManager.Instance.LockInventory();
         }
 
         public void UpdateState()
@@ -67,7 +67,7 @@ namespace ShadowUprising.Player.MovementState
             guardHolder.DropGuard();
             playerMovement.ResetMovementSpeedModifier();
             if (InventoryManager.Instance != null)
-                InventoryManager.Instance.LockInventory(false);
+                InventoryManager.Instance.UnlockInventory();
         }
     }
 }

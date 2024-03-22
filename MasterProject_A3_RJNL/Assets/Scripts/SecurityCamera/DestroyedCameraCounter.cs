@@ -17,7 +17,7 @@ namespace ShadowUprising.SecurityCamera
         {
             onCameraDestroy.Invoke();
             if (destroyedCameraCount++ > maxDestroyedCameras && GameOverManager.Instance != null)
-                GameOverManager.Instance.ShowGameOver();
+                GameOverManager.Instance.GameOver();
         }
     }
 }

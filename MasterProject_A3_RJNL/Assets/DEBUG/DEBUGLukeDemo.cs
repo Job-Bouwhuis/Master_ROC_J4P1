@@ -16,7 +16,7 @@ namespace ShadowUprising.DEBUG
         // Start is called before the first frame update
         void Start()
         {
-            InventoryManager.Instance.OnInventoryInteract.AddListener(lukedemo2);
+            InventoryManager.Instance.OnInventoryInteract += lukedemo2;
         }
 
 

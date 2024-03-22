@@ -19,8 +19,8 @@ namespace ShadowUprising.UI.InGame
 
             if (InventoryManager.Instance == null)
                 return;
-            InventoryManager.Instance.OnInventoryInteract.AddListener(InventorySelected);
-            InventoryManager.Instance.lockInventory += LockInventory;
+            InventoryManager.Instance.OnInventoryInteract += InventorySelected;
+            InventoryManager.Instance.OnInventoryLockChange += LockInventory;
         }
 
         private void InventorySelected(InventoryManager.InventoryInteractResult result)

@@ -80,5 +80,10 @@ namespace ShadowUprising.Inventory
         /// No item is selected
         /// </summary>
         NoItemSelected = 65536,
+
+        /// <summary>
+        /// The inventory is locked and can not be interacted with.
+        /// </summary>
+        InventoryLocked = 131072,
     }
 }

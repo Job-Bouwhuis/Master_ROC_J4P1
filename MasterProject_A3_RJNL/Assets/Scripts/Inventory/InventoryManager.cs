@@ -65,6 +65,10 @@ namespace ShadowUprising.Inventory
         public List<Slot> invSlots = new();
 
         public ClearableEvent<InventoryInteractResult> OnInventoryInteract { get; set; } = new();
+        /// <summary>
+        /// Invoked when the lockstate of the inventory changes
+        /// </summary>
+        public ClearableEvent<bool> OnInventoryLockChange { get; set; } = new();
 
         /// <summary>
         /// The amount of unique items in the inventory
@@ -77,7 +81,7 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
-
+        private bool isLocked = false;
         /// <summary>
         /// Attempts to add an item to the inventory
         /// </summary>
@@ -85,6 +89,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult AddItem(Item item)
         {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             InventoryInteractResult result;
             item = ValidateItem(item);
 
@@ -129,6 +135,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult RemoveItem(Item item)
         {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             ValidateItem(item);
 
             if (playerInventory.Contains(item))
@@ -141,6 +149,25 @@ namespace ShadowUprising.Inventory
                 return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInInventory, "Item not in inventory", item));
             }
         }
+
+        /// <summary>
+        /// Locks all interaction of the player with the inventory
+        /// </summary>
+        public void LockInventory()
+        {
+            OnInventoryLockChange.Invoke(isLocked = true);
+            slotParent.gameObject.SetActive(false); 
+        }
+
+        /// <summary>
+        /// Unlocks the inventory so the player can interact with it again
+        /// </summary>
+        public void UnlockInventory()
+        {
+            OnInventoryLockChange.Invoke(isLocked = false);
+            slotParent.gameObject.SetActive(true);
+        }
+
         /// <summary>
         /// Removes a given amount of the item from the inventory
         /// </summary>
@@ -149,6 +176,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult RemoveItem(Item item, int count)
         {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             InventoryInteractResult result;
             ValidateItem(item);
 
@@ -176,6 +205,8 @@ namespace ShadowUprising.Inventory
         /// <param name="index">The index of the item that should be equipped</param>
         public InventoryInteractResult SelectIndex(int index)
         {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             if (index < 0 || index >= invSlots.Count)
             {
                 return InvokeInteractEvent(new InventoryInteractResult(Failure | OutOfInventoryRange, "Index out of bounds", null));
@@ -200,6 +231,8 @@ namespace ShadowUprising.Inventory
         /// <returns>One of the results</returns>
         public InventoryInteractResult Interact()
         {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             if (SelectedItem == null)
                 return InvokeInteractEvent(new InventoryInteractResult(Failure | NoItemSelected, "No item selected", null));
             if (SelectedItem.ItemFunction == null)
@@ -274,6 +307,8 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public void ClearInventory()
         {
+            if (isLocked)
+                return;
             Log.Push("Clearing inventory");
             playerInventory.Clear();
             invSlots.Foreach(x => x.item = null);
@@ -387,6 +422,7 @@ namespace ShadowUprising.Inventory
         private void Update()
         {
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+            if (isLocked) return;
 
             OemKeybinds();
             InteractKeybind();

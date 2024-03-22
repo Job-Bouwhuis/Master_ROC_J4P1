@@ -46,7 +46,7 @@ namespace ShadowUprising.SecurityCamera
             timer += Time.deltaTime;
 
             if (timer >= detectionSpeed && GameOverManager.Instance != null)
-                GameOverManager.Instance.ShowGameOver();
+                GameOverManager.Instance.GameOver();
         }
 
         void OnNothingDetected()
