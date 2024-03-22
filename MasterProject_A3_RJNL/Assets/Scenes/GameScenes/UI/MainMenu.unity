@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6a669a09c7ce1f44b687de3622ac010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: PreviewSprint1
+  sceneName: DeathUITests
 --- !u!114 &399445108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,6 +1621,7 @@ GameObject:
   - component: {fileID: 431544048}
   - component: {fileID: 431544047}
   - component: {fileID: 431544046}
+  - component: {fileID: 431544051}
   - component: {fileID: 431544050}
   m_Layer: 0
   m_Name: Main Camera
@@ -1760,8 +1761,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d532c4fb4ef48f44e888734ad3623497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  lockMode: 0
   showCursor: 1
+--- !u!114 &431544051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431544045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8e86c89a090e54083fffb9aad002c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519380614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3211,10 +3224,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 664786021217482970, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2116619580397122657, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4368758207888029809, guid: fef0591eee03a3649a1cc713190d47b7,
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368758207888029809, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5350757937451235442, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1678.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788241215769379574, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: progress
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788241215769379574, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: useUnscaledTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9146388570712015394, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1678.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184630109498255391, guid: fef0591eee03a3649a1cc713190d47b7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

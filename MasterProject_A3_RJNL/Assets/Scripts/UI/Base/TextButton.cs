@@ -124,15 +124,28 @@ namespace ShadowUprising.UI
         }
 
         /// <summary>
+        /// Invoked when the button is hovered. returns true if the pointer entered the button, and false if the pointer exited the button
+        /// </summary>
+        public event Action<bool> OnHover = delegate { };
+
+        /// <summary>
         /// Sets hover to enabled
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnPointerEnter(PointerEventData eventData) => isHovered = true;
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            isHovered = true;
+            OnHover(true);
+        }
         /// <summary>
         /// Sets hover to disabled
         /// </summary>
         /// <param name="eventData"></param>
-        public void OnPointerExit(PointerEventData eventData) => isHovered = false;
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            isHovered = false;
+            OnHover(false);
+        }
         /// <summary>
         /// Exists only for the <see cref="PauseMenu.TextButtonAnimator"/> so when the button is activated again it doesnt snap to the target color.
         /// </summary>
