@@ -235,6 +235,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8975619278727009039}
+    - targetCorrespondingSourceObject: {fileID: 65702495048144492, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225824193386568910}
+    - targetCorrespondingSourceObject: {fileID: 65702495048144492, guid: e0fb92e31e3afdc4ba055d19fae6aa90,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8997855559440313832}
   m_SourcePrefab: {fileID: 100100000, guid: e0fb92e31e3afdc4ba055d19fae6aa90, type: 3}
 --- !u!4 &3626945488544202433 stripped
 Transform:
@@ -279,4 +287,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionSpeed: 0
   timerDecreaseSpeed: 5
-  detectionIndicator: {fileID: 0}
+--- !u!114 &225824193386568910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858979834941796580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0fe0c6ffb19b642baacf6007fa8bce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  brokenCameraPrefab: {fileID: 4703411314561156090, guid: bdae42a99d1ed3846845dd6f7f4757cb,
+    type: 3}
+--- !u!65 &8997855559440313832
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5858979834941796580}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0015000006, y: 0.005017714, z: 0.0015472202}
+  m_Center: {x: 0.000008986287, y: -0.0013054201, z: -0.00072640093}
