@@ -10,7 +10,7 @@ public class DEBUGGameOverTrigger : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.J))
         {
-            GameOverManager.Instance.ShowGameOver();
+            GameOverManager.Instance.GameOver();
         }
     }
 }

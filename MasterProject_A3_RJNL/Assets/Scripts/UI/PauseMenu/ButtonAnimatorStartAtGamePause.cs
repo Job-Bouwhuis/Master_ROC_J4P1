@@ -15,7 +15,7 @@ namespace ShadowUprising.UI.PauseMenu
         void Start()
         {
             animator = GetComponent<TextButtonAnimator>();
-            PauseMenuManager.Instance.OnPauseMenuShow += () =>
+            PauseMenuManager.Instance.OnPauseMenuShow += i =>
             {
                 StopAllCoroutines();
                 animator.StopAllCoroutines();

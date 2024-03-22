@@ -148,5 +148,15 @@ namespace ShadowUprising.Items
 
             return newItem;
         }
+
+        /// <summary>
+        /// Resets <see cref="ItemFunction"/> to null so it re-assigns the function. <br></br>
+        /// Usefull when the item is being loaded from a save file or when the item is being percisted between scenes
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public void ResetFunction()
+        {
+            itemFunction = null;
+        }
     }
 }

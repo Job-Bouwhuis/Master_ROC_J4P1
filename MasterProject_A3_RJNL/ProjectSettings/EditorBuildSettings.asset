@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScenes/DeathUITests.unity
     guid: 6817325a334ad5c42aa1d121fddbbf0d
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/DeathSavesTests.unity
+    guid: 2fa06b76ce4d0264bb1f6740eefc7c5b
   - enabled: 0
     path: Assets/Scenes/TestScenes/IngameUITests.unity
     guid: a4513d7c68ab4e24baa0edcd8dde5ddd

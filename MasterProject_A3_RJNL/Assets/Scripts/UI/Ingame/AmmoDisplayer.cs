@@ -11,10 +11,14 @@ namespace ShadowUprising.UI.InGame
     {
         [Tooltip("The ammo element in the UI")]
         public ElementAnimator AmmoElement;
+        [Tooltip("The gun object")]
+        public GameObject? Gun;
 
         private void Start()
         {
-            InventoryManager.Instance.OnInventoryInteract.AddListener(InventorySelected);
+            InventoryManager.Instance.OnInventoryInteract += InventorySelected;
+
+            Gun.SetActive(false);
         }
 
         private void InventorySelected(InventoryManager.InventoryInteractResult result)
@@ -27,16 +31,23 @@ namespace ShadowUprising.UI.InGame
                 if (result.Item == null)
                 {
                     AmmoElement.HideFromIndefinite();
+
+                    if (Gun != null)
+                        Gun.SetActive(false);
                     return;
                 }
 
                 if (result.Item.itemName == "Gun")
                 {
                     AmmoElement.ShowIndefinite();
+                    if(Gun != null)
+                        Gun.SetActive(true);
                 }
                 else
                 {
                     AmmoElement.HideFromIndefinite();
+                    if (Gun != null)
+                        Gun.SetActive(false);
                 }
             }
         }

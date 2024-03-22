@@ -39,5 +39,17 @@ namespace ShadowUprising.UnityUtils
 
             return results;
         }
+
+        public static bool IsDestroyed(this GameObject obj) => obj.IsDead();
+    }
+}
+
+namespace ShadowUprising
+{
+    using Unity.VisualScripting;
+
+    internal static class ExtentionMethodsUsingVisualScriptingNamespace
+    {
+        public static bool IsDead(this GameObject obj) => obj.IsDestroyed();
     }
 }
