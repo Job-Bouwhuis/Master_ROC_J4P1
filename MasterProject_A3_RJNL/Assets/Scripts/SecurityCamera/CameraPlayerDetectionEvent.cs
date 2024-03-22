@@ -9,7 +9,6 @@ namespace ShadowUprising.SecurityCamera
     /// <summary>
     /// The component managing the detection the functionality called when the camera detects a player or body
     /// </summary>
-    [RequireComponent(typeof(AI.AIPlayerConeDetector))]
     public class CameraPlayerDetectionEvent : MonoBehaviour
     {
         float timer;
