@@ -21,7 +21,7 @@ namespace ShadowUprising.UI.PauseMenu
         /// <summary>
         /// Called when the pause menu is set to show
         /// </summary>
-        public Action OnPauseMenuShow = delegate { };
+        public ClearableEvent<int> OnPauseMenuShow = new();
         /// <summary>
         /// Called when the pause menu is set to hide
         /// <br></br><br></br>
@@ -63,7 +63,7 @@ namespace ShadowUprising.UI.PauseMenu
             if(GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
                 return;
 
-            OnPauseMenuShow();
+            OnPauseMenuShow.Invoke(0);
 
             leftCover.ShowIndefinite();
             rightCover.ShowIndefinite();

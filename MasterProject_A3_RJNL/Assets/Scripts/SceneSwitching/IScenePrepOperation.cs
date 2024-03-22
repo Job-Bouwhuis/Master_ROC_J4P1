@@ -1,4 +1,3 @@
-// Creator: Job
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,29 +5,31 @@ using UnityEngine;
 namespace ShadowUprising.UI.Loading
 {
     /// <summary>
-    /// Interface for scene prep operations. These are used to prepare a scene during the loading process.
+    /// An interface for a scene preperation operation. used to prepare a scene after it has been loaded.<br></br>
+    /// eg: randomize loot positions, reset player position, reset time scale, lock mouse, etc.
     /// </summary>
     public interface IScenePrepOperation
     {
         /// <summary>
-        /// Whether the operation is complete.
+        /// True when the operation is complete
         /// </summary>
         bool IsComplete { get; set; }
 
         /// <summary>
-        /// Called to start the operation.
+        /// Initialize the operation. called once when the preperation starts, and before any preperation update is called.
         /// </summary>
         void StartPrep();
 
         /// <summary>
-        /// Called each frame until the operation is complete.
+        /// Update the operation. called every frame until the operation is complete.
         /// </summary>
-        /// <returns>Anything you can yield return in a standard unity <see cref="Coroutine"/>.<br></br>
-        /// In addition you can return <see cref="Completed"/> to have the preperation system set the <see cref="IsComplete"/> to true</returns>
-        YieldInstruction Update();
+        /// <returns>A <see cref="YieldInstruction"/> used to be able to wait like it is a coroutine.<br></br>
+        /// Return <see cref="Completed"/> to have the system set <see cref="IsComplete"/> to true. 
+        /// setting <see cref="IsComplete"/> manually would work the same</returns>
+        YieldInstruction PrepUpdate();
 
         /// <summary>
-        /// Called once when all prep operations are complete.
+        /// Finalize the operation. called once when the preperation is complete, and after the last update is called.
         /// </summary>
         void FinishPrep();
     }

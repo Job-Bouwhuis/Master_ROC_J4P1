@@ -1,4 +1,5 @@
 using ShadowUprising.UI;
+using ShadowUprising.UI.Loading;
 using UnityEngine;
 
 namespace ShadowUprising.GameOver
@@ -16,6 +17,15 @@ namespace ShadowUprising.GameOver
                 Log.Push("Starting gameover background animation");
                 animator.AnimateIn();
             };
+
+            if(LoadingScreen.Instance != null)
+            {
+                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                {
+                    animator.AnimateOut();
+                    return 0;
+                });
+            }
         }
     }
 }

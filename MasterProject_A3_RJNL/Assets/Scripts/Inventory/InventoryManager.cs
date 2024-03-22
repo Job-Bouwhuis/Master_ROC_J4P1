@@ -1,15 +1,14 @@
 // Creator: job
-// Edited: Ruben
 
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -20,7 +19,6 @@ using static ShadowUprising.Inventory.InventoryInteractionResult;
 
 namespace ShadowUprising.Inventory
 {
-    [DontDestroyOnLoad]
     public class InventoryManager : Singleton<InventoryManager>
     {
         public readonly struct InventoryInteractResult
@@ -49,7 +47,6 @@ namespace ShadowUprising.Inventory
         public Transform slotParent;
         [Tooltip("The speed at which the slots will animate in and out when this is needed")]
         public float slotAnimationSpeed = 1.2f;
-        public Action<bool> lockInventory;
 
         /// <summary>
         /// All items that can be found in the game<br></br><br></br>
@@ -67,7 +64,7 @@ namespace ShadowUprising.Inventory
         [Tooltip("All the slots in the inventory")]
         public List<Slot> invSlots = new();
 
-        public UnityEvent<InventoryInteractResult> OnInventoryInteract { get; private set; } = new UnityEvent<InventoryInteractResult>();
+        public ClearableEvent<InventoryInteractResult> OnInventoryInteract { get; set; } = new();
 
         /// <summary>
         /// The amount of unique items in the inventory
@@ -80,224 +77,6 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
-
-        public bool IsLocked;
-
-        protected override void Awake()
-        {
-            SetupReferenceChecks();
-
-            base.Awake();
-
-            SceneManager.sceneLoaded += OnNewSceneLoad;
-
-            // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
-            // this helps to prevent a big lag spike when any item is interacted with for the first time.
-            TypeWorker.FindType(nameof(Vector3));
-
-            foreach (int i in maxUniqueItems)
-            {
-                GameObject slot = Instantiate(slotPrefab, slotParent);
-
-                // move slot right by 55 pixels for each slot
-                slot.transform.transform.position = new Vector3(slot.transform.position.x + (slotSpacing * i), slot.transform.position.y, slot.transform.position.z);
-
-                Slot s = slot.GetComponent<Slot>();
-                s.Init(i, this);
-                invSlots.Add(s);
-            }
-
-            invSlots[0].IsSelected = true;
-
-            Log.Push("Inventory initialized.");
-        }
-        private void Start()
-        {
-            if (LoadingScreen.Instance != null)
-            {
-                Log.Push("Subscribing Inventory to loading screen event.");
-                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
-                {
-                    slotParent.gameObject.SetActive(true);
-                });
-
-                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
-                {
-                    return 0.0f;
-                });
-            }
-            else
-            {
-                // set inventory pos to visible
-                slotParent.gameObject.SetActive(true);
-            }
-
-            if (PauseMenuManager.Instance != null)
-            {
-                Log.Push("Subscribing Inventory to pause menu event.");
-                PauseMenuManager.Instance.OnPauseMenuShow += () =>
-                {
-                    //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                    //        return;
-                    slotParent.gameObject.SetActive(false);
-                };
-
-                PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
-                {
-                    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                        return 0;
-
-                    slotParent.gameObject.SetActive(true);
-                    return 0;
-                });
-            }
-
-            if(LoadingScreen.Instance != null)
-            {
-                slotParent.gameObject.SetActive(false);
-            }
-        }
-        private void SetupReferenceChecks()
-        {
-            if (slotPrefab == null)
-            {
-                Windows.MessageBox("Slot prefab is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                return;
-            }
-            if (uiCanvas == null)
-            {
-                Windows.MessageBox("UI canvas is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                return;
-            }
-            if (slotParent == null)
-            {
-                Windows.MessageBox("Slot parent is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
-#if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-#endif
-                return;
-            }
-        }
-        private void Update()
-        {
-            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
-            if (IsLocked) return;
-
-            OemKeybinds();
-            InteractKeybind();
-            Scrolling();
-            ApplyItemsToSlots();
-        }
-        private void ApplyItemsToSlots()
-        {
-            // loop over all items in the inventory, and let the slot know about its item
-            for (int i = 0; i < invSlots.Count; i++)
-            {
-                if (i < playerInventory.Count)
-                {
-                    invSlots[i].SetITem(playerInventory[i]);
-                }
-                else
-                {
-                    invSlots[i].item = null;
-                    invSlots[i].Clear();
-                }
-            }
-        }
-        private void Scrolling()
-        {
-            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
-
-            // scroll logic for switching selected slots using function SelectIndex
-            if (Input.mouseScrollDelta.y < 0)
-            {
-                for (int i = 0; i < invSlots.Count; i++)
-                {
-                    Slot slot = invSlots[i];
-                    if (slot.IsSelected)
-                    {
-                        if (i == invSlots.Count - 1)
-                        {
-                            SelectIndex(0);
-                            slot.IsSelected = false;
-                        }
-                        else
-                        {
-                            SelectIndex(i + 1);
-                            slot.IsSelected = false;
-                        }
-                        break;
-                    }
-                }
-            }
-            else if (Input.mouseScrollDelta.y > 0)
-            {
-                for (int i = 0; i < invSlots.Count; i++)
-                {
-                    Slot slot = invSlots[i];
-                    if (slot.IsSelected)
-                    {
-                        if (i == 0)
-                        {
-                            SelectIndex(invSlots.Count - 1);
-                            slot.IsSelected = false;
-                        }
-                        else
-                        {
-                            SelectIndex(i - 1);
-                            slot.IsSelected = false;
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        private void InteractKeybind()
-        {
-            if (SelectedItem is null)
-                return;
-
-            bool mayInteract = SelectedItem switch
-            {
-                { interactButton: Item.ItemInteractButton.LeftClick } => Input.GetMouseButtonDown(0),
-                { interactButton: Item.ItemInteractButton.RightClick } => Input.GetMouseButtonDown(1),
-                { interactButton: Item.ItemInteractButton.MiddleClick } => Input.GetMouseButtonDown(2),
-                { interactButton: Item.ItemInteractButton.E } => Input.GetKeyDown(KeyCode.E),
-                _ => false
-            };
-
-            if (mayInteract && SelectedItem.HasFunction)
-                SelectedItem.ItemFunction!.UseItem();
-        }
-        private void OemKeybinds()
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                SelectIndex(0);
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                SelectIndex(1);
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-                SelectIndex(2);
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-                SelectIndex(3);
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-                SelectIndex(4);
-            if (Input.GetKeyDown(KeyCode.Alpha6))
-                SelectIndex(5);
-            if (Input.GetKeyDown(KeyCode.Alpha7))
-                SelectIndex(6);
-            if (Input.GetKeyDown(KeyCode.Alpha8))
-                SelectIndex(7);
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-                SelectIndex(8);
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-                SelectIndex(9);
-        }
 
         /// <summary>
         /// Attempts to add an item to the inventory
@@ -408,9 +187,6 @@ namespace ShadowUprising.Inventory
             selectedItem = slot.item;
             slot.IsSelected = true;
 
-            if (slot.item != null)
-                Log.Push(slot.item.name + " selected");
-
             return InvokeInteractEvent(new InventoryInteractResult(Success | ItemEquipped, "Item selected", slot.item));
         }
         /// <summary>
@@ -430,7 +206,6 @@ namespace ShadowUprising.Inventory
                 return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInteractable, "Item is not interactable", SelectedItem));
 
             SelectedItem.ItemFunction.UseItem();
-            Log.Push($"Interaction with item '{SelectedItem.itemName}' complete");
             return InvokeInteractEvent(new InventoryInteractResult(Success | ItemUsed, "Item interacted with", SelectedItem));
         }
 
@@ -443,21 +218,21 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         private InventoryInteractResult InvokeInteractEvent(InventoryInteractResult result)
         {
-            Log.Push("Inventory interaction event invoked");
             OnInventoryInteract?.Invoke(result);
             return result;
         }
-        private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
-        {
-            Log.Push("New scene loaded. clearing interaction event subscribers");
-            OnInventoryInteract.RemoveAllListeners();
-            if (scene.name == "MainMenu")
-            {
-                Log.Push("The new scene is the Main Menu. Destroying inventory");
-                Destroy(gameObject);
-                SceneManager.sceneLoaded -= OnNewSceneLoad;
-            }
-        }
+        //private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
+        //{
+        //    Log.Push("New scene loaded. clearing interaction event subscribers");
+        //    OnInventoryInteract.Clear();
+        //    if (scene.name == "MainMenu")
+        //    {
+        //        Log.Push("The new scene is the Main Menu. Destroying inventory");
+        //        Destroy(gameObject);
+        //        SceneManager.sceneLoaded -= OnNewSceneLoad;
+        //        return;
+        //    }
+        //}
         /// <summary>
         /// Validates the given item and adds it the the <see cref="allItems"/> list if it is not already in there. and inits the item
         /// </summary>
@@ -486,11 +261,241 @@ namespace ShadowUprising.Inventory
 
         }
 
-        public void LockInventory(bool value)
+        /// <summary>
+        /// Updates the state of the inventory to reflect changes in the inventory made by other scripts
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public void UpdateState()
         {
-            IsLocked = value;
-            slotParent.gameObject.SetActive(!value);
-            lockInventory.Invoke(value);
+            SelectIndex(0);
+        }
+        /// <summary>
+        /// Clears all items from the players inventory
+        /// </summary>
+        public void ClearInventory()
+        {
+            Log.Push("Clearing inventory");
+            playerInventory.Clear();
+            invSlots.Foreach(x => x.item = null);
+            SelectIndex(0);
+        }
+
+
+        protected override void Awake()
+        {
+            SetupReferenceChecks();
+
+            base.Awake();
+
+            if(gameObject.IsDestroyed())
+                return;
+
+            //SceneManager.sceneLoaded += OnNewSceneLoad;
+
+            // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
+            // this helps to prevent a big lag spike when any item is interacted with for the first time.
+            TypeWorker.FindType(nameof(Vector3));
+
+            foreach (int i in maxUniqueItems)
+            {
+                GameObject slot = Instantiate(slotPrefab, slotParent);
+
+                // move slot right by 55 pixels for each slot
+                slot.transform.transform.position = new Vector3(slot.transform.position.x + (slotSpacing * i), slot.transform.position.y, slot.transform.position.z);
+
+                Slot s = slot.GetComponent<Slot>();
+                s.Init(i, this);
+                invSlots.Add(s);
+            }
+
+            invSlots[0].IsSelected = true;
+
+            AssignEvents();
+
+            Log.Push("Inventory initialized.");
+        }
+
+        /// <summary>
+        /// Only reason this is public is because it is called from the <see cref="DeathSaves.DeathSaveManager"/> class when the game is reloaded.
+        /// </summary>
+        public void AssignEvents()
+        {
+            if (LoadingScreen.Instance != null)
+            {
+                Log.Push("Subscribing Inventory to loading screen event.");
+                LoadingScreen.Instance.OnLoadingComplete += i =>
+                {
+                    slotParent.gameObject.SetActive(true);
+                };
+
+                LoadingScreen.Instance.OnStartLoading += () =>
+                {
+                    slotParent.gameObject.SetActive(false);
+                    return 0.0f;
+                };
+            }
+            else
+            {
+                // set inventory pos to visible
+                slotParent.gameObject.SetActive(true);
+            }
+
+            if (PauseMenuManager.Instance != null)
+            {
+                Log.Push("Subscribing Inventory to pause menu event.");
+                PauseMenuManager.Instance.OnPauseMenuShow += i => slotParent.gameObject.SetActive(false);
+                PauseMenuManager.Instance.OnPauseMenuHide += () =>
+                {
+                    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
+                        return 0;
+
+                    slotParent.gameObject.SetActive(true);
+                    return 0;
+                };
+            }
+
+            if (LoadingScreen.Instance != null)
+                slotParent.gameObject.SetActive(false);
+        }
+        private void SetupReferenceChecks()
+        {
+            if (slotPrefab == null)
+            {
+                Windows.MessageBox("Slot prefab is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return;
+            }
+            if (uiCanvas == null)
+            {
+                Windows.MessageBox("UI canvas is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return;
+            }
+            if (slotParent == null)
+            {
+                Windows.MessageBox("Slot parent is not set in the inventory manager", "Error", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Error);
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+                return;
+            }
+        }
+        private void Update()
+        {
+            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+
+            OemKeybinds();
+            InteractKeybind();
+            Scrolling();
+            ApplyItemsToSlots();
+        }
+        private void ApplyItemsToSlots()
+        {
+            // loop over all items in the inventory, and let the slot know about its item
+            for (int i = 0; i < invSlots.Count; i++)
+            {
+                if (i < playerInventory.Count)
+                {
+                    invSlots[i].SetITem(playerInventory[i]);
+                }
+                else
+                {
+                    invSlots[i].item = null;
+                    invSlots[i].Clear();
+                }
+            }
+        }
+        private void Scrolling()
+        {
+            if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+
+            // scroll logic for switching selected slots using function SelectIndex
+            if (Input.mouseScrollDelta.y < 0)
+            {
+                for (int i = 0; i < invSlots.Count; i++)
+                {
+                    Slot slot = invSlots[i];
+                    if (slot.IsSelected)
+                    {
+                        if (i == invSlots.Count - 1)
+                        {
+                            SelectIndex(0);
+                            slot.IsSelected = false;
+                        }
+                        else
+                        {
+                            SelectIndex(i + 1);
+                            slot.IsSelected = false;
+                        }
+                        break;
+                    }
+                }
+            }
+            else if (Input.mouseScrollDelta.y > 0)
+            {
+                for (int i = 0; i < invSlots.Count; i++)
+                {
+                    Slot slot = invSlots[i];
+                    if (slot.IsSelected)
+                    {
+                        if (i == 0)
+                        {
+                            SelectIndex(invSlots.Count - 1);
+                            slot.IsSelected = false;
+                        }
+                        else
+                        {
+                            SelectIndex(i - 1);
+                            slot.IsSelected = false;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        private void InteractKeybind()
+        {
+            if (SelectedItem is null)
+                return;
+
+            bool mayInteract = SelectedItem switch
+            {
+                { interactButton: Item.ItemInteractButton.LeftClick } => Input.GetMouseButtonDown(0),
+                { interactButton: Item.ItemInteractButton.RightClick } => Input.GetMouseButtonDown(1),
+                { interactButton: Item.ItemInteractButton.MiddleClick } => Input.GetMouseButtonDown(2),
+                { interactButton: Item.ItemInteractButton.E } => Input.GetKeyDown(KeyCode.E),
+                _ => false
+            };
+
+            if (mayInteract && SelectedItem.HasFunction)
+                SelectedItem.ItemFunction!.UseItem();
+        }
+        private void OemKeybinds()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                SelectIndex(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                SelectIndex(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                SelectIndex(2);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+                SelectIndex(3);
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+                SelectIndex(4);
+            if (Input.GetKeyDown(KeyCode.Alpha6))
+                SelectIndex(5);
+            if (Input.GetKeyDown(KeyCode.Alpha7))
+                SelectIndex(6);
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+                SelectIndex(7);
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+                SelectIndex(8);
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+                SelectIndex(9);
         }
     }
 }

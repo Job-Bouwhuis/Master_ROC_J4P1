@@ -22,7 +22,7 @@ namespace ShadowUprising.ScenePreps
             Log.Push("Mouse state switched to: " + lockMode.ToString());
         }
 
-        public YieldInstruction Update()
+        public YieldInstruction PrepUpdate()
         {
             return new Completed();
         }

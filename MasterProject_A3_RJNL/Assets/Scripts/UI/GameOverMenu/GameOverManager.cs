@@ -9,6 +9,10 @@ using UnityEngine.UI;
 
 namespace ShadowUprising.GameOver
 {
+    /// <summary>
+    /// A class that manages the handing of when the game is over.<br></br>
+    /// Aswell as the UI that is displayed when the game is over.
+    /// </summary>
     public class GameOverManager : Singleton<GameOverManager>
     {
         /// <summary>
@@ -29,7 +33,12 @@ namespace ShadowUprising.GameOver
         [Header("Settings")]
         [SerializeField] private float backgroundFadeInSpeed = 1.0f;
 
-        public void ShowGameOver()
+        /// <summary>
+        /// Makes the know that the game is over. <br></br>
+        /// this will trigger the game over screen to appear and the <see cref="OnGameOver"/> event to be triggered<br></br>
+        /// and lastly the <see cref="IsGameOver"/> flag to be set to true.
+        /// </summary>
+        public void GameOver()
         {
             if (IsGameOver)
                 return;
@@ -51,6 +60,9 @@ namespace ShadowUprising.GameOver
             OnGameOver();
         }
 
+        /// <summary>
+        /// Hides the game over screen, does not reset the <see cref="IsGameOver"/> flag.
+        /// </summary>
         public void HideGameOver()
         {
             StopAllCoroutines();
@@ -77,14 +89,12 @@ namespace ShadowUprising.GameOver
                 });
             }
         }
-
         IEnumerator UnlockMouse()
         {
             yield return new WaitForSecondsRealtime(2.5f);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
         IEnumerator AnimateTimeScale()
         {
             // lerp time scale to 0
@@ -96,9 +106,6 @@ namespace ShadowUprising.GameOver
 
             Time.timeScale = 0;
         }
-
-
-
         IEnumerator FadeInBackground()
         {
             while (backgroundImage.color.a < 0.35f)
