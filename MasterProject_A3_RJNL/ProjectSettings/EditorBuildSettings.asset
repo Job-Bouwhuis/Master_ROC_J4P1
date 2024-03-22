@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestScenes/WorldInteractionTests.unity
     guid: ad64571357f79eb4fb30069a26bd87bf
+  - enabled: 1
+    path: Assets/Scenes/GameScenes/DEMO/DEMOEND.unity
+    guid: fa766403da987594b954f146e890d575
+  - enabled: 1
+    path: Assets/Scenes/GameScenes/Levels/TutorialLevelScene.unity
+    guid: d67558e2ea0b38c41aa1720daa181f79
   m_configObjects: {}

@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using ShadowUprising.GameOver;
 using UnityEngine;
 
-public class DestroyedCameraCounter : MonoBehaviour
+namespace ShadowUprising.SecurityCamera
 {
-    int destroyedCameraCount;
-    [SerializeField] int maxDestroyedCameras;
-
-    public Action onCameraDestroy;
-
-    public void addDestroyedCamera()
+    public class DestroyedCameraCounter : MonoBehaviour
     {
-        onCameraDestroy.Invoke();
-        if (destroyedCameraCount++ >= maxDestroyedCameras && GameOverManager.Instance != null)
-            GameOverManager.Instance.ShowGameOver();
+        int destroyedCameraCount;
+        [SerializeField] int maxDestroyedCameras;
+
+        public Action onCameraDestroy;
+
+        public void addDestroyedCamera()
+        {
+            onCameraDestroy.Invoke();
+            if (destroyedCameraCount++ > maxDestroyedCameras && GameOverManager.Instance != null)
+                GameOverManager.Instance.ShowGameOver();
+        }
     }
 }
