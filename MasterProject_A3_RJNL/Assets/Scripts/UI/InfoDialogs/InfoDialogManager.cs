@@ -75,10 +75,25 @@ namespace ShadowUprising.UI.InfoDialogs
     /// </summary>
     public readonly struct InfoDialogData
     {
+        /// <summary>
+        /// The title of the dialog (Displayed at the top of the dialog in the blue bar)
+        /// </summary>
         public readonly string Title { get; }
+        /// <summary>
+        /// The body of the dialog ( or main text of the dialog)
+        /// </summary>
         public readonly string Text { get; }
+        /// <summary>
+        /// The duration the dialog will be displayed for.
+        /// </summary>
         public readonly float Duration { get; }
 
+        /// <summary>
+        /// Constructor for the InfoDialogData struct
+        /// </summary>
+        /// <param name="title">The title of the dialog (Displayed at the top of the dialog in the blue bar)</param>
+        /// <param name="text">The body of the dialog ( or main text of the dialog)</param>
+        /// <param name="duration">The duration the dialog will be displayed for.</param>
         public InfoDialogData(string title, string text, float duration)
         {
             Title = title;
