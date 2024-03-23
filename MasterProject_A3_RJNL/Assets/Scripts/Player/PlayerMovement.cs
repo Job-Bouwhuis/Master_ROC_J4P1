@@ -42,7 +42,7 @@ namespace ShadowUprising.Player
         {
             Ray ray = new Ray(transform.position, moveDir);
             Physics.Raycast(ray, out RaycastHit hitData);
-            if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0)
+            if (hitData.distance <= DISTANCE_TO_WALL && hitData.distance != 0 && hitData.collider.layerOverridePriority >= 0)
                 return true;
             return false;
         }
