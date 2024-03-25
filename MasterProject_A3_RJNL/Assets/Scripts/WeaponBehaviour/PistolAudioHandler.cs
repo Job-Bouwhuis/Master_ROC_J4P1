@@ -5,33 +5,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PistolAudioHandler : MonoBehaviour
+namespace ShadowUprising.Audio
 {
-    public AudioClip weaponShot;
-    public AudioClip weaponReload;
-    private AudioSource audioSource;
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Audio handler for the pistol
+    /// </summary>
+    public class PistolAudioHandler : MonoBehaviour
     {
-        var comp = GetComponent<Pistol>();
-        comp.onPistolReload += OnPistolReload;
-        comp.onPistolShot += OnPistolShot;
-        audioSource = GetComponent<AudioSource>();
-    }
+        /// <summary>
+        /// Audio container for the weapon shot
+        /// </summary>
+        public AudioContainer weaponShot;
+        /// <summary>
+        /// Audio container for the weapon reload
+        /// </summary>
+        public AudioContainer weaponReload;
+        // Start is called before the first frame update
+        void Start()
+        {
+            var comp = GetComponent<Pistol>();
+            comp.onPistolReload += OnPistolReload;
+            comp.onPistolShot += OnPistolShot;
+        }
 
-    private void OnPistolShot()
-    {
-        audioSource.PlayOneShot(weaponShot);
-    }
+        private void OnPistolShot()
+        {
+            AudioManager.Instance.Play(weaponShot, transform.position);
+        }
 
-    private void OnPistolReload()
-    {
-        audioSource.PlayOneShot(weaponReload);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void OnPistolReload()
+        {
+            AudioManager.Instance.Play(weaponReload, transform.position);
+        }
     }
 }
