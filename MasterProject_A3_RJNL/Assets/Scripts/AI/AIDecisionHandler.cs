@@ -69,12 +69,5 @@ namespace ShadowUprising.AI.Alarm
             comp.AddAI(gameObject);
             GetComponent<AINavigationSystem>().SetCurrentWayPoint(comp.transform.position);
         }
-
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
