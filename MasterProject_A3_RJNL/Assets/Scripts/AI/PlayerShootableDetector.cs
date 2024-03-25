@@ -8,10 +8,18 @@ namespace ShadowUprising.AI
 {
     public class PlayerShootableDetector : MonoBehaviour
     {
-
+        /// <summary>
+        /// determines the shooting angle
+        /// </summary>
         public float angle;
 
+        /// <summary>
+        /// is called when the player is shootable
+        /// </summary>
         public Action onPlayerShootable = delegate { };
+        /// <summary>
+        /// is called when the player isnt shootable anymore
+        /// </summary>
         public Action onPlayerNotSchootable = delegate { };
 
         GameObject player;
@@ -46,7 +54,8 @@ namespace ShadowUprising.AI
 
         private void Update()
         {
-            shootable = Vector3.Angle(transform.forward, player.transform.position) < angle;
+            var heading = (player.transform.position - transform.position).normalized;
+            shootable = Vector3.Angle(heading, transform.forward) < angle;
         }
     }
 }
