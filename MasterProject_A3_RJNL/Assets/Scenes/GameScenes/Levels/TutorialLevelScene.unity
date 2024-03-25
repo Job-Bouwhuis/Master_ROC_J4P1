@@ -2160,26 +2160,6 @@ PrefabInstance:
       propertyPath: Gun
       value: 
       objectReference: {fileID: 1138565106}
-    - target: {fileID: 5376989111543721501, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
-        type: 3}
-      propertyPath: gameOverText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376989111543721501, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
-        type: 3}
-      propertyPath: restartButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376989111543721501, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
-        type: 3}
-      propertyPath: mainMenuButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5376989111543721501, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
-        type: 3}
-      propertyPath: backgroundImage
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 6662982657687245905, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
         type: 3}
       propertyPath: player
