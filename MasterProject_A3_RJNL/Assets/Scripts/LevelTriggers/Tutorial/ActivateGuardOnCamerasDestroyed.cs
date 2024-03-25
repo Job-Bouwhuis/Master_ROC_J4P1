@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using ShadowUprising;
 using ShadowUprising.SecurityCamera;
+using ShadowUprising.UI.InfoDialogs;
 using UnityEngine;
 
 namespace ShadowUprising.LevelTriggers.Tutorial
@@ -38,7 +39,7 @@ namespace ShadowUprising.LevelTriggers.Tutorial
         {
             if (++destroyedCamera == toBeDestroyedCameras)
             {
-                print("test");
+                InfoDialogManager.Instance.ShowInfoDialog("TUTORIAL", "Now shoot the guard that will come!", 5);
                 guard.SetActive(true);
             }
         }

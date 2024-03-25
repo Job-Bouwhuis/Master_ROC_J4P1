@@ -9,7 +9,7 @@ namespace ShadowUprising.DEBUG
     {
         void Update()
         {
-            if (Input.GetKeyDown("escape"))
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 LoadingScreen.Instance.ShowAndLoad("MainMenu");
             }

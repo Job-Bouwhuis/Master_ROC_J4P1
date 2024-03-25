@@ -345,9 +345,12 @@ namespace ShadowUprising.Inventory
 
             invSlots[0].IsSelected = true;
 
-            AssignEvents();
-
             Log.Push("Inventory initialized.");
+        }
+
+        private void Start()
+        {
+            AssignEvents();
         }
 
         /// <summary>
