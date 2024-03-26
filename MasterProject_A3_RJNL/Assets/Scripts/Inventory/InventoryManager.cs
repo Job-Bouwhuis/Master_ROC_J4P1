@@ -536,5 +536,27 @@ namespace ShadowUprising.Inventory
             if (Input.GetKeyDown(KeyCode.Alpha0))
                 SelectIndex(9);
         }
+
+        /// <summary>
+        /// Consumes the currently selected item by removing the specified amount from the inventory.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns>A struct containing information about the interaction with the inventory</returns>
+        public InventoryInteractResult ConsumeItem(int count)
+        {
+            if (selectedItem == null)
+                return new(Failure | NoItemSelected, "item was null", null);
+
+            RemoveItem(selectedItem, count);
+            return new(Success | ItemConsumed, "item consumed", selectedItem);
+        }
+
+        /// <summary>
+        /// Consumes 1 of the currently selected item by removing it from the inventory.
+        /// </summary>
+        /// <returns>A struct containing information about the interaction with the inventory </returns>
+        public InventoryInteractResult ConsumeItem() => ConsumeItem(1);
+
+
     }
 }

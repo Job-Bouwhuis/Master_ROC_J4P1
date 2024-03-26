@@ -85,5 +85,10 @@ namespace ShadowUprising.Inventory
         /// The inventory is locked and can not be interacted with.
         /// </summary>
         InventoryLocked = 131072,
+
+        /// <summary>
+        /// The item has been consumed
+        /// </summary>
+        ItemConsumed = 262144,
     }
 }
