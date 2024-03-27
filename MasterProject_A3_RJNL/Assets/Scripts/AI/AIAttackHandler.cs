@@ -38,7 +38,12 @@ namespace ShadowUprising.AI
             GetComponent<AIPlayerConeDetector>().onObjectDetected += OnObjectDetected;
             state = GetComponent<GuardState>();
             aiSystem = GetComponent<AINavigationSystem>();
-            timer.elapsed += GetComponent<Alarm.AIDecisionHandler>().SoundClosestAlarm;
+            timer.elapsed += CallAlarmFunction;
+        }
+
+        void CallAlarmFunction()
+        {
+            GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
         }
 
         void CheckForSoundAlarm()
@@ -62,10 +67,14 @@ namespace ShadowUprising.AI
 
         void OnObjectDetected(GameObject gameObject)
         {
-            SetGuardState();
-            lastPlayerLoc = gameObject.transform.position;
-            aiSystem.SetCurrentWayPoint(gameObject.transform.position);
-            timer.ZeroTimer();
+            if (state.CurrentState == AIState.Attacking)
+            {
+
+
+                lastPlayerLoc = gameObject.transform.position;
+                aiSystem.SetCurrentWayPoint(gameObject.transform.position);
+                timer.ZeroTimer();
+            }
         }
 
     }
