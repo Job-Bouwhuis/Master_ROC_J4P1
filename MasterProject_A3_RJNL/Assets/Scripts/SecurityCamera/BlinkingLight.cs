@@ -36,19 +36,11 @@ namespace ShadowUprising.Cameras
 
         private void SetIntensity(float intensity)
         {
-            // Get the original emission color
             Color originalEmissionColor = GetComponent<Renderer>().material.GetColor("_EmissionColor");
-
-            // Calculate the scaleFactor
             float scaleFactor = Mathf.Pow(2f, intensity) * 255f / MAX_BYTE_FOR_OVEREXPOSED_COLOR;
-
-            // Calculate the maxColorComponent using the inverse scaleFactor
             float maxColorComponent = 255f / scaleFactor;
-
-            // Calculate the ratio to keep the original color while adjusting intensity
             float ratio = maxColorComponent / Mathf.Max(originalEmissionColor.r, originalEmissionColor.g, originalEmissionColor.b);
 
-            // Scale the original color components by the ratio
             Color newEmissionColor = new Color(
                 originalEmissionColor.r * ratio,
                 originalEmissionColor.g * ratio,
@@ -64,7 +56,6 @@ namespace ShadowUprising.Cameras
         {
             // copy the material so we dont change the original, and apply it to the renderer that is attached to this object
             lightMaterial = GetComponent<Renderer>().material;
-
 
             // set a random time so that the lights dont blink at the same time
             time = Random.Range(0, onTime + offTime);
