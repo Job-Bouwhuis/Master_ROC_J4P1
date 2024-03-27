@@ -17,7 +17,7 @@ namespace ShadowUprising.AI.Alarm
         // Start is called before the first frame update
         void Start()
         {
-            GetComponent<AIPlayerConeDetector>().onPlayerDetected += OnPlayerDetected;
+            //GetComponent<AIPlayerConeDetector>().onPlayerDetected += OnPlayerDetected;
             buttons = FindObjectOfType<AlarmContainer>().alarmButtons;
         }
 
