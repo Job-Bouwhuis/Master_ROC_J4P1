@@ -8442,6 +8442,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Security Camera (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6730421688537668569, guid: 6393e10d3263b87429caaae451805284,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906196193731640831, guid: 6393e10d3263b87429caaae451805284,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8556592096704724354, guid: 6393e10d3263b87429caaae451805284,
         type: 3}
       propertyPath: range
