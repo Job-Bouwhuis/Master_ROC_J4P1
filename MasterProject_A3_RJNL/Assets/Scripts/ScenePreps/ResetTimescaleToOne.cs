@@ -14,7 +14,7 @@ public class ResetTimescaleToOne : MonoBehaviour, IScenePrepOperation
         Time.timeScale = 1;
     }
 
-    public YieldInstruction Update()
+    public YieldInstruction PrepUpdate()
     {
         return new Completed();
     }

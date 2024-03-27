@@ -1,4 +1,5 @@
 //Creator: Luke
+//Edited: Ruben
 using UnityEngine;
 using ShadowUprising.Utils;
 
@@ -34,10 +35,15 @@ namespace ShadowUprising.AI
 
         void Asign()
         {
-            GetComponent<AIPlayerConeDetector>().onPlayerDetected += OnPlayerDetected;
+            GetComponent<AIPlayerConeDetector>().onObjectDetected += OnObjectDetected;
             state = GetComponent<GuardState>();
             aiSystem = GetComponent<AINavigationSystem>();
-            timer.elapsed += GetComponent<Alarm.AIDecisionHandler>().SoundClosestAlarm;
+            timer.elapsed += CallAlarmFunction;
+        }
+
+        void CallAlarmFunction()
+        {
+            GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
         }
 
         void CheckForSoundAlarm()
@@ -59,12 +65,14 @@ namespace ShadowUprising.AI
                 timer.StartTimer();
         }
 
-        void OnPlayerDetected(Vector3 playerPos)
+        void OnObjectDetected(GameObject gameObject)
         {
             if (state.CurrentState == AIState.Attacking)
             {
-                lastPlayerLoc = playerPos;
-                aiSystem.SetCurrentWayPoint(playerPos);
+
+
+                lastPlayerLoc = gameObject.transform.position;
+                aiSystem.SetCurrentWayPoint(gameObject.transform.position);
                 timer.ZeroTimer();
             }
         }

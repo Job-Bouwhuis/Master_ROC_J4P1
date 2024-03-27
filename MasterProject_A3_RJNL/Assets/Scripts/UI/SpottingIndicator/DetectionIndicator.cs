@@ -1,10 +1,9 @@
 //Creator: Job
+//Edited: Ruben
 using ShadowUprising.UI.Loading;
+using ShadowUprising.Detection;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ShadowUprising.UI.SpottingIndicator
 {
@@ -48,6 +47,13 @@ namespace ShadowUprising.UI.SpottingIndicator
                     return 0;
                 });
             }
+            if (DetectionManager.Instance != null)
+            {
+                detectionSpeed = DetectionManager.Instance.detectionSpeed;
+                DetectionManager.Instance.onObjectDetectingPlayer += OnObjectDetectingPlayer;
+                DetectionManager.Instance.onNoObjectsDetectingPlayer += OnNoObjectsDetectingPlayer;
+            }
+                
         }
         void Update()
         {
@@ -101,6 +107,17 @@ namespace ShadowUprising.UI.SpottingIndicator
                 vignette.colorAtMinIntensity = Color.Lerp(vignette.colorAtMinIntensity, vignetteDefaultColor, Time.deltaTime * 2);
                 yield return null;
             }
+        }
+
+        void OnObjectDetectingPlayer()
+        {
+            isDetecting = true;
+        }
+
+        void OnNoObjectsDetectingPlayer()
+        {
+            isDetecting = false;
+            isDetected = false;
         }
     }
 }

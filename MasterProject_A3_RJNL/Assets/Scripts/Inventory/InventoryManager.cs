@@ -4,6 +4,7 @@ using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ using static ShadowUprising.Inventory.InventoryInteractionResult;
 
 namespace ShadowUprising.Inventory
 {
-    [DontDestroyOnLoad]
     public class InventoryManager : Singleton<InventoryManager>
     {
         public readonly struct InventoryInteractResult
@@ -64,7 +64,11 @@ namespace ShadowUprising.Inventory
         [Tooltip("All the slots in the inventory")]
         public List<Slot> invSlots = new();
 
-        public UnityEvent<InventoryInteractResult> OnInventoryInteract { get; private set; } = new UnityEvent<InventoryInteractResult>();
+        public ClearableEvent<InventoryInteractResult> OnInventoryInteract { get; set; } = new();
+        /// <summary>
+        /// Invoked when the lockstate of the inventory changes
+        /// </summary>
+        public ClearableEvent<bool> OnInventoryLockChange { get; set; } = new();
 
         /// <summary>
         /// The amount of unique items in the inventory
@@ -77,6 +81,239 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public Item? SelectedItem => selectedItem;
         [SerializeField] private Item? selectedItem;
+        private bool isLocked = false;
+        /// <summary>
+        /// Attempts to add an item to the inventory
+        /// </summary>
+        /// <param name="item">The item to add</param>
+        /// <returns></returns>
+        public InventoryInteractResult AddItem(Item item)
+        {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
+            InventoryInteractResult result;
+            item = ValidateItem(item);
+
+            foreach (Item i in playerInventory)
+            {
+                if (i.id == item.id)
+                {
+                    if (i.CurrentStackSize < i.MaxStackSize)
+                    {
+                        i.SetStack(i.CurrentStackSize + 1);
+                        return InvokeInteractEvent(new InventoryInteractResult(Success | ItemAddedToStack, "Item added to stack", item));
+                    }
+                    else
+                    {
+                        return InvokeInteractEvent(new InventoryInteractResult(Failure | StackFull, "Item stack is full", item));
+                    }
+                }
+            }
+
+            if (playerInventory.Count >= maxUniqueItems)
+            {
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | InventoryFull, "Inventory is full", item));
+            }
+
+            playerInventory.Add(item);
+
+            // make sure the slot in which the item is placed knows about the item
+            invSlots[playerInventory.Count - 1].SetITem(item);
+
+            // if the slot in which the item is placed is selected, select the item
+            if (invSlots[playerInventory.Count - 1].IsSelected)
+            {
+                SelectIndex(playerInventory.IndexOf(item));
+            }
+
+            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemAdded, "Item added to inventory", item));
+        }
+        /// <summary>
+        /// Removes the given item from the inventory regardless of the stack size
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public InventoryInteractResult RemoveItem(Item item)
+        {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
+            ValidateItem(item);
+
+            if (playerInventory.Contains(item))
+            {
+                playerInventory.Remove(item);
+                return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemoved, "Item removed from inventory", item));
+            }
+            else
+            {
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInInventory, "Item not in inventory", item));
+            }
+        }
+
+        /// <summary>
+        /// Locks all interaction of the player with the inventory
+        /// </summary>
+        public void LockInventory()
+        {
+            OnInventoryLockChange.Invoke(isLocked = true);
+            slotParent.gameObject.SetActive(false); 
+        }
+
+        /// <summary>
+        /// Unlocks the inventory so the player can interact with it again
+        /// </summary>
+        public void UnlockInventory()
+        {
+            OnInventoryLockChange.Invoke(isLocked = false);
+            slotParent.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Removes a given amount of the item from the inventory
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public InventoryInteractResult RemoveItem(Item item, int count)
+        {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
+            InventoryInteractResult result;
+            ValidateItem(item);
+
+            if (playerInventory.Contains(item))
+            {
+                if (item.CurrentStackSize > count)
+                {
+                    item.SetStack(item.CurrentStackSize - count);
+                    return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemovedFromStack, "Item removed from stack", item));
+                }
+                else
+                {
+                    playerInventory.Remove(item);
+                    return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemoved, "Item removed from inventory", item));
+                }
+            }
+            else
+            {
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInInventory, "Item not in inventory", item));
+            }
+        }
+        /// <summary>
+        /// Selects the item at the given index in the inventory
+        /// </summary>
+        /// <param name="index">The index of the item that should be equipped</param>
+        public InventoryInteractResult SelectIndex(int index)
+        {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
+            if (index < 0 || index >= invSlots.Count)
+            {
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | OutOfInventoryRange, "Index out of bounds", null));
+            }
+
+            invSlots.Foreach(x => x.IsSelected = false);
+
+            Slot slot = invSlots[index];
+            selectedItem = slot.item;
+            slot.IsSelected = true;
+
+            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemEquipped, "Item selected", slot.item));
+        }
+        /// <summary>
+        /// Interacts with the current selected item, given there is an item selected and the item has a function 
+        /// <br></br>
+        /// <b>Possible Results:</b><br></br>
+        /// <b><see cref="Success"/> | <see cref="ItemUsed"/></b><br></br>
+        /// <b><see cref="Failure"/> | <see cref="NoItemSelected"/></b><br></br>
+        /// <b><see cref="Failure"/> | <see cref="ItemNotInteractable"/></b>
+        /// </summary>
+        /// <returns>One of the results</returns>
+        public InventoryInteractResult Interact()
+        {
+            if (isLocked)
+                return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
+            if (SelectedItem == null)
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | NoItemSelected, "No item selected", null));
+            if (SelectedItem.ItemFunction == null)
+                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInteractable, "Item is not interactable", SelectedItem));
+
+            SelectedItem.ItemFunction.UseItem();
+            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemUsed, "Item interacted with", SelectedItem));
+        }
+
+        /// <summary>
+        /// Invokes the <see cref="OnInventoryInteract"/> event and returns <paramref name="result"/>
+        /// <br></br><br></br>
+        /// Used in all methods that interact with the inventory to invoke the event and return the result at the same time to reduce code duplication and increase readability
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private InventoryInteractResult InvokeInteractEvent(InventoryInteractResult result)
+        {
+            OnInventoryInteract?.Invoke(result);
+            return result;
+        }
+        //private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
+        //{
+        //    Log.Push("New scene loaded. clearing interaction event subscribers");
+        //    OnInventoryInteract.Clear();
+        //    if (scene.name == "MainMenu")
+        //    {
+        //        Log.Push("The new scene is the Main Menu. Destroying inventory");
+        //        Destroy(gameObject);
+        //        SceneManager.sceneLoaded -= OnNewSceneLoad;
+        //        return;
+        //    }
+        //}
+        /// <summary>
+        /// Validates the given item and adds it the the <see cref="allItems"/> list if it is not already in there. and inits the item
+        /// </summary>
+        /// <param name="item"></param>
+        private Item ValidateItem(Item item)
+        {
+            if (item.id == -1)
+            {
+                Log.Push("Item has no id. Generating associated ID");
+                // check if there is already an item with the same name
+                Item existing = allItems.Where(x => x.itemName == item.itemName).FirstOrDefault();
+                if (existing != null)
+                {
+                    item.id = allItems.Find(x => x.itemName == item.itemName).id;
+                }
+                else
+                {
+                    item.id = allItems.Count;
+                    allItems.Add(item);
+                    existing = item.Copy();
+                }
+                return existing;
+            }
+
+            return item.Copy();
+
+        }
+
+        /// <summary>
+        /// Updates the state of the inventory to reflect changes in the inventory made by other scripts
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public void UpdateState()
+        {
+            SelectIndex(0);
+        }
+        /// <summary>
+        /// Clears all items from the players inventory
+        /// </summary>
+        public void ClearInventory()
+        {
+            if (isLocked)
+                return;
+            Log.Push("Clearing inventory");
+            playerInventory.Clear();
+            invSlots.Foreach(x => x.item = null);
+            SelectIndex(0);
+        }
 
 
         protected override void Awake()
@@ -85,7 +322,10 @@ namespace ShadowUprising.Inventory
 
             base.Awake();
 
-            SceneManager.sceneLoaded += OnNewSceneLoad;
+            if(gameObject.IsDestroyed())
+                return;
+
+            //SceneManager.sceneLoaded += OnNewSceneLoad;
 
             // call the TypeWorker.FindType method to make sure all required assemblies for it are loaded
             // this helps to prevent a big lag spike when any item is interacted with for the first time.
@@ -107,20 +347,30 @@ namespace ShadowUprising.Inventory
 
             Log.Push("Inventory initialized.");
         }
+
         private void Start()
+        {
+            AssignEvents();
+        }
+
+        /// <summary>
+        /// Only reason this is public is because it is called from the <see cref="DeathSaves.DeathSaveManager"/> class when the game is reloaded.
+        /// </summary>
+        public void AssignEvents()
         {
             if (LoadingScreen.Instance != null)
             {
                 Log.Push("Subscribing Inventory to loading screen event.");
-                LoadingScreen.Instance.OnLoadingComplete.AddListener(() =>
+                LoadingScreen.Instance.OnLoadingComplete += i =>
                 {
                     slotParent.gameObject.SetActive(true);
-                });
+                };
 
-                LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
+                LoadingScreen.Instance.OnStartLoading += () =>
                 {
+                    slotParent.gameObject.SetActive(false);
                     return 0.0f;
-                });
+                };
             }
             else
             {
@@ -131,27 +381,19 @@ namespace ShadowUprising.Inventory
             if (PauseMenuManager.Instance != null)
             {
                 Log.Push("Subscribing Inventory to pause menu event.");
-                PauseMenuManager.Instance.OnPauseMenuShow += () =>
-                {
-                    //    if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
-                    //        return;
-                    slotParent.gameObject.SetActive(false);
-                };
-
-                PauseMenuManager.Instance.OnPauseMenuHide.Subscribe(() =>
+                PauseMenuManager.Instance.OnPauseMenuShow += i => slotParent.gameObject.SetActive(false);
+                PauseMenuManager.Instance.OnPauseMenuHide += () =>
                 {
                     if (LoadingScreen.Instance != null && LoadingScreen.Instance.IsLoading)
                         return 0;
 
                     slotParent.gameObject.SetActive(true);
                     return 0;
-                });
+                };
             }
 
-            if(LoadingScreen.Instance != null)
-            {
+            if (LoadingScreen.Instance != null)
                 slotParent.gameObject.SetActive(false);
-            }
         }
         private void SetupReferenceChecks()
         {
@@ -183,6 +425,7 @@ namespace ShadowUprising.Inventory
         private void Update()
         {
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
+            if (isLocked) return;
 
             OemKeybinds();
             InteractKeybind();
@@ -295,190 +538,25 @@ namespace ShadowUprising.Inventory
         }
 
         /// <summary>
-        /// Attempts to add an item to the inventory
+        /// Consumes the currently selected item by removing the specified amount from the inventory.
         /// </summary>
-        /// <param name="item">The item to add</param>
-        /// <returns></returns>
-        public InventoryInteractResult AddItem(Item item)
-        {
-            InventoryInteractResult result;
-            item = ValidateItem(item);
-
-            foreach (Item i in playerInventory)
-            {
-                if (i.id == item.id)
-                {
-                    if (i.CurrentStackSize < i.MaxStackSize)
-                    {
-                        i.SetStack(i.CurrentStackSize + 1);
-                        return InvokeInteractEvent(new InventoryInteractResult(Success | ItemAddedToStack, "Item added to stack", item));
-                    }
-                    else
-                    {
-                        return InvokeInteractEvent(new InventoryInteractResult(Failure | StackFull, "Item stack is full", item));
-                    }
-                }
-            }
-
-            if (playerInventory.Count >= maxUniqueItems)
-            {
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | InventoryFull, "Inventory is full", item));
-            }
-
-            playerInventory.Add(item);
-
-            // make sure the slot in which the item is placed knows about the item
-            invSlots[playerInventory.Count - 1].SetITem(item);
-
-            // if the slot in which the item is placed is selected, select the item
-            if (invSlots[playerInventory.Count - 1].IsSelected)
-            {
-                SelectIndex(playerInventory.IndexOf(item));
-            }
-
-            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemAdded, "Item added to inventory", item));
-        }
-        /// <summary>
-        /// Removes the given item from the inventory regardless of the stack size
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
-        public InventoryInteractResult RemoveItem(Item item)
-        {
-            ValidateItem(item);
-
-            if (playerInventory.Contains(item))
-            {
-                playerInventory.Remove(item);
-                return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemoved, "Item removed from inventory", item));
-            }
-            else
-            {
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInInventory, "Item not in inventory", item));
-            }
-        }
-        /// <summary>
-        /// Removes a given amount of the item from the inventory
-        /// </summary>
-        /// <param name="item"></param>
         /// <param name="count"></param>
-        /// <returns></returns>
-        public InventoryInteractResult RemoveItem(Item item, int count)
+        /// <returns>A struct containing information about the interaction with the inventory</returns>
+        public InventoryInteractResult ConsumeItem(int count)
         {
-            InventoryInteractResult result;
-            ValidateItem(item);
+            if (selectedItem == null)
+                return new(Failure | NoItemSelected, "item was null", null);
 
-            if (playerInventory.Contains(item))
-            {
-                if (item.CurrentStackSize > count)
-                {
-                    item.SetStack(item.CurrentStackSize - count);
-                    return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemovedFromStack, "Item removed from stack", item));
-                }
-                else
-                {
-                    playerInventory.Remove(item);
-                    return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemoved, "Item removed from inventory", item));
-                }
-            }
-            else
-            {
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInInventory, "Item not in inventory", item));
-            }
-        }
-        /// <summary>
-        /// Selects the item at the given index in the inventory
-        /// </summary>
-        /// <param name="index">The index of the item that should be equipped</param>
-        public InventoryInteractResult SelectIndex(int index)
-        {
-            if (index < 0 || index >= invSlots.Count)
-            {
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | OutOfInventoryRange, "Index out of bounds", null));
-            }
-
-            invSlots.Foreach(x => x.IsSelected = false);
-
-            Slot slot = invSlots[index];
-            selectedItem = slot.item;
-            slot.IsSelected = true;
-
-            if (slot.item != null)
-                Log.Push(slot.item.name + " selected");
-
-            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemEquipped, "Item selected", slot.item));
-        }
-        /// <summary>
-        /// Interacts with the current selected item, given there is an item selected and the item has a function 
-        /// <br></br>
-        /// <b>Possible Results:</b><br></br>
-        /// <b><see cref="Success"/> | <see cref="ItemUsed"/></b><br></br>
-        /// <b><see cref="Failure"/> | <see cref="NoItemSelected"/></b><br></br>
-        /// <b><see cref="Failure"/> | <see cref="ItemNotInteractable"/></b>
-        /// </summary>
-        /// <returns>One of the results</returns>
-        public InventoryInteractResult Interact()
-        {
-            if (SelectedItem == null)
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | NoItemSelected, "No item selected", null));
-            if (SelectedItem.ItemFunction == null)
-                return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInteractable, "Item is not interactable", SelectedItem));
-
-            SelectedItem.ItemFunction.UseItem();
-            Log.Push($"Interaction with item '{SelectedItem.itemName}' complete");
-            return InvokeInteractEvent(new InventoryInteractResult(Success | ItemUsed, "Item interacted with", SelectedItem));
+            RemoveItem(selectedItem, count);
+            return new(Success | ItemConsumed, "item consumed", selectedItem);
         }
 
         /// <summary>
-        /// Invokes the <see cref="OnInventoryInteract"/> event and returns <paramref name="result"/>
-        /// <br></br><br></br>
-        /// Used in all methods that interact with the inventory to invoke the event and return the result at the same time to reduce code duplication and increase readability
+        /// Consumes 1 of the currently selected item by removing it from the inventory.
         /// </summary>
-        /// <param name="result"></param>
-        /// <returns></returns>
-        private InventoryInteractResult InvokeInteractEvent(InventoryInteractResult result)
-        {
-            Log.Push("Inventory interaction event invoked");
-            OnInventoryInteract?.Invoke(result);
-            return result;
-        }
-        private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
-        {
-            Log.Push("New scene loaded. clearing interaction event subscribers");
-            OnInventoryInteract.RemoveAllListeners();
-            if (scene.name == "MainMenu")
-            {
-                Log.Push("The new scene is the Main Menu. Destroying inventory");
-                Destroy(gameObject);
-                SceneManager.sceneLoaded -= OnNewSceneLoad;
-            }
-        }
-        /// <summary>
-        /// Validates the given item and adds it the the <see cref="allItems"/> list if it is not already in there. and inits the item
-        /// </summary>
-        /// <param name="item"></param>
-        private Item ValidateItem(Item item)
-        {
-            if (item.id == -1)
-            {
-                Log.Push("Item has no id. Generating associated ID");
-                // check if there is already an item with the same name
-                Item existing = allItems.Where(x => x.itemName == item.itemName).FirstOrDefault();
-                if (existing != null)
-                {
-                    item.id = allItems.Find(x => x.itemName == item.itemName).id;
-                }
-                else
-                {
-                    item.id = allItems.Count;
-                    allItems.Add(item);
-                    existing = item.Copy();
-                }
-                return existing;
-            }
+        /// <returns>A struct containing information about the interaction with the inventory </returns>
+        public InventoryInteractResult ConsumeItem() => ConsumeItem(1);
 
-            return item.Copy();
 
-        }
     }
 }

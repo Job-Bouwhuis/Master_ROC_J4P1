@@ -1,8 +1,8 @@
 //Creator: Job
+using ShadowUprising.AutoUpdates;
 using ShadowUprising.UI.Loading;
-using System.Collections;
 using UnityEngine;
-using WinterRose.WIP.Redis;
+using WinterRose;
 
 namespace ShadowUprising.UI.SplashScreen
 {
@@ -29,6 +29,14 @@ namespace ShadowUprising.UI.SplashScreen
         [SerializeField] bool isloading = false;
         [SerializeField] bool exitAnimation = false;
         [SerializeField] float time = 0;
+
+        private void Start()
+        {
+            Windows.MyHandle.Show();
+            Windows.MyHandle.Focus();
+            Windows.MyHandle.Maximize();
+        }
+
 
         // Update is called once per frame
         void Update()

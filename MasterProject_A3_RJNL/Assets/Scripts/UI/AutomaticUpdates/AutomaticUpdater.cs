@@ -11,37 +11,116 @@ using System.Threading;
 using System.Threading.Tasks;
 using ShadowUprising.Utils;
 using System.Diagnostics;
-using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace ShadowUprising.AutoUpdates
 {
+    /// <summary>
+    /// Component responsible for downloading the latest update from the server and starting the installer application.
+    /// </summary>
     public class AutomaticUpdater : MonoBehaviour
     {
+        /// <summary>
+        /// Text component to display the current version and the version being updated to.
+        /// </summary>
         public TMP_Text versionText;
+        /// <summary>
+        /// Text component to display the log found from <see cref="Log"/>
+        /// </summary>
         public TMP_Text logText;
+        /// <summary>
+        /// Text component to display the progress of the download.
+        /// </summary>
         public TMP_Text progressText;
 
+        /// <summary>
+        /// The progress bar to display the download progress.
+        /// </summary>
         public ProgressBar progressBar;
 
-        RedisConnection redis;
-        bool consoleWasOpen = false;
-        bool isDownloadComplete = false;
-        bool hasFaulted = false;
-
-        Thread downloadTask;
-
-        string downloadedPackage;
+        private RedisConnection redis;
+        private bool consoleWasOpen = false;
+        private bool isDownloadComplete = false;
+        private bool hasFaulted = false;
+        private Thread downloadTask;
+        private string downloadedPackage;
+        private bool lastVisualupdate = false;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-//#if UNITY_EDITOR
-//            Windows.MessageBox("Hey there naughty boy, dont just go change the version file and start the game though the splash screen or even the updator scene while being in the editor.\n" +
-//                "This would cause an update to happen which might corrupt the unity editor install.\n" +
-//                "Luckily for you i have made this check to prevent this from happening. Thank me later.", "You naughty boy", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
-//            UnityEditor.EditorApplication.isPlaying = false;
-//            return;
-//#endif
+#if UNITY_EDITOR
+            Log.PushWarning("Updates can not be happening in unity editor. that can corrupt the unity editor install.");
+            LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+            return;
+#endif
+
+            // Create a new Process object.
+
+            bool found = IsDotNET8Installed();
+            if (!found)
+            {
+                Windows.DialogResult result = Windows.MessageBox("Failed to find .NET 8.0 SDK on your machine.\nThis is required for automatic updates to be available.\n\n" +
+                    "Would you like to install this now?", ".NET 8.0 not installed", Windows.MessageBoxButtons.YesNo, Windows.MessageBoxIcon.Error);
+
+                if (result == Windows.DialogResult.Yes)
+                {
+                    Windows.MessageBox("Please enter 'y' whenever the console window that will pop up momentarily asks for it.\n" +
+                        "it is required for the .NET 8.0 to be installed");
+
+                    ProcessStartInfo startInfo = new ProcessStartInfo
+                    {
+                        FileName = "cmd.exe",
+                        Arguments = "/c winget install Microsoft.DotNet.DesktopRuntime.8",
+                        UseShellExecute = true,
+                    };
+
+                    Process cmd = Process.Start(startInfo);
+
+                    cmd.WaitForExit();
+                }
+                else
+                {
+                    Windows.MessageBox("Automatic updates will not be available. loading Main Menu so the game can still be played.",
+                        "Automatic updates not available", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+
+                    LoadingScreen.Instance.ShowAndLoad("MainMenu");
+                    return;
+                }
+            }
+            if (!IsDotNET8Installed())
+            {
+                Windows.DialogResult result = Windows.MessageBox("Failed to install .NET 8.0 automatically. Download manually?",
+                    ".NET8 download failed",
+                    Windows.MessageBoxButtons.YesNo, Windows.MessageBoxIcon.Error);
+
+                if (result == Windows.DialogResult.Yes)
+                {
+                    // open browser to the download page depending on the architecture of the machine.
+                    // always use windows platform as the game is only available on windows.
+
+                    if(RuntimeInformation.OSArchitecture == Architecture.X64)
+                    {
+                        Process.Start("https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-windows-x64-installer");
+                    }
+                    else
+                    {
+                        Process.Start("https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-8.0.100-windows-x86-installer");
+                    }
+
+                    Windows.MessageBox("Please install .NET 8.0 manually and restart the game.", "Manual installation required", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Information);
+                    Process.GetCurrentProcess().Kill();
+                }
+                else
+                {
+                    Windows.MessageBox("Automatic updates will not be available. loading Main Menu so the game can still be played.",
+                                               "Automatic updates not available", Windows.MessageBoxButtons.OK, Windows.MessageBoxIcon.Exclamation);
+
+                    LoadingScreen.Instance.ShowAndLoad("MainMenu");
+                    return;
+                }
+            }
+            Log.Push(".NET 8.0 installed. Proceeding with update...");
 
             logText.text = "";
             Log.OnLogPushed += Log_OnLogPushed;
@@ -78,96 +157,109 @@ namespace ShadowUprising.AutoUpdates
             downloadTask = new Thread(DownloadUpdate);
             downloadTask.Start();
         }
+        private static bool IsDotNET8Installed()
+        {
+            DirectoryInfo dotNET = new("C:\\Program Files\\dotnet\\sdk");
+            bool found = false;
+            foreach (var dir in dotNET.GetDirectories())
+            {
+                if (dir.Name.Contains("8.0"))
+                {
+                    found = true;
+                    break;
+                }
+            }
 
-        void Log_OnLogPushed(Log.LogEventArgs args)
+            return found;
+        }
+        private void Log_OnLogPushed(Log.LogEventArgs args)
         {
             if (args.message is "Done")
                 return;
             logText.text += args.message + "\n";
         }
-
         private void Update()
         {
-            if (downloadTask is null)
-                return;
-            if (hasFaulted)
+            try
             {
-                Log.PushError("Failed to download update.");
-                Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
+                if (downloadTask is null)
+                    return;
+                if (hasFaulted)
+                {
+                    Log.PushError("Failed to download update.");
+                    Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
 
-                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
-                return;
-            }
-            if (!isDownloadComplete)
-                return;
+                    LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                    return;
+                }
+                if (!isDownloadComplete)
+                    return;
 
-            if (isDownloadComplete)
-                Log.Push("Downloaded update.");
-            else
-                return;
+                if (isDownloadComplete)
+                    Log.Push("Downloaded update.");
+                else
+                    return;
 
-            downloadTask.Join();
+                if (!lastVisualupdate)
+                {
+                    downloadTask.Join();
+                    Log.Push("Preparing to install...");
+                    progressText.text = "Preparing to install...";
+                    lastVisualupdate = true;
+                    return;
+                }
 
-            progressText.text = "Preparing to install...";
+                var dir = new DirectoryInfo(Path.GetTempPath() + "A3Games");
+                if (!dir.Exists)
+                    dir.Create();
+                FileInfo packageFile = new FileInfo(Path.GetTempPath() + "A3Games\\GameFiles.apkg");
+                if (packageFile.Exists)
+                    packageFile.Delete();
 
-            var dir = new DirectoryInfo(Path.GetTempPath() + "A3Games");
-            if (!dir.Exists)
-                dir.Create();
-            FileInfo fileInfo = new FileInfo(Path.GetTempPath() + "A3Games\\GameFiles.apkg");
-            if (fileInfo.Exists)
-                fileInfo.Delete();
+                FileManager.Write(packageFile.FullName, downloadedPackage);
 
-            FileManager.Write(fileInfo.FullName, downloadedPackage);
+                // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
 
-            // TODO: do a quick install of the insta ller and start the installer to install the update. most insane sentence ive ever written.
+                DirectoryInfo installerDir = new(Path.GetTempPath() + "A3Games" + "\\Installer");
+                DirectoryInfo installerPath = new(Path.GetTempPath() + "A3Games\\Installer\\WinterRosePackageInstaller.exe");
+                DirectoryInfo internalInstallerDir = new(Application.streamingAssetsPath.Replace('/', '\\') + @"\AppInstaller");
 
-            FileInfo installerPath = new(Path.GetTempPath() + "A3Games\\Installer.exe");
-            string internalInstallerPath = Application.streamingAssetsPath + @"\AppInstaller\A3GamesInstaller.exe";
-            if (!File.Exists(internalInstallerPath))
-            {
-                Log.PushError("Internal installer not found.");
-                Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
+                if (!internalInstallerDir.Exists)
+                {
+                    Log.PushError("Internal installer not found.");
+                    Log.PushWarning("Automatic updates will not be available. loading Main Menu so the game can still be played.");
 
-                LoadingScreen.Instance.LoadWithoutShow("MainMenu");
-                return;
-            }
+                    LoadingScreen.Instance.LoadWithoutShow("MainMenu");
+                    return;
+                }
 
-            if (File.Exists(installerPath.FullName))
-                File.Delete(installerPath.FullName);
+                if (installerDir.Exists)
+                    installerDir.Delete(true);
+                installerDir.Create();
 
-            File.Copy(internalInstallerPath, installerPath.FullName, true);
+                CopyFiles(internalInstallerDir, installerDir);
 
+                // get path to our executable
+                string myExecutablePath = Process.GetCurrentProcess().MainModule!.FileName;
+                string rootDir = Path.GetDirectoryName(myExecutablePath)!;
+                myExecutablePath = Path.Combine(rootDir, "MasterProject_A3_RJNL.exe");
 
-            // construct arguments for the installer
+                string updaterArgs =
+                        $"onlyInstall " +
+                        $"packagePath=\"{packageFile.FullName}\" " +
+                        $"executablePath=\"{myExecutablePath}\" " +
+                        $"appRootDirectory=\"{rootDir}\" " +
+                        $"databaseKey=\"A3Games\"";
 
-            /*
-             installer arguments:
-              - exePath: path to the exe of the game.
-              - packagePath: path to the package the game downloaded.
-              - gameRoot: path to the game's root directory.
-             */
-
-            FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
-            Windows.MessageBox(exeFile.FullName);
-            string packagePath = fileInfo.FullName;
-            DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
-
-            //string installerFolder = FileManager.PathOneUp(installerPath.FullName);
-
-            //// due to my lack of coding skills before submitting the WinterRose library, i have to correct a mistake i made in this function.
-            //// path example: C:\Users\Job\Documents\A3Games\Installer.exe
-            //// the function would return C:Users\Job\Documents\A3Games
-            //// while the expected result is C:\Users\Job\Documents\A3Games
-            //// so i have to insert a backslash at the 2nd index of the string.
-            //// im too lazy to reimport the library and fix the function so i will just do this.
-            //installerFolder = installerFolder.Insert(2, "\\");
-            //FileInfo argumentsFile = new(installerFolder + "\\installerargs.iargs"); // name of the file is required to be this. the installer will look for this file in the same directory as the installer.
+                FileInfo exeFile = new(Process.GetCurrentProcess().MainModule.FileName);
+                string packagePath = packageFile.FullName;
+                DirectoryInfo gameRootDir = new DirectoryInfo(Application.dataPath).Parent;
 
 #if !UNITY_EDITOR
 
             Log.Push("Starting installer...");
             ProcessStartInfo installerStartInfo = new(installerPath.FullName);
-            installerStartInfo.Arguments = $"exePath=\"{exeFile.FullName}\" packagePath=\"{packagePath}\" gameRoot=\"{gameRootDir.FullName}\"";
+            installerStartInfo.Arguments = updaterArgs;
 
             Process.Start(installerStartInfo);
 
@@ -177,19 +269,42 @@ namespace ShadowUprising.AutoUpdates
 #endif
 
 #if UNITY_EDITOR
-            Log.Push("In Editor, playmode is disabled after downloading the app package due to otherwise having closed the editor and possibly corrupting its install, or the project files.");
-            UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        }
+                Log.Push("In Editor, playmode is disabled after downloading the app package due to otherwise " +
+                    "having closed the editor and possibly corrupting its install, or the project files.\n\n");
 
+                Log.Push($"using arguments: {updaterArgs}");
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            }
+            catch (Exception e)
+            {
+                Log.PushError(e.Message);
+                Log.PushError(e.StackTrace);
+
+                Windows.MessageBox($"Message: {e.Message}\n\n{e.StackTrace}");
+            }
+        }
         private void OnApplicationQuit()
         {
             redis?.Dispose();
             downloadTask?.Abort();
         }
+        private void CopyFiles(DirectoryInfo source, DirectoryInfo target)
+        {
+            foreach (FileInfo file in source.GetFiles())
+            {
+                if (file.Extension == ".meta")
+                    continue;
+                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
+            }
 
-
-        async void DownloadUpdate()
+            foreach (DirectoryInfo sourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo targetSubDir = target.CreateSubdirectory(sourceSubDir.Name);
+                CopyFiles(sourceSubDir, targetSubDir);
+            }
+        }
+        private async void DownloadUpdate()
         {
             await Task.Run(() =>
             {

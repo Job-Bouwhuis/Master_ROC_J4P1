@@ -12,6 +12,7 @@ namespace ShadowUprising.WorldInteraction
     /// </summary>
     public class WorldInteractor : MonoBehaviour
     {
+        [Tooltip("The distance the player can interact with objects.")]
         public float interactDistance = 10f;
 
 #if UNITY_EDITOR
