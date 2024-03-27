@@ -21,10 +21,11 @@ namespace ShadowUprising.AI.Alarm
         {
             foreach (var item in boundedAI)
             {
-                if (Vector3.Distance(transform.position, item.transform.position) < activationRange)
-                {
-                    onAIWithinRange(item);
-                }
+                if (item != null)
+                    if (Vector3.Distance(transform.position, item.transform.position) < activationRange)
+                    {
+                        onAIWithinRange(item);
+                    }
             }
         }
 

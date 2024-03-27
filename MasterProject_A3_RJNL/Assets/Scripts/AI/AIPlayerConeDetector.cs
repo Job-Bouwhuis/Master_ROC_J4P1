@@ -70,8 +70,9 @@ namespace ShadowUprising.AI
                 if (Vector3.Angle(heading, transform.forward) < coneAngle)
                 {
                     Physics.Raycast(new Ray(transform.position, heading), out RaycastHit hitinfo, range);
-                    if (hitinfo.transform.gameObject == target)
-                        return hitinfo.transform.gameObject;
+                    if (hitinfo.transform != null)
+                        if (hitinfo.transform.gameObject == target)
+                            return hitinfo.transform.gameObject;
                 }
             }
             return null;
