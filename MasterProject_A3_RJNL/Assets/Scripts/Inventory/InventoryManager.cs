@@ -1,17 +1,13 @@
 // Creator: job
-
+#line 1 "Assets\\Scripts\\Inventory\\InventoryManager.cs"
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 using WinterRose;
 using static ShadowUprising.Inventory.InventoryInteractionResult;
 
