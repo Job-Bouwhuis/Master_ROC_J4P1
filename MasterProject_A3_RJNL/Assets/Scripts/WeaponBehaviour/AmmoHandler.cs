@@ -1,3 +1,5 @@
+// Creator: Luke
+// Edited: Ruben
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace ShadowUprising.WeaponBehaviour
         public Action<int> onUnloadedAmmoChanged = delegate { };
         public int magCapacity;
         public int totalBeginMags;
+        [SerializeField] Pistol pistolObject;
 
         int _currentLoadedAmmo;
         int currentLoadedAmmo { get { return _currentLoadedAmmo; } set {
@@ -51,10 +54,12 @@ namespace ShadowUprising.WeaponBehaviour
         // Start is called before the first frame update
         void Start()
         {
-            var pistolObject = FindObjectOfType<Pistol>();
             pistolObject.onPistolShot += OnPlayerShot;
             pistolObject.onPistolReload += onPlayerReload;
-            currentLoadedAmmo = magCapacity;
+            if (totalBeginMags == 0)
+                currentLoadedAmmo = 0;
+            else
+                currentLoadedAmmo = magCapacity;
             currentUnloadedAmmo = magCapacity * totalBeginMags;
         }
     }
