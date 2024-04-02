@@ -15,7 +15,9 @@ namespace ShadowUprising.AI
         void Start()
         {
             GetComponent<GuardState>().onStateChanged += GuardStateChange;
-            buttons = FindObjectOfType<AlarmContainer>().alarmButtons;
+            var alarmContainer = FindObjectOfType<AlarmContainer>();
+            if (alarmContainer != null)
+                buttons = alarmContainer.alarmButtons;
         }
 
         void GuardStateChange(AIState state)

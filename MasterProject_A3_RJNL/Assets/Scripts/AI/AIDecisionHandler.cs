@@ -13,22 +13,56 @@ namespace ShadowUprising.AI.Alarm
 
         bool decisionMade = false;
         List<GameObject> buttons;
+        GuardState state;
+        Utils.Timer timer = new Utils.Timer(3000);
 
         // Start is called before the first frame update
         void Start()
         {
             GetComponent<AIPlayerConeDetector>().onObjectDetected += OnObjectDetected;
-            buttons = FindObjectOfType<AlarmContainer>().alarmButtons;
+            state = GetComponent<GuardState>();
+            timer.elapsed += SetToRoam;
+            var alarmContainer = FindObjectOfType<AlarmContainer>();
+            if (alarmContainer != null)
+                buttons = alarmContainer.alarmButtons;
+        }
+
+        private void Update()
+        {
+            timer.Update(Time.deltaTime);
+        }
+
+        void SetToRoam()
+        {
+            state.SetState(AIState.Roaming);
+            decisionMade = false;
+        }
+
+        void DecisionWhenThereIsNoAlarm(GameObject gObject)
+        {
+            if (gObject.tag == "Player" && !decisionMade)
+            {
+                state.SetState(AIState.Attacking);
+                Debug.Log("StateSet!");
+                decisionMade = true;
+            }
+
+            if (gObject.tag == "Player")
+                timer.Restart(); 
+            return;
         }
 
         private void OnObjectDetected(GameObject gObject)
         {
+            if (buttons == null)
+                DecisionWhenThereIsNoAlarm(gObject);
+
             if (!decisionMade)
             {
                 if (gObject.tag == "Player")
                     MakeDecision(gObject.transform.position);
                 else
-                    GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
+                    state.SetState(AIState.SoundingAlarm);
 
                 decisionMade = true;
             }
@@ -47,12 +81,12 @@ namespace ShadowUprising.AI.Alarm
 
                     if (distanceToButton < distanceToPlayer)
                     {   
-                        GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
+                        state.SetState(AIState.SoundingAlarm);
                         decisionMade = true;
                         return;
                     }
                 }
-                GetComponent<GuardState>().SetState(AIState.Attacking);
+                state.SetState(AIState.Attacking);
                 decisionMade = true;
             
         }
