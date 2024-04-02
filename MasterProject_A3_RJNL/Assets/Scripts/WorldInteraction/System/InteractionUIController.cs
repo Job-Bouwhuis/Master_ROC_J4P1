@@ -1,11 +1,10 @@
+// Creator: Job
 using ShadowUprising.Player;
 using ShadowUprising.WorldInteraction;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WinterRose;
 
 public class InteractionUIController : MonoBehaviour
 {
