@@ -538,6 +538,11 @@
             <param name="decimals"></param>
             <returns>the persentage calculated from the given parameters</returns>
         </member>
+        <member name="T:WinterRose.WIP.Redis.Exceptions.RedisException">
+            <summary>
+            An exception that is thrown when an error occurs when contacting the redis server.
+            </summary>
+        </member>
         <member name="T:WinterRose.WIP.Redis.RedisAnswer`1">
             <summary>
             Provides an easy way of telling the result of the Redis response
@@ -559,6 +564,11 @@
             Implicidly converts the RedisAnswer to its value
             </summary>
             <param name="answer"></param>
+        </member>
+        <member name="E:WinterRose.WIP.Redis.Framework.RedisConnectionBase.ProgressReporter">
+            <summary>
+            Event that is triggered when a progress report is available
+            </summary>
         </member>
         <member name="P:WinterRose.WIP.Redis.Framework.RedisConnectionBase.IsConnected">
             <summary>
@@ -2262,34 +2272,108 @@
             <param name="fraction"></param>
             <param name="value"></param>
         </member>
-        <member name="P:WinterRose.Windows.WindowsHandle.Name">
+        <member name="T:WinterRose.Windows">
             <summary>
-            The name of the process.
+            Provides enums for the Windows API. commonly used in the <see cref="T:WinterRose.Windows"/> class.
+            </summary>
+            <summary>
+            Provides methods for interacting with the Windows operating system.
             </summary>
         </member>
-        <member name="P:WinterRose.Windows.WindowsHandle.Handle">
+        <member name="T:WinterRose.Windows.NotifyCommand">
             <summary>
-            The handle of a managed window connected to the process.
+            Main operations performed on the
+            <see cref="M:WinterRose.Windows.NotifyIcon(WinterRose.Windows.NotifyCommand,WinterRose.Windows.NotifyCommand@)"/> function.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.WindowsHandle.Minimize">
+        <member name="F:WinterRose.Windows.NotifyCommand.Add">
             <summary>
-            Minimizes the window.
+            The taskbar icon is being created.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.WindowsHandle.Maximize">
+        <member name="F:WinterRose.Windows.NotifyCommand.Modify">
             <summary>
-            Maximizes the window.
+            The settings of the taskbar icon are being updated.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.WindowsHandle.Focus">
+        <member name="F:WinterRose.Windows.NotifyCommand.Delete">
             <summary>
-            Focuses the window.
+            The taskbar icon is deleted.
             </summary>
         </member>
-        <member name="M:WinterRose.Windows.WindowsHandle.Show">
+        <member name="F:WinterRose.Windows.NotifyCommand.SetFocus">
             <summary>
-            Brings the window up from being minimized.
+            Focus is returned to the taskbar icon. Currently not in use.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.NotifyCommand.SetVersion">
+            <summary>
+            Shell32.dll version 5.0 and later only. Instructs the taskbar
+            to behave according to the version number specified in the 
+            uVersion member of the structure pointed to by lpdata.
+            This message allows you to specify whether you want the version
+            5.0 behavior found on Microsoft Windows 2000 systems, or the
+            behavior found on earlier Shell versions. The default value for
+            uVersion is zero, indicating that the original Windows 95 notify
+            icon behavior should be used.
+            </summary>
+        </member>
+        <member name="T:WinterRose.Windows.BalloonFlags">
+            <summary>
+            Flags that define the icon that is shown on a balloon
+            tooltip.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.None">
+            <summary>
+            No icon is displayed.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.Info">
+            <summary>
+            An information icon is displayed.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.Warning">
+            <summary>
+            A warning icon is displayed.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.Error">
+            <summary>
+            An error icon is displayed.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.User">
+            <summary>
+            Windows XP Service Pack 2 (SP2) and later.
+            Use a custom icon as the title icon.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.NoSound">
+            <summary>
+            Windows XP (Shell32.dll version 6.0) and later.
+            Do not play the associated sound. Applies only to balloon ToolTips.
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.LargeIcon">
+            <summary>
+            Windows Vista (Shell32.dll version 6.0.6) and later. The large version
+            of the icon should be used as the balloon icon. This corresponds to the
+            icon with dimensions SM_CXICON x SM_CYICON. If this flag is not set,
+            the icon with dimensions XM_CXSMICON x SM_CYSMICON is used.<br/>
+            - This flag can be used with all stock icons.<br/>
+            - Applications that use older customized icons (NIIF_USER with hIcon) must
+              provide a new SM_CXICON x SM_CYICON version in the tray icon (hIcon). These
+              icons are scaled down when they are displayed in the System Tray or
+              System Control Area (SCA).<br/>
+            - New customized icons (NIIF_USER with hBalloonIcon) must supply an
+              SM_CXICON x SM_CYICON version in the supplied icon (hBalloonIcon).
+            </summary>
+        </member>
+        <member name="F:WinterRose.Windows.BalloonFlags.RespectQuietTime">
+            <summary>
+            Windows 7 and later.
             </summary>
         </member>
         <member name="T:WinterRose.Windows.DialogResult">
@@ -2315,6 +2399,11 @@
         <member name="P:WinterRose.Windows.Handles">
             <summary>
             A list of all handles of all windows that are currently open on the system.
+            </summary>
+        </member>
+        <member name="E:WinterRose.Windows.ApplicationExit">
+            <summary>
+            Called when the application is about to exit.
             </summary>
         </member>
         <member name="M:WinterRose.Windows.MouseClick">
@@ -2354,16 +2443,20 @@
             </summary>
             <param name="hWind"></param>
         </member>
-        <member name="M:WinterRose.Windows.CopyToClipboard(System.String)">
+        <member name="M:WinterRose.Windows.SetBrightness(System.Int32)">
             <summary>
-            Copies the given string to the clipboard.
+            Sets the brightness of the monitor the process is running on.<br></br><br></br>
+            
+            This only works when the monitor supports brightness control through the windows API (such as laptops).
             </summary>
-            <param name="text"></param>
+            <param name="newValue">The new brighness value. clamped: 0 - 100</param>
         </member>
-        <member name="M:WinterRose.Windows.ClearClipboard">
+        <member name="M:WinterRose.Windows.SetPowerMode(WinterRose.Windows.PowerMode)">
             <summary>
-            Clears the clipboard.
+            Sets the power mode of the system.
             </summary>
+            <param name="state"></param>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:WinterRose.Windows.OpenConsole">
             <summary>
@@ -2420,6 +2513,63 @@
             </summary>
             <param name="x"></param>
             <param name="y"></param>
+        </member>
+        <member name="M:WinterRose.Windows.MessageBox(System.String,System.String,WinterRose.Windows.MessageBoxButtons,WinterRose.Windows.MessageBoxIcon)">
+            <summary>
+            Shows a message box with the given parameters
+            </summary>
+            <param name="text"></param>
+            <param name="title"></param>
+            <param name="buttons"></param>
+            <param name="icon"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WinterRose.Windows.NotifyIcon(WinterRose.Windows.NotifyCommand,WinterRose.Windows.NotifyCommand@)">
+            <summary>
+            Creates, updates or deletes the taskbar icon.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.CreateWindowEx(System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.IntPtr,System.IntPtr,System.IntPtr,System.IntPtr)">
+            <summary>
+            Creates the helper window that receives messages from the taskar icon.
+            </summary>
+        </member>
+        <member name="P:WinterRose.Windows.WindowsHandle.Name">
+            <summary>
+            The name of the process.
+            </summary>
+        </member>
+        <member name="P:WinterRose.Windows.WindowsHandle.Handle">
+            <summary>
+            The handle of a managed window connected to the process.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.WindowsHandle.Minimize">
+            <summary>
+            Minimizes the window.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.WindowsHandle.Maximize">
+            <summary>
+            Maximizes the window.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.WindowsHandle.Focus">
+            <summary>
+            Focuses the window.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.WindowsHandle.Show">
+            <summary>
+            Brings the window up from being minimized.
+            </summary>
+        </member>
+        <member name="M:WinterRose.Windows.WindowsHandle.MakeCritical">
+            <summary>
+            Makes the application critical. this means that the application, if closed, will cause windows to crash.<br></br><br></br>
+            
+            requires administratve privileges for the application that runs this method (not the application that is made critical).
+            </summary>
         </member>
         <member name="T:WinterRose.WinterUtils">
             <summary>

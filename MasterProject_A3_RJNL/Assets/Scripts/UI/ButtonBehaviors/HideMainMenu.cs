@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI.ButtonFunctions
 {
+    /// <summary>
+    /// Button function that hides the main menu
+    /// </summary>
     public class HideMainMenu : ButtonFunction
     {
         [SerializeField] private MainMenuController mainMenuController;

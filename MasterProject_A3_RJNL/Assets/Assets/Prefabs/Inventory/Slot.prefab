@@ -236,7 +236,7 @@ RectTransform:
   m_GameObject: {fileID: 2204558806060060785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 615795603557040335}
@@ -272,10 +272,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   item: {fileID: 0}
-  isSelected: 0
   graphic: {fileID: 2595207800912515413}
   selectionGraphic: {fileID: 1587680109050948883}
   countText: {fileID: 4161187783513529857}
+  isSelected: 0
 --- !u!1 &3737834397377367660
 GameObject:
   m_ObjectHideFlags: 0

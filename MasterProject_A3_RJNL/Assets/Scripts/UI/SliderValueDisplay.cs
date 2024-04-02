@@ -1,7 +1,9 @@
 // Creator: Job
 
+using System;
 using UnityEngine;
 using WinterRose;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace ShadowUprising.UI
 {
@@ -13,11 +15,25 @@ namespace ShadowUprising.UI
         public TMPro.TextMeshProUGUI text;
         public UnityEngine.UI.Slider slider;
 
-        // Start is called before the first frame update
         void Start()
         {
-            text.text = slider.value.ToString();
-            slider.onValueChanged.AddListener((value) => text.text = (value * 100).FloorToInt().ToString());
+            float minValue = slider.minValue;
+            float maxValue = slider.maxValue;
+            float value = slider.value;
+
+            float percentage = (value - minValue) / (maxValue - minValue);
+
+
+            text.text = (percentage * 100).FloorToInt().ToString();
+            slider.onValueChanged.AddListener((value) =>
+            {
+                float minValue = slider.minValue;
+                float maxValue = slider.maxValue;
+
+                float percentage = (value - minValue) / (maxValue - minValue);
+
+                text.text = (percentage * 100).FloorToInt().ToString();
+            });
         }
     }
 }
