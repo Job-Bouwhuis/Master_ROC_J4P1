@@ -9721,7 +9721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   magCapacity: 7
-  totalBeginMags: 0
+  totalBeginMags: 1
   pistolObject: {fileID: 1138565116}
 --- !u!4 &995964735
 Transform:
@@ -11199,7 +11199,7 @@ PrefabInstance:
     - target: {fileID: 2178716958262396268, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4487966216359764129, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}

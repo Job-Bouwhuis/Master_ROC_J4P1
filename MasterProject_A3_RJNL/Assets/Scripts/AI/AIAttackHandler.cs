@@ -69,8 +69,6 @@ namespace ShadowUprising.AI
         {
             if (state.CurrentState == AIState.Attacking)
             {
-
-
                 lastPlayerLoc = gameObject.transform.position;
                 aiSystem.SetCurrentWayPoint(gameObject.transform.position);
                 timer.ZeroTimer();
