@@ -49,7 +49,10 @@ namespace ShadowUprising.SecurityCamera
                 GameOverManager.Instance.GameOver();
         }
 
-        void OnNothingDetected()
+        /// <summary>
+        /// Function called whenever the camera is not detecting the player. This can also be called to remove the object from the list of objects detecting the player
+        /// </summary>
+        public void OnNothingDetected()
         {
             if (timer > 0)
                 timer -= timerDecreaseSpeed * Time.deltaTime;

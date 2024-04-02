@@ -30,6 +30,9 @@ public class CameraHitbox : MonoBehaviour, IHitable
     {
         if (destroyedCameraCounter != null)
             destroyedCameraCounter.addDestroyedCamera();
+        CameraPlayerDetectionEvent cameraPlayerDetectionEvent = GetComponent<CameraPlayerDetectionEvent>();
+        if (cameraPlayerDetectionEvent != null)
+            cameraPlayerDetectionEvent.OnNothingDetected();
         Instantiate(brokenCameraPrefab, transform.position, transform.rotation);
         Destroy(this.gameObject);
     }

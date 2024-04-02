@@ -39,7 +39,7 @@ namespace ShadowUprising.Items.ItemFunctions
             var ammoHandler = FindObjectOfType<AmmoHandler>();
             ammoHandler.onAmmoChanged += SetShootState;
             ammoHandler.onUnloadedAmmoChanged += SetReloadState;
-
+            SetShootState(ammoHandler.GetCurrentLoadedAmmo());
         }
 
         void SetReloadState(int ammo)

@@ -18,7 +18,7 @@ namespace ShadowUprising.UI.InGame
         {
             InventoryManager.Instance.OnInventoryInteract += InventorySelected;
 
-            Gun.SetActive(false);
+            // Gun.SetActive(false);
         }
 
         private void InventorySelected(InventoryManager.InventoryInteractResult result)
