@@ -28,7 +28,6 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
         /// <param name="interactor">The WorldInteractor component that called this function</param>
         public void Interact(WorldInteractor interactor)
         {
-            // Update Ammo count
             DestroySelf();
         }
 
