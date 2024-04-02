@@ -62,5 +62,14 @@ namespace ShadowUprising.WeaponBehaviour
                 currentLoadedAmmo = magCapacity;
             currentUnloadedAmmo = magCapacity * totalBeginMags;
         }
+
+        /// <summary>
+        /// Return the currentlyLoadedAmmo variable
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurrentLoadedAmmo()
+        {
+            return currentLoadedAmmo;
+        }
     }
 }
