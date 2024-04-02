@@ -51,7 +51,6 @@ namespace ShadowUprising.WeaponBehaviour
             }
         }
 
-        // Start is called before the first frame update
         void Start()
         {
             pistolObject.onPistolShot += OnPlayerShot;
@@ -70,6 +69,11 @@ namespace ShadowUprising.WeaponBehaviour
         public int GetCurrentLoadedAmmo()
         {
             return currentLoadedAmmo;
+        }
+
+        public void AddAmmoMags(int mags)
+        {
+            currentUnloadedAmmo += mags * magCapacity;
         }
     }
 }
