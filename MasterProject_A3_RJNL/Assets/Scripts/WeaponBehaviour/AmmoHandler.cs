@@ -1,0 +1,79 @@
+// Creator: Luke
+// Edited: Ruben
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using ShadowUprising.Items.ItemFunctions;
+
+namespace ShadowUprising.WeaponBehaviour
+{
+    /// <summary>
+    /// handles the ammo of the player
+    /// </summary>
+    public class AmmoHandler : MonoBehaviour
+    {
+        public Action<int> onAmmoChanged = delegate { };
+        public Action<int> onUnloadedAmmoChanged = delegate { };
+        public int magCapacity;
+        public int totalBeginMags;
+        [SerializeField] Pistol pistolObject;
+
+        int _currentLoadedAmmo;
+        int currentLoadedAmmo { get { return _currentLoadedAmmo; } set {
+                _currentLoadedAmmo = value; 
+                onAmmoChanged(value); 
+            } }
+        int _currentUnloadedAmmo;
+        int currentUnloadedAmmo { get { return _currentUnloadedAmmo; } set { _currentUnloadedAmmo = value; onUnloadedAmmoChanged(value); } }
+
+        void OnPlayerShot()
+        {
+            if (currentLoadedAmmo > 0)
+                currentLoadedAmmo--;
+        }
+
+        void onPlayerReload()
+        {
+            if (currentUnloadedAmmo > 0)
+            {
+                var needed = (magCapacity - currentLoadedAmmo);
+                if (needed > currentUnloadedAmmo)
+                {
+                    currentLoadedAmmo += currentUnloadedAmmo;
+                    currentUnloadedAmmo = 0;
+                }
+                else
+                {
+                    currentLoadedAmmo += needed;
+                    currentUnloadedAmmo -= needed;
+                }
+            }
+        }
+
+        void Start()
+        {
+            pistolObject.onPistolShot += OnPlayerShot;
+            pistolObject.onPistolReload += onPlayerReload;
+            if (totalBeginMags == 0)
+                currentLoadedAmmo = 0;
+            else
+                currentLoadedAmmo = magCapacity;
+            currentUnloadedAmmo = magCapacity * totalBeginMags;
+        }
+
+        /// <summary>
+        /// Return the currentlyLoadedAmmo variable
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurrentLoadedAmmo()
+        {
+            return currentLoadedAmmo;
+        }
+
+        public void AddAmmoMags(int mags)
+        {
+            currentUnloadedAmmo += mags * magCapacity;
+        }
+    }
+}

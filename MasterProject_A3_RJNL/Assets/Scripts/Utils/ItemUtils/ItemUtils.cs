@@ -1,8 +1,7 @@
+// Creator: Job
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace ShadowUprising.Items
 {
@@ -11,10 +10,12 @@ namespace ShadowUprising.Items
     /// </summary>
     public static class ItemUtils
     {
-
         // this stuff to get all types that inherit from IItemFunction is only used in the editor, so we only want to do this in the editor
         // it is used to select the item function when creating an item in the inspector
 #if UNITY_EDITOR
+        /// <summary>
+        /// All types that inherit from IItemFunction
+        /// </summary>
         public static readonly List<Type> ItemFunctionTypes;
 
         static ItemUtils()

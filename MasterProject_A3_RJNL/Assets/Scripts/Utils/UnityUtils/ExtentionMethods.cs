@@ -8,6 +8,9 @@ using WinterRose;
 
 namespace ShadowUprising.UnityUtils
 {
+    /// <summary>
+    /// Provides some extention methods for Unity classes
+    /// </summary>
     public static class ExtentionMethods
     {
         /// <summary>
@@ -36,5 +39,17 @@ namespace ShadowUprising.UnityUtils
 
             return results;
         }
+
+        public static bool IsDestroyed(this GameObject obj) => obj.IsDead();
+    }
+}
+
+namespace ShadowUprising
+{
+    using Unity.VisualScripting;
+
+    internal static class ExtentionMethodsUsingVisualScriptingNamespace
+    {
+        public static bool IsDead(this GameObject obj) => obj.IsDestroyed();
     }
 }
