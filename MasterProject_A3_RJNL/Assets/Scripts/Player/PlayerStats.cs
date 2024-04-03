@@ -1,5 +1,5 @@
 // Creator: Ruben
-// Edited by:
+// Edited by: Job >> ln: 74
 using ShadowUprising;
 using System.Collections.Generic;
 using UnityEngine;
@@ -122,6 +122,28 @@ namespace ShadowUprising.Player
         public void SetStaminaRegen(bool regen)
         {
             regenStamina = regen;
+        }
+
+        /// <summary>
+        /// Add a variable amount of health to the player
+        /// </summary>
+        /// <param name="amount">Amount of health given to the player</param>
+        public void AddHealth(int amount)
+        {
+            health += amount;
+            if (health > maxHealth)
+                health = maxHealth;
+        }
+
+        /// <summary>
+        /// Remove a variable amount of health from the player
+        /// </summary>
+        /// <param name="amount">Amount of health removed from the player</param>
+        public void SubtractHealth(int amount)
+        {
+            health -= amount;
+            if (health < 0)
+                health = 0;
         }
     }
 }

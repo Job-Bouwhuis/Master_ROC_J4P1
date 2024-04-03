@@ -25,30 +25,26 @@ namespace ShadowUprising.Settings
         {
             GameSettings settings = GameSettings.Instance;
 
-            masterVolumeSlider.value = settings.masterVolume;
-            musicVolumeSlider.value = settings.musicVolume;
-            sfxVolumeSlider.value = settings.sfxVolume;
-            sensitivitySlider.value = settings.sensitivity;
+            masterVolumeSlider.value = settings.MasterVolume;
+            musicVolumeSlider.value = settings.MusicVolume;
+            sfxVolumeSlider.value = settings.SfxVolume;
+            sensitivitySlider.value = settings.Sensitivity;
 
-            useDialogueToggle.toggleState = settings.useVoiceDialogue;
-            useSubtitles.toggleState = settings.useSubtitles;
+            useDialogueToggle.toggleState = settings.UseVoiceDialogue;
+            useSubtitles.toggleState = settings.UseSubtitles;
         }
 
         /// <summary>
         /// Applies the settings to the game.
         /// </summary>
-        public void ApplySettings()
-        {
-            GameSettings settings = GameSettings.Instance;
+        public void ApplySettings() => GameSettings.Instance
+            .UpdateSettingsBulk(masterVolumeSlider.value,
+                                musicVolumeSlider.value,
+                                sfxVolumeSlider.value,
+                                sensitivitySlider.value,
 
-            settings.masterVolume = masterVolumeSlider.value;
-            settings.musicVolume = musicVolumeSlider.value;
-            settings.sfxVolume = sfxVolumeSlider.value;
-            settings.sensitivity = sensitivitySlider.value;
-
-            settings.useVoiceDialogue = useDialogueToggle.toggleState;
-            settings.useSubtitles = useSubtitles.toggleState;
-        }
+                                useDialogueToggle.toggleState,
+                                useSubtitles.toggleState);
 
         private void Start()
         {

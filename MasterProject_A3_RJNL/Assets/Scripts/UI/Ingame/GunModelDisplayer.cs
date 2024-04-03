@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI.InGame
 {
+    /// <summary>
+    /// Component to display the gun model when the gun is equipped
+    /// </summary>
     public class GunModelDisplayer : MonoBehaviour
     { 
         [Tooltip("The gun object")]
@@ -16,8 +19,8 @@ namespace ShadowUprising.UI.InGame
 
             if (InventoryManager.Instance == null)
                 return;
-            InventoryManager.Instance.OnInventoryInteract.AddListener(InventorySelected);
-            InventoryManager.Instance.lockInventory += LockInventory;
+            InventoryManager.Instance.OnInventoryInteract += InventorySelected;
+            InventoryManager.Instance.OnInventoryLockChange += LockInventory;
         }
 
         private void InventorySelected(InventoryManager.InventoryInteractResult result)

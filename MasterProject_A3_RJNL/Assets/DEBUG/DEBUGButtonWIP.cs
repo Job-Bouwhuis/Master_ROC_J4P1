@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using WinterRose;
 
-public class DEBUGButtonWIP : ButtonFunction
+namespace ShadowUprising.DEBUG
 {
-    public override void Invoke(TextButton button)
+    /// <summary>
+    /// Gives a message box to the user, informing that the function for the button is still in development.
+    /// </summary>
+    public class DEBUGButtonWIP : ButtonFunction
     {
-        Windows.MessageBox(
-            text: "The function for this button is still in development. Come back in later versions to see its magic!", 
-            title: "Attention", 
-            buttons: Windows.MessageBoxButtons.OK, 
-            icon: Windows.MessageBoxIcon.Information); 
+        public override void Invoke(TextButton button)
+        {
+            Windows.MessageBox(
+                text: "The function for this button is still in development. Come back in later versions to see its magic!",
+                title: "Attention",
+                buttons: Windows.MessageBoxButtons.OK,
+                icon: Windows.MessageBoxIcon.Information);
+        }
     }
 }

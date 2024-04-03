@@ -24,7 +24,6 @@ namespace ShadowUprising.UI.InGame
 
         private float lastHealth;
         private float lastStamina;
-
         private float healthHeightMax;
         private float staminaHeightMax;
 
@@ -36,7 +35,6 @@ namespace ShadowUprising.UI.InGame
             healthHeightMax = healthBar.rectTransform.sizeDelta.y;
             staminaHeightMax = staminaBar.rectTransform.sizeDelta.y;
         }
-
         private void Update()
         {
             if (lastHealth != player.health)

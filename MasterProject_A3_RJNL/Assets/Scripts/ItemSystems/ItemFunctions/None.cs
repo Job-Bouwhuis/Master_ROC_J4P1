@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+// Creator: Job
 using UnityEngine;
 
 namespace ShadowUprising.Items.ItemFunctions

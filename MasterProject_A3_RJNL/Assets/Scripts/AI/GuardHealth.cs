@@ -1,4 +1,5 @@
 // Creator: Ruben
+using ShadowUprising.UI.InfoDialogs;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,14 @@ namespace ShadowUprising.AI
             {
                 Instantiate(deadGuard, transform.position, transform.rotation);
                 Destroy(this.gameObject);
+
+                if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "TutorialLevelScene")
+                {
+                    InfoDialogManager.Instance.ShowInfoDialog("TUTORIAL", "Other guards will see dead bodies.\n" +
+                        "You can pick them up by looking at them and pressing 'F'.\n" +
+                        "Drop them again by pressing 'X'", 5);
+                    InfoDialogManager.Instance.ShowInfoDialog("TUTORIAL", "To proceed, walk through the door the guard came from!", 5);
+                }
             }
         }
 

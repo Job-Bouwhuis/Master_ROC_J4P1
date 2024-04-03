@@ -1,3 +1,4 @@
+// Creator: Job
 using ShadowUprising;
 using ShadowUprising.UI;
 using UnityEngine;
@@ -25,6 +26,11 @@ public class ToggleButtonIconHandler : MonoBehaviour
             Log.Push("Button is not in toggle mode. This script will be disabled, please use a different script");
             return;
         }
+
+        if(button.toggleState)
+            _image.sprite = EnabledSprite;
+        else
+            _image.sprite = DisabledSprite;
     }
 
     // Update is called once per frame

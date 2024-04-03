@@ -650,6 +650,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   smoothSpeed: 1
   progress: 1
+  useUnscaledTime: 0
   visualProgress: 0.5361052
 --- !u!1 &748971345
 GameObject:
@@ -836,6 +837,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1132604135}
   m_CullTransparentMesh: 1
+--- !u!1001 &1141525885
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.47
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92474717
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.23072281
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.29366863
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0732698
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -22.562
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 38.665
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726165653662446540, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -17.067
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924412291662160723, guid: d2becdb46c18b9544acbbcf73c4d5bd4,
+        type: 3}
+      propertyPath: m_Name
+      value: ModelPreview
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d2becdb46c18b9544acbbcf73c4d5bd4, type: 3}
 --- !u!1 &1624839224
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,7 +1077,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5.4
   m_Depth: 0
   m_CullingMask:
@@ -1166,10 +1235,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Update process:\n\t1 > Download game files (top bar)\n\t2 > Extract game
-    files\n\t3 > prepare for installing of the game\n\t4 > shut down game, and start
-    installer\n\t5 > installer will install game\n\t6 > installer starts the game
-    again\n\t7 > game has been updated"
+  m_text: "Update process:\n\t1 > Download game files\n\t2 > Extract game files\n\t3
+    > prepare for installing of the game\n\t4 > shut down game, and start installer\n\t5
+    > installer will install game\n\t6 > installer starts the game again\n\t7 > game
+    has been updated"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1258,14 +1327,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb7cabce7b96f4458bd8e5c35e03726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: "Update process:\n\t1 > Download game files (top bar)\n\t2 > Extract game
-    files\n\t3 > prepare for installing of the game\n\t4 > shut down game, and start
-    installer\n\t5 > installer will install game\n\t6 > installer starts the game
-    again\n\t7 > game has been updated"
-  timeInBetweenCharacters: 0.001
+  text: "Update process:\n\t1 > Download game files\n\t2 > Extract game files\n\t3
+    > prepare for installing of the game\n\t4 > shut down game, and start installer\n\t5
+    > installer will install game\n\t6 > installer starts the game again\n\t7 > game
+    has been updated"
+  timeInBetweenCharacterWrite: 0.1
+  timeInBetweenCharacterClear: 0.001
   timeToWaitBeforeClearing: -1
   timeToWaitBeforeStarting: 0
   startWritingOnStart: 1
+  useUnscaledTime: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1275,3 +1346,4 @@ SceneRoots:
   - {fileID: 295567679}
   - {fileID: 1972069967}
   - {fileID: 410606724}
+  - {fileID: 1141525885}

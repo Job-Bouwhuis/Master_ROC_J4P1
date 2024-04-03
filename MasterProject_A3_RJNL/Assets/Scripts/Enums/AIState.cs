@@ -8,7 +8,7 @@ namespace ShadowUprising.AI
     public enum AIState
     {
         Roaming,
-        Chasing,
-        Attacking
+        Attacking,
+        SoundingAlarm
     }
 }

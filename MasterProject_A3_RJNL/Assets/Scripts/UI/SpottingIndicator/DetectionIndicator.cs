@@ -3,10 +3,7 @@
 using ShadowUprising.UI.Loading;
 using ShadowUprising.Detection;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace ShadowUprising.UI.SpottingIndicator
 {
@@ -50,14 +47,23 @@ namespace ShadowUprising.UI.SpottingIndicator
                     return 0;
                 });
             }
+            
+                
+        }
+
+        private void Start()
+        {
             if (DetectionManager.Instance != null)
             {
+                print("detectionmanager assigned");
                 detectionSpeed = DetectionManager.Instance.detectionSpeed;
                 DetectionManager.Instance.onObjectDetectingPlayer += OnObjectDetectingPlayer;
                 DetectionManager.Instance.onNoObjectsDetectingPlayer += OnNoObjectsDetectingPlayer;
             }
-                
+            else
+                Log.PushWarning("Global Volume cannot find DetectionManager");
         }
+
         void Update()
         {
             if(isDetected && isDetecting)

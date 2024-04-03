@@ -34,6 +34,9 @@ namespace ShadowUprising.AI
                 case AIState.Roaming:
                     OnAIRoaming();
                     break;
+                case AIState.SoundingAlarm:
+                    OnAIRoaming();
+                    break;
             }
         }
 

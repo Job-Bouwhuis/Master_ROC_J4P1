@@ -7,7 +7,6 @@ namespace ShadowUprising.UI.Loading
     /// <summary>
     /// A progress bar that can be used to show the progress of a task.
     /// </summary>
-    [ExecuteAlways]
     public class ProgressBar : MonoBehaviour
     {
         /// <summary>
@@ -18,6 +17,8 @@ namespace ShadowUprising.UI.Loading
         /// The progress of the bar. This should be a value between 0 and 1.
         /// </summary>
         public float progress = 0;
+        [Tooltip("If true, the progress will be updated using unscaled time. This is useful for loading screens.")]
+        public bool useUnscaledTime = false;
         [HideInInspector, DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public float visualProgress = 0;
 
@@ -25,6 +26,8 @@ namespace ShadowUprising.UI.Loading
         private float minWidth = 0;
 
         new private RectTransform transform;
+
+        private float time => useUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
 
         private void Awake()
         {
@@ -36,14 +39,7 @@ namespace ShadowUprising.UI.Loading
         // Update is called once per frame
         void Update()
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying)
-            {
-                transform.sizeDelta = new Vector2(Mathf.Lerp(minWidth, maxWidth, progress), transform.sizeDelta.y);
-                return;
-            }
-#endif
-            visualProgress = Mathf.Lerp(visualProgress, progress, smoothSpeed * Time.deltaTime);
+            visualProgress = Mathf.Lerp(visualProgress, progress, smoothSpeed * time);
             transform.sizeDelta = new Vector2(Mathf.Lerp(minWidth, maxWidth, visualProgress), transform.sizeDelta.y);
         }
     }

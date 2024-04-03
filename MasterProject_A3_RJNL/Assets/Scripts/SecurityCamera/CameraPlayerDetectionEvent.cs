@@ -1,6 +1,7 @@
 //Creator: Ruben
 using WinterRose;
 using ShadowUprising.UI.SpottingIndicator;
+using ShadowUprising.GameOver;
 using UnityEngine;
 using ShadowUprising.Detection;
 
@@ -44,12 +45,14 @@ namespace ShadowUprising.SecurityCamera
             detecting = true;
             timer += Time.deltaTime;
 
-            // TODO: add when Game Over screen is doen 
-            // if (timer => detectionSpeed)
-            //    GameOverManager.Instance.GameOver();
+            if (timer >= detectionSpeed && GameOverManager.Instance != null)
+                GameOverManager.Instance.GameOver();
         }
 
-        void OnNothingDetected()
+        /// <summary>
+        /// Function called whenever the camera is not detecting the player. This can also be called to remove the object from the list of objects detecting the player
+        /// </summary>
+        public void OnNothingDetected()
         {
             if (timer > 0)
                 timer -= timerDecreaseSpeed * Time.deltaTime;

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShadowUprising.Items.ItemFunctions
+namespace ShadowUprising.DEBUG
 {
     /// <summary>
     /// Logs a message when the item is interacted with. This is a <b>DEBUG</b> class and should not be used in the final game.
