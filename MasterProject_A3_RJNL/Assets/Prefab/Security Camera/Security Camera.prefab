@@ -279,4 +279,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detectionSpeed: 0
   timerDecreaseSpeed: 5
-  detectionIndicator: {fileID: 0}
