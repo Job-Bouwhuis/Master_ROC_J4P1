@@ -53,10 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bd9c41187fc5241bf367d441729cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundImage: {fileID: 0}
-  gameOverText: {fileID: 0}
-  restartButton: {fileID: 0}
-  mainMenuButton: {fileID: 0}
+  backgroundImage: {fileID: 7384182214708346921}
+  gameOverText: {fileID: 8589721785479151609}
+  restartButton: {fileID: 6188775657625803414}
+  mainMenuButton: {fileID: 2971312676609186289}
   backgroundFadeInSpeed: 1
 --- !u!1 &2521928246791777659
 GameObject:
