@@ -1,8 +1,8 @@
 // Creator: Ruben
+// Editor: Job
+using ShadowUprising.DeathSaves;
 using ShadowUprising.Player;
 using ShadowUprising.UI.Loading;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ShadowUprising.LevelTriggers
@@ -15,6 +15,7 @@ namespace ShadowUprising.LevelTriggers
         {
             if (other.TryGetComponent<PlayerStats>(out _))
             {
+                DeathSaveManager.Instance.MakeSnapshot();
                 LoadingScreen.Instance.ShowAndLoad(sceneName);
             }
         }

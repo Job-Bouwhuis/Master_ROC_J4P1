@@ -33,6 +33,8 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
             AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
             if (ammoHandler != null)
                 ammoHandler.AddAmmoMags(mags);
+            else
+                throw new System.Exception("No AmmoHandler found in the scene");
             DestroySelf();
         }
 

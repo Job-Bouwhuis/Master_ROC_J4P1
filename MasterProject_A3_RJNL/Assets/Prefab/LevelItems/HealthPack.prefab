@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 18044b4329e8bd54ca1346f36aa983b1,
         type: 3}
       propertyPath: m_Name
-      value: MODELPREFAB_medpack
+      value: HealthPack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -150,7 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3367209bec1a944817210673306e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healingAmount: 0
+  healingAmount: 30
+  healthPackItem: {fileID: 11400000, guid: 6cf62bbdb9d08934a85b58e34610340f, type: 2}
 --- !u!65 &5729763241602925510
 BoxCollider:
   m_ObjectHideFlags: 0

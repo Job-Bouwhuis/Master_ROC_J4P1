@@ -1295,10 +1295,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6101038522303019351}
-  - component: {fileID: 4279095269112270105}
-  - component: {fileID: 5668345067813854093}
-  - component: {fileID: 4582472776473911641}
-  - component: {fileID: 872280724718156047}
   m_Layer: 5
   m_Name: PauseMenu
   m_TagString: Untagged
@@ -1328,88 +1324,6 @@ RectTransform:
   m_AnchoredPosition: {x: 400, y: 225}
   m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &4279095269112270105
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711333494570181591}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 1
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &5668345067813854093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711333494570181591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_UiScaleMode: 1
-  m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1920, y: 1080}
-  m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
-  m_PhysicalUnit: 3
-  m_FallbackScreenDPI: 96
-  m_DefaultSpriteDPI: 96
-  m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
---- !u!114 &4582472776473911641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711333494570181591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &872280724718156047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2711333494570181591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4cb2f711d55e5f42b03ad3ed6a6958a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  leftCover: {fileID: 3087791573734017039}
-  rightCover: {fileID: 3666665077980506394}
-  UIElements:
-  - {fileID: 0}
-  - {fileID: 8417839270066909266}
-  optionsRoot: {fileID: 4666564379700988771}
-  buttonsRoot: {fileID: 5135519900046216876}
 --- !u!1 &2769375120113313276
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,6 +2488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldInteractor: {fileID: 0}
+  guardHolder: {fileID: 0}
 --- !u!1 &4422368752226870890
 GameObject:
   m_ObjectHideFlags: 0
@@ -6096,7 +6011,6 @@ RectTransform:
   - {fileID: 7800670777266271544}
   - {fileID: 6101038522303019351}
   - {fileID: 390193056682172214}
-  - {fileID: 6101038522303019351}
   - {fileID: 893350570660515053}
   - {fileID: 5871623067004823229}
   - {fileID: 3751369950738679515}

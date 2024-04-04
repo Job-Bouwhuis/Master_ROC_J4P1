@@ -8,7 +8,7 @@ namespace ShadowUprising.SecurityCamera
 {
     public class DestroyedCameraCounter : MonoBehaviour
     {
-        int destroyedCameraCount;
+        [SerializeField] int destroyedCameraCount;
         [SerializeField] int maxDestroyedCameras;
 
         public Action onCameraDestroy;
