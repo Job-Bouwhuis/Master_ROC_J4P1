@@ -104,6 +104,8 @@ namespace ShadowUprising.UI.PauseMenu
             button.ChangeTargetColor(color);
         }
 
+        private void OnEnable() => Start();
+
         /// <summary>
         /// Starts the animation of the button appearing.
         /// </summary>
@@ -150,7 +152,7 @@ namespace ShadowUprising.UI.PauseMenu
         }
         private IEnumerator AnimationDown()
         {
-            button.OnPointerExit(null);
+            button.OnMouseExit();
             // add MoveDownAmount to the y localPosition of the button
             button.transform.localPosition = new Vector3(button.transform.localPosition.x, startPos.y + MoveDownAmount, 0);
             // add MoveLeftAmount to the x localPosition of the button
@@ -221,6 +223,7 @@ namespace ShadowUprising.UI.PauseMenu
 
             button.ResumeColorAnimation();
         }
+
         private IEnumerator AnimationFadeColorOut()
         {
             while (text.color.a > 0.01f)

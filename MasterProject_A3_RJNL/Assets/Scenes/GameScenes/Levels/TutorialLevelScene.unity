@@ -2245,7 +2245,7 @@ PrefabInstance:
         type: 3}
       propertyPath: guardHolder
       value: 
-      objectReference: {fileID: 1128757330}
+      objectReference: {fileID: 0}
     - target: {fileID: 3536419019920522937, guid: f03968a2e8f65f24ebdb1bd9faec8b0c,
         type: 3}
       propertyPath: worldInteractor
@@ -13832,7 +13832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf937a101f571e44b7387d33df7eb00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: DEMOEND
+  sceneName: Level1
 --- !u!65 &1202530360
 BoxCollider:
   m_ObjectHideFlags: 0

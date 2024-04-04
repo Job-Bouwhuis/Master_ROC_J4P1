@@ -102,7 +102,7 @@ namespace ShadowUprising.UI.PauseMenu
             foreach(Transform transform in optionsRoot.transform)
             {
                 if (transform.TryGetComponent(out TextButton button))
-                    button.OnPointerExit(null);
+                    button.OnMouseExit();
             }
         }
 
@@ -119,7 +119,7 @@ namespace ShadowUprising.UI.PauseMenu
             foreach (Transform transform in buttonsRoot.transform)
             {
                 if (transform.TryGetComponent(out TextButton button))
-                    button.OnPointerExit(null);
+                    button.OnMouseExit();
             }
         }
 
