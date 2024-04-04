@@ -19445,6 +19445,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumeObject: {fileID: 167473180}
+  pickedUp: 0
 --- !u!4 &1655622917
 Transform:
   m_ObjectHideFlags: 0
@@ -21656,6 +21657,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Guard
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378473759086923461, guid: fb6193e90794bca498b711d0feff21a0,
+        type: 3}
+      propertyPath: stopDistance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7097213188033748718, guid: fb6193e90794bca498b711d0feff21a0,
         type: 3}
