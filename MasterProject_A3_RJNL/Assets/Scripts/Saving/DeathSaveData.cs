@@ -8,7 +8,7 @@ namespace ShadowUprising.DeathSaves
 {
     public class DeathSaveData
     {
-        public static DeathSaveData Empty { get; } = new DeathSaveData();
+        public static DeathSaveData Empty { get; } = new();
 
         public List<Item> PlayerInventory => playerInventory;
         private List<Item> playerInventory;

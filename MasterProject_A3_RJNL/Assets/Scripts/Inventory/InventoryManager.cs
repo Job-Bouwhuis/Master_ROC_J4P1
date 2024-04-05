@@ -1,5 +1,4 @@
 // Creator: job
-#line 1 "Assets\\Scripts\\Inventory\\InventoryManager.cs"
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
@@ -307,10 +306,14 @@ namespace ShadowUprising.Inventory
 
         protected override void Awake()
         {
+            Instance = null;
+            if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "DEMOEND")
+            {
+                Destroy(gameObject);
+                return;
+            }
             SetupReferenceChecks();
-
             base.Awake();
-
             if(gameObject.IsDestroyed())
                 return;
 

@@ -16,6 +16,7 @@ namespace ShadowUprising.LevelTriggers
             if (other.TryGetComponent<PlayerStats>(out _))
             {
                 DeathSaveManager.Instance.MakeSnapshot();
+                DeathSaveManager.Instance.IsResetting = true;
                 LoadingScreen.Instance.ShowAndLoad(sceneName);
             }
         }

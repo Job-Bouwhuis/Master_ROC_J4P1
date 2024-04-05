@@ -40,6 +40,7 @@ namespace ShadowUprising.LevelTriggers.Tutorial
             if (++destroyedCamera == toBeDestroyedCameras)
             {
                 InfoDialogManager.Instance.ShowInfoDialog("TUTORIAL", "Now shoot the guard that will come!", 5);
+
                 guard.SetActive(true);
             }
         }

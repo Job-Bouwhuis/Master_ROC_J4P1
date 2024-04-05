@@ -51,9 +51,16 @@ namespace ShadowUprising.DeathSaves
         /// </summary>
         public void MakeSnapshot()
         {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
+            {
+                Log.Push("Not loading snapshot in main menu or demo end.\n" +
+                    "Due to being in either of these scenes, resetting the game save.");
+                dataSnapshot = DeathSaveData.Empty;
+                return;
+            }
             AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
             dataSnapshot = new DeathSaveData(new List<Item>(InventoryManager.Instance.playerInventory), ammoHandler);
-            Log.Push("Game snapshot made.");
+            Log.Push("Game snapshot made."); 
         }
 
         /// <summary>
@@ -62,6 +69,13 @@ namespace ShadowUprising.DeathSaves
         public void LoadSnapshot()
         {
             IsResetting = false;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
+            {
+                Log.Push("Not loading snapshot in main menu or demo end.\n" +
+                    "Due to being in either of these scenes, resetting the game save.");
+                dataSnapshot = DeathSaveData.Empty;
+                return;
+            }
             if (dataSnapshot is null)
             {
                 Debug.Log("No snapshot made. Cant load. ");
