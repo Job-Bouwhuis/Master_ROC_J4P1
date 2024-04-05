@@ -45,7 +45,6 @@ namespace ShadowUprising.WorldInteraction
                         interactables.Foreach(x => x.Interact(this));
                         Log.Push("Interacted with world object");
                     }
-
                 }
                 else
                 {

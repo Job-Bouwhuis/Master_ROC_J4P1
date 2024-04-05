@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using ShadowUprising;
 using ShadowUprising.SecurityCamera;
 using ShadowUprising.WeaponBehaviour;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraHitbox : MonoBehaviour, IHitable
@@ -28,6 +29,8 @@ public class CameraHitbox : MonoBehaviour, IHitable
     /// </summary>
     public void HitEvent()
     {
+        if (destroyedCameraCounter.IsDestroyed())
+            return;
         if (destroyedCameraCounter != null)
             destroyedCameraCounter.addDestroyedCamera();
         CameraPlayerDetectionEvent cameraPlayerDetectionEvent = GetComponent<CameraPlayerDetectionEvent>();

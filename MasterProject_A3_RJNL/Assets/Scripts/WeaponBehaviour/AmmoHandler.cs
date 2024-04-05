@@ -20,33 +20,54 @@ namespace ShadowUprising.WeaponBehaviour
         [SerializeField] Pistol pistolObject;
 
         int _currentLoadedAmmo;
-        int currentLoadedAmmo { get { return _currentLoadedAmmo; } set {
+        
+        /// <summary>
+        /// How much ammo is currently loaded in the gun
+        /// </summary>
+        public int CurrentLoadedAmmo 
+        { 
+            get => _currentLoadedAmmo; 
+            set
+            {
                 _currentLoadedAmmo = value; 
                 onAmmoChanged(value); 
-            } }
+            } 
+        }
         int _currentUnloadedAmmo;
-        int currentUnloadedAmmo { get { return _currentUnloadedAmmo; } set { _currentUnloadedAmmo = value; onUnloadedAmmoChanged(value); } }
+
+        /// <summary>
+        /// How much ammo is left in the players inventory
+        /// </summary>
+        public int CurrentUnloadedAmmo 
+        { 
+            get => _currentUnloadedAmmo;
+            set 
+            { 
+                _currentUnloadedAmmo = value; 
+                onUnloadedAmmoChanged(value); 
+            } 
+        }
 
         void OnPlayerShot()
         {
-            if (currentLoadedAmmo > 0)
-                currentLoadedAmmo--;
+            if (CurrentLoadedAmmo > 0)
+                CurrentLoadedAmmo--;
         }
 
         void onPlayerReload()
         {
-            if (currentUnloadedAmmo > 0)
+            if (CurrentUnloadedAmmo > 0)
             {
-                var needed = (magCapacity - currentLoadedAmmo);
-                if (needed > currentUnloadedAmmo)
+                var needed = (magCapacity - CurrentLoadedAmmo);
+                if (needed > CurrentUnloadedAmmo)
                 {
-                    currentLoadedAmmo += currentUnloadedAmmo;
-                    currentUnloadedAmmo = 0;
+                    CurrentLoadedAmmo += CurrentUnloadedAmmo;
+                    CurrentUnloadedAmmo = 0;
                 }
                 else
                 {
-                    currentLoadedAmmo += needed;
-                    currentUnloadedAmmo -= needed;
+                    CurrentLoadedAmmo += needed;
+                    CurrentUnloadedAmmo -= needed;
                 }
             }
         }
@@ -56,10 +77,10 @@ namespace ShadowUprising.WeaponBehaviour
             pistolObject.onPistolShot += OnPlayerShot;
             pistolObject.onPistolReload += onPlayerReload;
             if (totalBeginMags == 0)
-                currentLoadedAmmo = 0;
+                CurrentLoadedAmmo = 0;
             else
-                currentLoadedAmmo = magCapacity;
-            currentUnloadedAmmo = magCapacity * totalBeginMags;
+                CurrentLoadedAmmo = magCapacity;
+            CurrentUnloadedAmmo = magCapacity * totalBeginMags;
         }
 
         /// <summary>
@@ -68,12 +89,12 @@ namespace ShadowUprising.WeaponBehaviour
         /// <returns></returns>
         public int GetCurrentLoadedAmmo()
         {
-            return currentLoadedAmmo;
+            return CurrentLoadedAmmo;
         }
 
         public void AddAmmoMags(int mags)
         {
-            currentUnloadedAmmo += mags * magCapacity;
+            CurrentUnloadedAmmo += mags * magCapacity;
         }
     }
 }

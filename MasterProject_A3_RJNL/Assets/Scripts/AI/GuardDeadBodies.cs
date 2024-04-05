@@ -5,6 +5,7 @@ using ShadowUprising.Inventory;
 using ShadowUprising.WorldInteraction;
 using ShadowUprising.Detection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ShadowUprising.AI.Bodies
 {
@@ -25,6 +26,10 @@ namespace ShadowUprising.AI.Bodies
 
         private void Start()
         {
+            if(SceneManager.GetActiveScene().name == "DEMOEND")
+            {
+                return;
+            }
             Assign();
         }
 

@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace ShadowUprising.WeaponBehaviour
 {
+    [RequireComponent(typeof(TextMeshProUGUI))]
     public class AmmoTextChanger : MonoBehaviour
     {
-        public TMPro.TextMeshProUGUI textMeshPro;
+        TextMeshProUGUI text;
 
         int ammoLoaded;
         int unloadedAmmo;
@@ -14,6 +16,7 @@ namespace ShadowUprising.WeaponBehaviour
         // Start is called before the first frame update
         void Start()
         {
+            text = GetComponent<TextMeshProUGUI>();
             var ammoHandler = FindObjectOfType<AmmoHandler>();
             ammoHandler.onAmmoChanged += UpdateAmmo;
             ammoHandler.onUnloadedAmmoChanged += UpdateUnloadedAmmo;
@@ -33,7 +36,7 @@ namespace ShadowUprising.WeaponBehaviour
 
         void UpdateText()
         {
-            textMeshPro.text = $"{ammoLoaded}/{unloadedAmmo}";
+            text.text = $"{ammoLoaded}/{unloadedAmmo}";
         }
 
     }

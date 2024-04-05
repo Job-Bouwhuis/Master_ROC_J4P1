@@ -2,6 +2,7 @@ using ShadowUprising.Inventory;
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
+using ShadowUprising.WeaponBehaviour;
 using System.Collections.Generic;
 using UnityEngine;
 using WinterRose;
@@ -14,7 +15,6 @@ namespace ShadowUprising.DeathSaves
         public DeathSaveData dataSnapshot;
 
         public bool IsComplete { get; set; }
-
         public bool IsResetting { get; set; }
 
         protected override void Awake()
@@ -24,6 +24,12 @@ namespace ShadowUprising.DeathSaves
             if (InventoryManager.Instance == null)
             {
                 Windows.MessageBox("No inventory in the scene. Please add one for gameplay sake.");
+                return;
+            }
+
+            if(FindAnyObjectByType<AmmoHandler>() == null)
+            {
+                Windows.MessageBox("No AmmoHandler in the scene. Please add one for gameplay sake.");
                 return;
             }
 
@@ -45,8 +51,16 @@ namespace ShadowUprising.DeathSaves
         /// </summary>
         public void MakeSnapshot()
         {
-            Log.Push("Game snapshot made.");
-            dataSnapshot = new DeathSaveData(new List<Item>(InventoryManager.Instance.playerInventory));
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
+            {
+                Log.Push("Not loading snapshot in main menu or demo end.\n" +
+                    "Due to being in either of these scenes, resetting the game save.");
+                dataSnapshot = DeathSaveData.Empty;
+                return;
+            }
+            AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
+            dataSnapshot = new DeathSaveData(new List<Item>(InventoryManager.Instance.playerInventory), ammoHandler);
+            Log.Push("Game snapshot made."); 
         }
 
         /// <summary>
@@ -55,6 +69,13 @@ namespace ShadowUprising.DeathSaves
         public void LoadSnapshot()
         {
             IsResetting = false;
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
+            {
+                Log.Push("Not loading snapshot in main menu or demo end.\n" +
+                    "Due to being in either of these scenes, resetting the game save.");
+                dataSnapshot = DeathSaveData.Empty;
+                return;
+            }
             if (dataSnapshot is null)
             {
                 Debug.Log("No snapshot made. Cant load. ");
@@ -68,6 +89,12 @@ namespace ShadowUprising.DeathSaves
                 item.ResetFunction();
                 InventoryManager.Instance.AddItem(item);
             }
+
+            AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
+            ammoHandler.CurrentLoadedAmmo = dataSnapshot.ammoLoaded;
+            ammoHandler.CurrentUnloadedAmmo = dataSnapshot.ammoInInv;
+
+            Log.Push("Game snapshot loaded.");
         }
 
         /// <summary>

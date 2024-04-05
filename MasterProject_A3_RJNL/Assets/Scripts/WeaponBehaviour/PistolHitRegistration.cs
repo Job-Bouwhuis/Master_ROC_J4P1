@@ -23,6 +23,9 @@ namespace ShadowUprising.WeaponBehaviour
 
         void OnRaycastHit(RaycastHit hitinfo)
         {
+            if (hitinfo.transform.gameObject == null)
+                return;
+                
             IHitable target = hitinfo.transform.GetComponent<IHitable>();
             if (target != null)
             {

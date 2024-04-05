@@ -69,7 +69,7 @@ namespace ShadowUprising.Inventory
         /// Sets the item in the slot to the given <paramref name="item"/>
         /// </summary>
         /// <param name="item"></param>
-        public void SetITem(Item? item)
+        public void SetItem(Item? item)
         {
             if (item == null)
             {

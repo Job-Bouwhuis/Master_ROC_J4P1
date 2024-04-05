@@ -43,6 +43,9 @@ namespace ShadowUprising.GameOver
             if (IsGameOver)
                 return;
 
+            foreach (Transform transform in transform)
+                transform.gameObject.SetActive(true);
+
             // this should be the only point where the game over flag is set.
             IsGameOver = true;
             StopAllCoroutines();
@@ -65,6 +68,8 @@ namespace ShadowUprising.GameOver
         /// </summary>
         public void HideGameOver()
         {
+            foreach (Transform transform in transform)
+                transform.gameObject.SetActive(false);
             StopAllCoroutines();
             backgroundImage.gameObject.SetActive(false);
             gameOverText.gameObject.SetActive(false);
@@ -88,6 +93,10 @@ namespace ShadowUprising.GameOver
                     return 0;
                 });
             }
+
+            foreach (Transform transform in transform)
+                transform.gameObject.SetActive(false);
+
         }
         IEnumerator UnlockMouse()
         {
