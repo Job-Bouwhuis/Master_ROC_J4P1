@@ -49,7 +49,6 @@ namespace ShadowUprising.UI.PauseMenu
         /// Whether the game is currently paused
         /// </summary>
         public bool IsPaused { get; private set; }
-
         /// <summary>
         /// Whether the options menu is currently open
         /// </summary>
@@ -75,7 +74,6 @@ namespace ShadowUprising.UI.PauseMenu
             IsPaused = true;
             Time.timeScale = 0;
         }
-
         /// <summary>
         /// Unpauses the game and hides the pause menu
         /// </summary>
@@ -88,7 +86,6 @@ namespace ShadowUprising.UI.PauseMenu
             StopAllCoroutines();
             StartCoroutine(StartHidingProcess());
         }
-
         /// <summary>
         /// Opens the options screen on the pause menu
         /// </summary>
@@ -105,7 +102,6 @@ namespace ShadowUprising.UI.PauseMenu
                     button.OnMouseExit();
             }
         }
-
         /// <summary>
         /// Closes the options screen on the pause menu
         /// </summary>
@@ -116,13 +112,22 @@ namespace ShadowUprising.UI.PauseMenu
             optionsRoot.SetActive(false);
             buttonsRoot.SetActive(true);
 
+            foreach(Transform transform in buttonsRoot.transform)
+            {
+                if (transform.TryGetComponent(out TextButton button))
+                {
+                    button.enabled = true;
+                    button.isDisabled = false;
+                }
+            }
+            
+
             foreach (Transform transform in buttonsRoot.transform)
             {
                 if (transform.TryGetComponent(out TextButton button))
                     button.OnMouseExit();
             }
         }
-
         IEnumerator ShowMouse()
         {
             Cursor.lockState = CursorLockMode.None;
@@ -180,13 +185,9 @@ namespace ShadowUprising.UI.PauseMenu
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
                 if (IsPaused)
-                {
                     Unpause();
-                }
                 else
-                {
                     Pause();
-                }
             }
         }
     }
