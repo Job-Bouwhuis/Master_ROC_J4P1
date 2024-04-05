@@ -1,6 +1,6 @@
-using System.Collections;
-using ShadowUprising;
-using ShadowUprising.Detection;
+// Creator: Ruben
+// Edited by: Job
+
 using ShadowUprising.AI.Bodies;
 using UnityEngine;
 
@@ -22,6 +22,11 @@ namespace ShadowUprising.Player
         [SerializeField] private int carrySpeedModifier;
         PlayerStats playerStats;
         GameObject heldGuard;
+
+        /// <summary>
+        /// Whether the player is currently holding a guard.
+        /// </summary>
+        public bool HasGuard => heldGuard != null;
 
         private void Start()
         {

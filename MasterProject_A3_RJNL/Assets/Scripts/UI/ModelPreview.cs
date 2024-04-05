@@ -1,6 +1,8 @@
 // Creator: Job
 using UnityEngine;
 using System.Collections;
+using ShadowUprising.PreviewModels;
+using System.Linq;
 
 namespace ShadowUprising.UI
 {
@@ -24,13 +26,12 @@ namespace ShadowUprising.UI
 
         [Header("Models")]
         [Tooltip("One of these models can be chosen to be shown on the main menu")]
-        public GameObject[] models;
+        public PreviewModelData[] models;
 
         [Header("Debug - DO NOT CHANGE")]
         [SerializeField] int currentModel = 0;
         [SerializeField] float waitTime = 0;
         private Quaternion originalRotation;
-        private Vector3 originalEulerAngles;
         private Vector3 lastMousePosition;
         private Vector3 lastRotation;
         private bool isDragging = false;
@@ -46,10 +47,22 @@ namespace ShadowUprising.UI
 
             transform.localScale = Vector3.zero;
             originalRotation = transform.rotation;
-            originalEulerAngles = transform.eulerAngles;
 
             StartCoroutine(EntryAnimationModel());
             currentRotationSpeed = constantRotationSpeed; // Initialize current rotation speed
+
+            if (models.Length > 0)
+            {
+                var modelData = models
+                    .OrderBy(x => new System.Random(new System.Random().Next()).Next())
+                    .ThenBy(x => new System.Random(System.DateTime.UtcNow.Second))
+                    .Take(1)
+                    .First();
+
+                GameObject model = Instantiate(modelData.Prefab, transform);
+                model.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                model.transform.localScale = modelData.Scale;
+            }
         }
 
         // Update is called once per frame

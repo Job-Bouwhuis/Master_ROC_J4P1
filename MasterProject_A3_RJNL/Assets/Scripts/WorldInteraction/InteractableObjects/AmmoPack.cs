@@ -1,4 +1,5 @@
 // Creator: Ruben
+using ShadowUprising.WeaponBehaviour;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
         /// The priority of the object for the player interaction
         /// </summary>
         public int Priority => 0;
+        [SerializeField] int mags;
 
         private void Start()
         {
@@ -28,7 +30,11 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
         /// <param name="interactor">The WorldInteractor component that called this function</param>
         public void Interact(WorldInteractor interactor)
         {
-            // Update Ammo count
+            AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
+            if (ammoHandler != null)
+                ammoHandler.AddAmmoMags(mags);
+            else
+                throw new System.Exception("No AmmoHandler found in the scene");
             DestroySelf();
         }
 

@@ -1,4 +1,5 @@
 // Created by Niels
+//Edited by: Luke
 using ShadowUprising.Items.ItemFunctions;
 using System;
 using System.Collections;
@@ -7,31 +8,29 @@ using UnityEngine;
 
 namespace ShadowUprising.Audio
 {
-    /// <summary>
-    /// Audio handler for the pistol
-    /// </summary>
-    public class PistolAudioHandler : MonoBehaviour
+    public AudioClip weaponShot;
+    public AudioClip weaponReload;
+    public AudioClip weaponShotEmpty;
+    private AudioSource audioSource;
+    // Start is called before the first frame update
+    void Start()
     {
-        /// <summary>
-        /// Audio container for the weapon shot
-        /// </summary>
-        public AudioContainer weaponShot;
-        /// <summary>
-        /// Audio container for the weapon reload
-        /// </summary>
-        public AudioContainer weaponReload;
-        // Start is called before the first frame update
-        void Start()
-        {
-            var comp = GetComponent<Pistol>();
-            comp.onPistolReload += OnPistolReload;
-            comp.onPistolShot += OnPistolShot;
-        }
+        var comp = GetComponent<Pistol>();
+        comp.onPistolReload += OnPistolReload;
+        comp.onPistolShot += OnPistolShot;
+        comp.onPistolShootEmtpy += onPistolShotEmpty;
+        audioSource = GetComponent<AudioSource>();
+    }
 
-        private void OnPistolShot()
-        {
-            AudioManager.Instance.Play(weaponShot, transform.position);
-        }
+    private void onPistolShotEmpty()
+    {
+        audioSource.PlayOneShot(weaponShotEmpty); ;
+    }
+
+    private void OnPistolShot()
+    {
+        audioSource.PlayOneShot(weaponShot);
+    }
 
         private void OnPistolReload()
         {

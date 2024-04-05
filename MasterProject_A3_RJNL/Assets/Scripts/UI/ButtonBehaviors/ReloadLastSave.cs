@@ -12,6 +12,11 @@ public class ReloadLastSave : ButtonFunction
             Windows.MessageBox("No Loading screen in the scene. Cant load");
             return;
         }
+        if(DeathSaveManager.Instance == null)
+        {
+            Windows.MessageBox("No DeathSaveManager in the scene. Cant load");
+            return;
+        }
 
         string currentScene = LoadingScreen.Instance.CurrentScene;
 

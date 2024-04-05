@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using ShadowUprising.WeaponBehaviour;
 
 namespace ShadowUprising.Items.ItemFunctions
 {
@@ -21,15 +22,36 @@ namespace ShadowUprising.Items.ItemFunctions
         /// </summary>
         public Action onPistolReload = delegate { };
 
+        /// <summary>
+        /// is called when the pistol shoots when empty
+        /// </summary>
+        public Action onPistolShootEmtpy = delegate { };
+
         Animator pistolAnimator;
         string pistolDefaultState;
-        bool allowed;
+        bool canShoot = true;
+        bool canReload = true;
 
         private void Start()
         {
             pistolAnimator = GetComponent<Animator>();
             pistolDefaultState = pistolAnimator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
+            var ammoHandler = FindObjectOfType<AmmoHandler>();
+            ammoHandler.onAmmoChanged += SetShootState;
+            ammoHandler.onUnloadedAmmoChanged += SetReloadState;
+            SetShootState(ammoHandler.GetCurrentLoadedAmmo());
         }
+
+        void SetReloadState(int ammo)
+        {
+            canReload = ammo > 0;
+        }
+
+        void SetShootState(int ammo)
+        {
+            canShoot = ammo > 0;
+        }
+
 
         private void Update()
         {
@@ -44,22 +66,24 @@ namespace ShadowUprising.Items.ItemFunctions
 
         public void ExecuteGunFunctions()
         {
-            if (Input.GetKeyUp(KeyCode.R))
-                onPistolReload.Invoke();
-            //if (Input.GetKeyUp(KeyCode.Mouse0))
-            //{
-            //    UseItem();
-            //}
 
             if (Input.GetKeyUp(KeyCode.R))
-                onPistolReload.Invoke();
-            allowed = false;
+                if (canReload)
+                    onPistolReload.Invoke();
         }
 
         public void UseItem()
         {
             if (CanExecute())
-                onPistolShot.Invoke();
+                if (canShoot)
+                {
+                    onPistolShot.Invoke();
+                }
+                else
+                {
+                    onPistolShootEmtpy.Invoke();
+                }
+                
         }
     }
 }

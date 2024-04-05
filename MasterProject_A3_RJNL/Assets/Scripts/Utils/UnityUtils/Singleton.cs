@@ -13,7 +13,7 @@ namespace ShadowUprising.UnityUtils
         /// <summary>
         /// The instance of the singleton.
         /// </summary>
-        public static TSelf Instance { get; private set; }
+        public static TSelf Instance { get; protected set; }
 
         protected virtual void Awake()
         {
@@ -22,14 +22,16 @@ namespace ShadowUprising.UnityUtils
                 Instance = this as TSelf;
 
                 if (GetType().IsDefined(typeof(DontDestroyOnLoadAttribute), false))
-                {
                     DontDestroyOnLoad(gameObject);
-                }
             }
             else
-            {
                 Destroy(gameObject);
-            }
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
     }
 }

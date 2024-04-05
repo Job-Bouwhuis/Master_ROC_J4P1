@@ -57,7 +57,7 @@ namespace ShadowUprising.Items
         {
             get
             {   
-                if (itemFunction is not null)
+                if (itemFunction != null)
                 {
                     return itemFunction;
                 }
@@ -73,7 +73,7 @@ namespace ShadowUprising.Items
                 // find if a component exists in the scene with the same type
                 if (type.IsAssignableTo(typeof(UnityEngine.Object)))
                 {
-                    var component = FindObjectOfType(type);
+                    var component = FindObjectOfType(type, true);
                     if (component != null)
                     {
                         itemFunction = (IItemFunction)component;

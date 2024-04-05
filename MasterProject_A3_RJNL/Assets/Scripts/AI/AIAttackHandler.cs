@@ -30,7 +30,7 @@ namespace ShadowUprising.AI
         private void Update()
         {
             timer.Update(Time.deltaTime);
-            CheckForReturnToRoaming();
+            CheckForSoundAlarm();
         }
 
         void Asign()
@@ -38,24 +38,18 @@ namespace ShadowUprising.AI
             GetComponent<AIPlayerConeDetector>().onObjectDetected += OnObjectDetected;
             state = GetComponent<GuardState>();
             aiSystem = GetComponent<AINavigationSystem>();
-            timer.elapsed += PlayerLost;
+            timer.elapsed += CallAlarmFunction;
         }
 
-        private void PlayerLost()
+        void CallAlarmFunction()
         {
-            state.SetState(AIState.Roaming);
+            GetComponent<GuardState>().SetState(AIState.SoundingAlarm);
         }
 
-        void SetGuardState()
-        {
-            if (state.CurrentState != AIState.Attacking)
-                state.SetState(AIState.Attacking);
-        }
-
-        void CheckForReturnToRoaming()
+        void CheckForSoundAlarm()
         {
             if (IsAIAtLocation())
-                ReturnToRoaming();
+                SoundAlarm();
         }
 
         bool IsAIAtLocation()
@@ -65,7 +59,7 @@ namespace ShadowUprising.AI
             return false;
         }
 
-        void ReturnToRoaming()
+        void SoundAlarm()
         {
             if (state.CurrentState == AIState.Attacking)
                 timer.StartTimer();
@@ -73,10 +67,12 @@ namespace ShadowUprising.AI
 
         void OnObjectDetected(GameObject gameObject)
         {
-            SetGuardState();
-            lastPlayerLoc = gameObject.transform.position;
-            aiSystem.SetCurrentWayPoint(gameObject.transform.position);
-            timer.ZeroTimer();
+            if (state.CurrentState == AIState.Attacking)
+            {
+                lastPlayerLoc = gameObject.transform.position;
+                aiSystem.SetCurrentWayPoint(gameObject.transform.position);
+                timer.ZeroTimer();
+            }
         }
 
     }

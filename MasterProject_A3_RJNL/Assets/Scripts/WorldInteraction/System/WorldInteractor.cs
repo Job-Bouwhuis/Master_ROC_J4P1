@@ -4,6 +4,7 @@ using ShadowUprising.UnityUtils;
 using UnityEngine;
 using System.Linq;
 using WinterRose;
+using System;
 
 namespace ShadowUprising.WorldInteraction
 {
@@ -15,6 +16,9 @@ namespace ShadowUprising.WorldInteraction
         [Tooltip("The distance the player can interact with objects.")]
         public float interactDistance = 10f;
 
+        public Action OnItemLookedAt = delegate { };
+        public Action OnItemLookedAtStopped = delegate { };
+        private bool stoppedLookingAtItem = false;
 #if UNITY_EDITOR
         [Header("Debug")]
         public bool rayHit;
@@ -30,6 +34,8 @@ namespace ShadowUprising.WorldInteraction
 
                 if (interactables.Any())
                 {
+                    OnItemLookedAt();
+                    stoppedLookingAtItem = false;
                     hitCollider = hit.collider;
 #if UNITY_EDITOR
                     rayHit = true;
@@ -39,17 +45,30 @@ namespace ShadowUprising.WorldInteraction
                         interactables.Foreach(x => x.Interact(this));
                         Log.Push("Interacted with world object");
                     }
-
                 }
-#if UNITY_EDITOR
                 else
+                {
+#if UNITY_EDITOR
                     rayHit = false;
 #endif
+                    if (!stoppedLookingAtItem)
+                    {
+                        OnItemLookedAtStopped();
+                        stoppedLookingAtItem = true;
+                    }
+                }
             }
-#if UNITY_EDITOR
             else
+            {
+#if UNITY_EDITOR
                 rayHit = false;
 #endif
+                if (!stoppedLookingAtItem)
+                {
+                    OnItemLookedAtStopped();
+                    stoppedLookingAtItem = true;
+                }
+            }
         }
 
 #if UNITY_EDITOR

@@ -1,17 +1,12 @@
 // Creator: job
-
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
 using ShadowUprising.UnityUtils;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 using WinterRose;
 using static ShadowUprising.Inventory.InventoryInteractionResult;
 
@@ -118,7 +113,7 @@ namespace ShadowUprising.Inventory
             playerInventory.Add(item);
 
             // make sure the slot in which the item is placed knows about the item
-            invSlots[playerInventory.Count - 1].SetITem(item);
+            invSlots[playerInventory.Count - 1].SetItem(item);
 
             // if the slot in which the item is placed is selected, select the item
             if (invSlots[playerInventory.Count - 1].IsSelected)
@@ -191,6 +186,10 @@ namespace ShadowUprising.Inventory
                 else
                 {
                     playerInventory.Remove(item);
+
+                    int index = invSlots.FindIndex(x => x.item == item);
+                    selectedItem = null;
+                    invSlots[index].SetItem(null);
                     return InvokeInteractEvent(new InventoryInteractResult(Success | ItemRemoved, "Item removed from inventory", item));
                 }
             }
@@ -254,18 +253,7 @@ namespace ShadowUprising.Inventory
             OnInventoryInteract?.Invoke(result);
             return result;
         }
-        //private void OnNewSceneLoad(Scene scene, LoadSceneMode mode)
-        //{
-        //    Log.Push("New scene loaded. clearing interaction event subscribers");
-        //    OnInventoryInteract.Clear();
-        //    if (scene.name == "MainMenu")
-        //    {
-        //        Log.Push("The new scene is the Main Menu. Destroying inventory");
-        //        Destroy(gameObject);
-        //        SceneManager.sceneLoaded -= OnNewSceneLoad;
-        //        return;
-        //    }
-        //}
+
         /// <summary>
         /// Validates the given item and adds it the the <see cref="allItems"/> list if it is not already in there. and inits the item
         /// </summary>
@@ -318,10 +306,14 @@ namespace ShadowUprising.Inventory
 
         protected override void Awake()
         {
+            Instance = null;
+            if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "DEMOEND")
+            {
+                Destroy(gameObject);
+                return;
+            }
             SetupReferenceChecks();
-
             base.Awake();
-
             if(gameObject.IsDestroyed())
                 return;
 
@@ -439,7 +431,7 @@ namespace ShadowUprising.Inventory
             {
                 if (i < playerInventory.Count)
                 {
-                    invSlots[i].SetITem(playerInventory[i]);
+                    invSlots[i].SetItem(playerInventory[i]);
                 }
                 else
                 {
@@ -536,5 +528,27 @@ namespace ShadowUprising.Inventory
             if (Input.GetKeyDown(KeyCode.Alpha0))
                 SelectIndex(9);
         }
+
+        /// <summary>
+        /// Consumes the currently selected item by removing the specified amount from the inventory.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns>A struct containing information about the interaction with the inventory</returns>
+        public InventoryInteractResult ConsumeItem(int count)
+        {
+            if (selectedItem == null)
+                return new(Failure | NoItemSelected, "item was null", null);
+
+            RemoveItem(selectedItem, count);
+            return new(Success | ItemConsumed, "item consumed", selectedItem);
+        }
+
+        /// <summary>
+        /// Consumes 1 of the currently selected item by removing it from the inventory.
+        /// </summary>
+        /// <returns>A struct containing information about the interaction with the inventory </returns>
+        public InventoryInteractResult ConsumeItem() => ConsumeItem(1);
+
+
     }
 }
