@@ -25,10 +25,15 @@ namespace ShadowUprising.NighVision
         /// </summary>
         public Action onNightvisionDisabled = delegate { };
 
+        /// <summary>
+        /// determines if the item is pickedUp
+        /// </summary>
+        public bool pickedUp;
+
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.V))
+            if (Input.GetKeyUp(KeyCode.V) && pickedUp)
                 EnableOrDisableVision();
         }
 

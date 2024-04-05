@@ -74,10 +74,7 @@ namespace ShadowUprising.AI
             roaming = currentState == AIState.Roaming;
             if (roaming)
             {
-                if (!IsInvoking(toInvoke))
-                {
-                    Invoke(toInvoke, 3.5f);
-                }
+                SetNewGoToPos();
             }
 
         }
