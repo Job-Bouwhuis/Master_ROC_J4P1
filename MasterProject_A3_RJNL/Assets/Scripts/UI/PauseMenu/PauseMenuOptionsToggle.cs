@@ -7,7 +7,7 @@ namespace ShadowUprising.UI.PauseMenu
     /// </summary>
     public class PauseMenuOptionsToggle : ButtonFunction
     {
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
             if (PauseMenuManager.Instance.OptionsOpen)
                 PauseMenuManager.Instance.CloseOptions();
