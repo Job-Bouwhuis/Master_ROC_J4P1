@@ -11,7 +11,7 @@ namespace ShadowUprising.UI.ButtonFunctions
     {
         [SerializeField] private SettingsApplyer settingsApplyer;
 
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
             settingsApplyer.ApplySettings();
             GameSettings.Instance.Save();

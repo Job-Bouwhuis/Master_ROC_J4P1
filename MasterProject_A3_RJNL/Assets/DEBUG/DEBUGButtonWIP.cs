@@ -11,7 +11,7 @@ namespace ShadowUprising.DEBUG
     /// </summary>
     public class DEBUGButtonWIP : ButtonFunction
     {
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
             Windows.MessageBox(
                 text: "The function for this button is still in development. Come back in later versions to see its magic!",

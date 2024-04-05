@@ -15,7 +15,7 @@ namespace ShadowUprising.UI.ButtonFunctions
         /// </summary>
         /// <param name="button"></param>
         /// <param name="isToggle"></param>
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.ExitPlaymode();

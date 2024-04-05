@@ -16,6 +16,11 @@ namespace ShadowUprising.AI
         /// </summary>
         public float distanceToLastPlayerLoc;
 
+        /// <summary>
+        /// distance until the ai stops
+        /// </summary>
+        public float stopDistance;
+
         GuardState state;
         AINavigationSystem aiSystem;
         Timer timer = new Timer(3000);
@@ -69,11 +74,39 @@ namespace ShadowUprising.AI
         {
             if (state.CurrentState == AIState.Attacking)
             {
-                lastPlayerLoc = gameObject.transform.position;
-                aiSystem.SetCurrentWayPoint(gameObject.transform.position);
-                timer.ZeroTimer();
+                if (Vector3.Distance(transform.position, gameObject.transform.position) < stopDistance)
+                {
+                    aiSystem.SetCurrentWayPoint(transform.position);
+
+                    Vector3 targetPostition = new Vector3(gameObject.transform.position.x,
+                                       this.transform.position.y,
+                                       gameObject.transform.position.z);
+                    this.transform.LookAt(targetPostition);
+
+                }
+                else
+                {
+                    lastPlayerLoc = gameObject.transform.position;
+                    aiSystem.SetCurrentWayPoint(gameObject.transform.position);
+                    timer.ZeroTimer();
+                }
+
+
             }
         }
+
+        void StandingCondition(GameObject gameObject)
+        {
+
+                if (Vector3.Distance(transform.position, gameObject.transform.position) < stopDistance)
+                {
+                    aiSystem.SetCurrentWayPoint(Vector3.zero);
+                    transform.LookAt(gameObject.transform.position, Vector3.right);
+                    return;
+                }
+            
+        }
+
 
     }
 }

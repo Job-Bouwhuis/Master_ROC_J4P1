@@ -5,7 +5,7 @@ using WinterRose;
 
 public class ReloadLastSave : ButtonFunction
 {
-    public override void Invoke(TextButton button)
+    public override void InvokeRelease(TextButton button)
     {
         if(LoadingScreen.Instance == null)
         {

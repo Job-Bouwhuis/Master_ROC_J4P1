@@ -16,7 +16,7 @@ namespace ShadowUprising.UI.ButtonFunctions
             GetComponent<TextButton>().toggleState = false;
         }
 
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
             Log.ConsoleEnabled = button.toggleState;
 

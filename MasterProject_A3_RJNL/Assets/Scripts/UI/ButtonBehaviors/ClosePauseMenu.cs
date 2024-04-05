@@ -9,7 +9,7 @@ namespace ShadowUprising.UI.ButtonFunctions
     /// </summary>
     public class ClosePauseMenu : ButtonFunction
     {
-        public override void Invoke(TextButton button)
+        public override void InvokeRelease(TextButton button)
         {
             PauseMenuManager.Instance.Unpause();
         }
