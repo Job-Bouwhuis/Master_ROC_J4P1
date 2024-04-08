@@ -1,6 +1,7 @@
 // Creator: Ruben
 // Edited by: Job >> ln: 74
 using ShadowUprising;
+using ShadowUprising.GameOver;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -144,6 +145,11 @@ namespace ShadowUprising.Player
             health -= amount;
             if (health < 0)
                 health = 0;
+
+            if (health is 0)
+            {
+                GameOverManager.Instance.GameOver("Your health reached 0");
+            }
         }
     }
 }
