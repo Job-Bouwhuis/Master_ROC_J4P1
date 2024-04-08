@@ -29,8 +29,6 @@ namespace ShadowUprising.UI
         public Vector3 hiddenPosition;
         [Tooltip("The time it takes to animate the element")]
         public float animationSpeed = 1.0f;
-        [Tooltip("The minimum amount of time the loading screen will wait until it will start")]
-        public float delayLoading = 0.5f;
         [Tooltip("The time the element will stay on screen before hiding")]
         public float TimeOnScreenBeforeHide = 1.5f;
         [Tooltip("If true, the element will stay on screen indefinitely so long this value is true")]
@@ -171,7 +169,7 @@ namespace ShadowUprising.UI
                 {
                     shouldBeVisible = false;
                     transform.localPosition = hiddenPosition;
-                    return delayLoading;
+                    return 0;
                 };
             };
         }

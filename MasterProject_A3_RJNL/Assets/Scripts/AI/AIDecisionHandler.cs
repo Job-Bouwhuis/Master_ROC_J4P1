@@ -15,6 +15,10 @@ namespace ShadowUprising.AI.Alarm
         List<GameObject> buttons;
         GuardState state;
         Utils.Timer timer = new Utils.Timer(3000);
+        /// <summary>
+        /// Invoked when the guard spots a dead body
+        /// </summary>
+        public Action onBodySpotted = delegate { };
 
         // Start is called before the first frame update
         void Start()
@@ -62,7 +66,10 @@ namespace ShadowUprising.AI.Alarm
                 if (gObject.tag == "Player")
                     MakeDecision(gObject.transform.position);
                 else
+                {
                     state.SetState(AIState.SoundingAlarm);
+                    onBodySpotted.Invoke();
+                }
 
                 decisionMade = true;
             }

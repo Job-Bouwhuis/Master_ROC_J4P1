@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace ShadowUprising.UI
 {
+    /// <summary>
+    /// A simple text animator that writes the text character by character
+    /// </summary>
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class SimpleTextAnimator : MonoBehaviour
     {

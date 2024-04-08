@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c02ac035c85fb143b455350da05dd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxUniqueItems: 6
+  maxUniqueItems: 3
   slotSpacing: 168
   slotPrefab: {fileID: 2204558806060060785, guid: 536a6de0b491a2e45ac224ecd079aad3,
     type: 3}
@@ -202,4 +202,3 @@ MonoBehaviour:
   playerInventory: []
   invSlots: []
   selectedItem: {fileID: 0}
-  slotsStartY: 55
