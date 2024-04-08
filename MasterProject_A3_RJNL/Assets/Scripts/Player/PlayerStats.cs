@@ -75,6 +75,11 @@ namespace ShadowUprising.Player
             currentMovementState ??= movementStates[BASE_STATE];
             currentMovementState.UpdateState();
             UpdateStaminaRegen();
+
+            if (health is 0)
+            {
+                GameOverManager.Instance.GameOver("Your health reached 0");
+            }
         }
 
         void CheckForStateInputs()
@@ -145,11 +150,6 @@ namespace ShadowUprising.Player
             health -= amount;
             if (health < 0)
                 health = 0;
-
-            if (health is 0)
-            {
-                GameOverManager.Instance.GameOver("Your health reached 0");
-            }
         }
     }
 }

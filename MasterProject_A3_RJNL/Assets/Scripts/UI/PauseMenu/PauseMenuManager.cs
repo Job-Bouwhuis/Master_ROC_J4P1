@@ -172,8 +172,12 @@ namespace ShadowUprising.UI.PauseMenu
             {
                 LoadingScreen.Instance.OnStartLoading.Subscribe(() =>
                 {
-                    Unpause();
-                    return 1f;
+                    if (IsPaused)
+                    {
+                        Unpause();
+                        return 1f;
+                    }
+                    return 0f;
                 });
             }
 
