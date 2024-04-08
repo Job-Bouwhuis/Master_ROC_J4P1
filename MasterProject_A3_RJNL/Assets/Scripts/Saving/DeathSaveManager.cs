@@ -29,7 +29,7 @@ namespace ShadowUprising.DeathSaves
                 return;
             }
 
-            if(FindAnyObjectByType<AmmoHandler>() == null)
+            if (FindAnyObjectByType<AmmoHandler>() == null)
             {
                 Windows.MessageBox("No AmmoHandler in the scene. Please add one for gameplay sake.");
                 return;
@@ -37,15 +37,7 @@ namespace ShadowUprising.DeathSaves
 
             dataSnapshot = DeathSaveData.Empty;
 
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, mode) =>
-            {
-                string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                if (currentScene is "MainMenu" or "DEMOEND")
-                {
-                    Instance = null;
-                    Destroy(gameObject);
-                }
-            };
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoad;
         }
 
         /// <summary>
@@ -63,11 +55,11 @@ namespace ShadowUprising.DeathSaves
             AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
             PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
             dataSnapshot = new DeathSaveData(
-                new List<Item>(InventoryManager.Instance.playerInventory), 
-                ammoHandler, 
+                new List<Item>(InventoryManager.Instance.playerInventory),
+                ammoHandler,
                 playerStats.health);
 
-            Log.Push("Game snapshot made."); 
+            Log.Push("Game snapshot made.");
         }
 
         /// <summary>
@@ -114,7 +106,6 @@ namespace ShadowUprising.DeathSaves
         /// Starts the preperation this object needs to do in order to be ready for the scene.
         /// </summary>
         public void StartPrep() { }
-
         public YieldInstruction PrepUpdate()
         {
             if (IsResetting)
@@ -123,7 +114,17 @@ namespace ShadowUprising.DeathSaves
                 MakeSnapshot();
             return new Completed();
         }
-
         public void FinishPrep() { }
+
+        private void OnSceneLoad(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+        {
+            string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+            if (currentScene is "MainMenu" or "DEMOEND")
+            {
+                Instance = null;
+                Destroy(gameObject);
+                UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoad;
+            }
+        }
     }
 }
