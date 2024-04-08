@@ -1,5 +1,5 @@
 // Creator: Ruben
-// Edited by:
+// Edited by: Luke
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +34,7 @@ namespace ShadowUprising.Player
             moveDir += transform.right * Input.GetAxisRaw("Horizontal");
             moveDir = Vector3.Normalize(moveDir);
 
-            if (moveDir != Vector3.zero && !CheckIfMovementBlocked(moveDir))
+            //if (moveDir != Vector3.zero && !CheckIfMovementBlocked(moveDir))
                 rb.AddForce(moveDir * (baseSpeed + movementSpeedModifier));
         }
 
