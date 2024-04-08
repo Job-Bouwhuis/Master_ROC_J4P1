@@ -39,12 +39,12 @@ namespace ShadowUprising.DeathSaves
 
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, mode) =>
             {
-                LoadingScreen.Instance.OnLoadingComplete += i =>
+                string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                if (currentScene is "MainMenu" or "DEMOEND")
                 {
-                    string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-                    if (currentScene == "MainMenu")
-                        Destroy(gameObject);
-                };
+                    Instance = null;
+                    Destroy(gameObject);
+                }
             };
         }
 

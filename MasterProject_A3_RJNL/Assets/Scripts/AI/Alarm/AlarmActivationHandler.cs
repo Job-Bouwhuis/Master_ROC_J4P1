@@ -23,7 +23,7 @@ namespace ShadowUprising.AI.Alarm
                 obj.transform.position = transform.position;
                 obj.transform.rotation = transform.rotation;
                 obj.GetComponent<Animator>().SetTrigger("PushingButton");
-                var courotine = StartAlarm(2);
+                var courotine = StartAlarm(2, obj);
                 StartCoroutine(courotine);
 
                 activated = true;
@@ -32,10 +32,11 @@ namespace ShadowUprising.AI.Alarm
         }
 
 
-        private IEnumerator StartAlarm(float waitTime)
+        private IEnumerator StartAlarm(float waitTime, GameObject gObject)
         {
             yield return new WaitForSeconds(waitTime);
-            GameOver.GameOverManager.Instance.GameOver("The alarm has been activated!");
+            if (gObject != null)
+                GameOver.GameOverManager.Instance.GameOver("The alarm has been activated!");
         }
 
 
