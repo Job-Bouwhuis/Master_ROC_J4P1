@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 7852235742403712998}
   maxHealth: 100
-  health: 0
+  health: 100
   maxStamina: 150
   stamina: 150
   staminaRegenRate: 40
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d532c4fb4ef48f44e888734ad3623497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 1
+  lockMode: 0
   showCursor: 0
 --- !u!1 &8634130044767920446
 GameObject:
