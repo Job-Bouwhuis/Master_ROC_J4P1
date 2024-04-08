@@ -21,9 +21,10 @@ namespace ShadowUprising.SecurityCamera
 
         public void addDestroyedCamera()
         {
-            if (destroyedCameraCount++ > maxDestroyedCameras && GameOverManager.Instance != null)
-                GameOverManager.Instance.GameOver("Too many cameras were destroyed!");
+            destroyedCameraCount++;
             onCameraDestroy.Invoke();
+            if(destroyedCameraCount > maxDestroyedCameras && GameOverManager.Instance != null)
+                GameOverManager.Instance.GameOver("Too many cameras were destroyed!");
         }
     }
 }
