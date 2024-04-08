@@ -1,5 +1,7 @@
+using ShadowUprising.GameOver;
 using ShadowUprising.Inventory;
 using ShadowUprising.Items;
+using ShadowUprising.Player;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UnityUtils;
 using ShadowUprising.WeaponBehaviour;
@@ -59,7 +61,12 @@ namespace ShadowUprising.DeathSaves
                 return;
             }
             AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
-            dataSnapshot = new DeathSaveData(new List<Item>(InventoryManager.Instance.playerInventory), ammoHandler);
+            PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
+            dataSnapshot = new DeathSaveData(
+                new List<Item>(InventoryManager.Instance.playerInventory), 
+                ammoHandler, 
+                playerStats.health);
+
             Log.Push("Game snapshot made."); 
         }
 
@@ -69,11 +76,14 @@ namespace ShadowUprising.DeathSaves
         public void LoadSnapshot()
         {
             IsResetting = false;
+            GameOverManager.Instance.UnGameOver();
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
             {
                 Log.Push("Not loading snapshot in main menu or demo end.\n" +
                     "Due to being in either of these scenes, resetting the game save.");
                 dataSnapshot = DeathSaveData.Empty;
+                Destroy(gameObject);
+                Instance = null;
                 return;
             }
             if (dataSnapshot is null)
@@ -93,6 +103,9 @@ namespace ShadowUprising.DeathSaves
             AmmoHandler ammoHandler = FindAnyObjectByType<AmmoHandler>();
             ammoHandler.CurrentLoadedAmmo = dataSnapshot.ammoLoaded;
             ammoHandler.CurrentUnloadedAmmo = dataSnapshot.ammoInInv;
+
+            PlayerStats playerStats = FindAnyObjectByType<PlayerStats>();
+            playerStats.health = dataSnapshot.health;
 
             Log.Push("Game snapshot loaded.");
         }

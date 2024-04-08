@@ -14,12 +14,14 @@ namespace ShadowUprising.DeathSaves
         private List<Item> playerInventory;
         public int ammoLoaded;
         public int ammoInInv;
+        public int health;
 
-        public DeathSaveData(List<Item> playerInventory, AmmoHandler ammoHandler)
+        public DeathSaveData(List<Item> playerInventory, AmmoHandler ammoHandler, int health)
         {
             this.playerInventory = playerInventory;
             ammoLoaded = ammoHandler.CurrentLoadedAmmo;
             ammoInInv = ammoHandler.CurrentUnloadedAmmo;
+            this.health = health;
         }
 
         private DeathSaveData()

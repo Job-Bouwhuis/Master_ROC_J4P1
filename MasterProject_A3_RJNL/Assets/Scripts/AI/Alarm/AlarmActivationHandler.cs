@@ -35,7 +35,7 @@ namespace ShadowUprising.AI.Alarm
         private IEnumerator StartAlarm(float waitTime)
         {
             yield return new WaitForSeconds(waitTime);
-            GameOver.GameOverManager.Instance.GameOver();
+            GameOver.GameOverManager.Instance.GameOver("The alarm has been activated!");
         }
 
 

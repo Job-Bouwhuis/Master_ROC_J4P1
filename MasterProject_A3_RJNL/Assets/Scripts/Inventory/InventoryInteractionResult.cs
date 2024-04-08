@@ -90,5 +90,10 @@ namespace ShadowUprising.Inventory
         /// The item has been consumed
         /// </summary>
         ItemConsumed = 262144,
+
+        /// <summary>
+        /// The inventory is not allowed to be interacted with
+        /// </summary>
+        NotAllowed = 524288,
     }
 }
