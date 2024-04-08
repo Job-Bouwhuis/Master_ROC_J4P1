@@ -262,6 +262,7 @@ namespace ShadowUprising.UI
                 if (isHovered)
                 {
                     isPressed = true;
+                    InvokeClickFunction();
                 }
             }
             else if (Input.GetMouseButtonUp(0))
@@ -274,7 +275,7 @@ namespace ShadowUprising.UI
                         {
                             toggleState = !toggleState;
                         }
-                        InvokeFunctions();
+                        InvokeReleaseFunction();
                     }
                 }
 
@@ -292,11 +293,18 @@ namespace ShadowUprising.UI
                 isPressed = false;
             }
         }
-        private void InvokeFunctions()
+        private void InvokeReleaseFunction()
         {
             foreach (ButtonFunction f in functions)
             {
-                f.Invoke(this);
+                f.InvokeRelease(this);
+            }
+        }
+        private void InvokeClickFunction()
+        {
+            foreach(ButtonFunction f in functions)
+            {
+                f.InvokeClick(this);
             }
         }
         private void UpdateColor()

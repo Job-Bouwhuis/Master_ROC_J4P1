@@ -1,4 +1,5 @@
 // Creator: job
+using ShadowUprising.GameOver;
 using ShadowUprising.Items;
 using ShadowUprising.UI.Loading;
 using ShadowUprising.UI.PauseMenu;
@@ -53,7 +54,7 @@ namespace ShadowUprising.Inventory
             "All items that can be found in the game. Does not need to be filled in editor time, " +
             "whenever an item is added to the inventory through any means of " +
             "pickup it will be added to this list if it doesnt already exist")]
-        public List<Item> allItems = new();
+        public static List<Item> allItems = new();
         [Tooltip("All the items that are currently in the players inventory")]
         public List<Item> playerInventory = new();
         [Tooltip("All the slots in the inventory")]
@@ -84,6 +85,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult AddItem(Item item)
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
             if (isLocked)
                 return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             InventoryInteractResult result;
@@ -92,7 +95,7 @@ namespace ShadowUprising.Inventory
             foreach (Item i in playerInventory)
             {
                 if (i.id == item.id)
-                {
+                    {
                     if (i.CurrentStackSize < i.MaxStackSize)
                     {
                         i.SetStack(i.CurrentStackSize + 1);
@@ -130,6 +133,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult RemoveItem(Item item)
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
             if (isLocked)
                 return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             ValidateItem(item);
@@ -171,6 +176,8 @@ namespace ShadowUprising.Inventory
         /// <returns></returns>
         public InventoryInteractResult RemoveItem(Item item, int count)
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
             if (isLocked)
                 return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             InventoryInteractResult result;
@@ -204,6 +211,8 @@ namespace ShadowUprising.Inventory
         /// <param name="index">The index of the item that should be equipped</param>
         public InventoryInteractResult SelectIndex(int index)
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
             if (isLocked)
                 return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             if (index < 0 || index >= invSlots.Count)
@@ -230,6 +239,8 @@ namespace ShadowUprising.Inventory
         /// <returns>One of the results</returns>
         public InventoryInteractResult Interact()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
             if (isLocked)
                 return new InventoryInteractResult(Failure | InventoryLocked, "Inventory is Locked", null);
             if (SelectedItem == null)
@@ -288,6 +299,8 @@ namespace ShadowUprising.Inventory
         /// <exception cref="NotImplementedException"></exception>
         public void UpdateState()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
             SelectIndex(0);
         }
         /// <summary>
@@ -295,6 +308,8 @@ namespace ShadowUprising.Inventory
         /// </summary>
         public void ClearInventory()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
             if (isLocked)
                 return;
             Log.Push("Clearing inventory");
@@ -418,6 +433,7 @@ namespace ShadowUprising.Inventory
         {
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
             if (isLocked) return;
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver) return;
 
             OemKeybinds();
             InteractKeybind();
@@ -442,6 +458,8 @@ namespace ShadowUprising.Inventory
         }
         private void Scrolling()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
             if (PauseMenuManager.Instance != null && PauseMenuManager.Instance.IsPaused) return;
 
             // scroll logic for switching selected slots using function SelectIndex
@@ -490,6 +508,8 @@ namespace ShadowUprising.Inventory
         }
         private void InteractKeybind()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
             if (SelectedItem is null)
                 return;
 
@@ -507,6 +527,9 @@ namespace ShadowUprising.Inventory
         }
         private void OemKeybinds()
         {
+            if (GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return;
+
             if (Input.GetKeyDown(KeyCode.Alpha1))
                 SelectIndex(0);
             if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -536,6 +559,9 @@ namespace ShadowUprising.Inventory
         /// <returns>A struct containing information about the interaction with the inventory</returns>
         public InventoryInteractResult ConsumeItem(int count)
         {
+            if(GameOverManager.Instance != null && GameOverManager.Instance.IsGameOver)
+                return new(Failure | NotAllowed, "game over", null);
+
             if (selectedItem == null)
                 return new(Failure | NoItemSelected, "item was null", null);
 

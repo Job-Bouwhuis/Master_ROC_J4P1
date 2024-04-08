@@ -28,6 +28,9 @@ namespace ShadowUprising.AI
 
         void GoToClosestAlarm()
         {
+            if(buttons is null || buttons.Count == 0)
+                return;
+
             GameObject closestButton = null;
             foreach (var item in buttons)
             {

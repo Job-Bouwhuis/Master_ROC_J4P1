@@ -7,6 +7,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+#nullable enable
+
 namespace ShadowUprising.GameOver
 {
     /// <summary>
@@ -29,6 +31,8 @@ namespace ShadowUprising.GameOver
         [SerializeField] private SimpleTextAnimator gameOverText;
         [SerializeField] private TextButtonAnimator restartButton;
         [SerializeField] private TextButtonAnimator mainMenuButton;
+        [SerializeField] private TextBackgroundAnimator reasonBackground;
+        [SerializeField] private SimpleTextAnimator reasonText;
 
         [Header("Settings")]
         [SerializeField] private float backgroundFadeInSpeed = 1.0f;
@@ -38,7 +42,7 @@ namespace ShadowUprising.GameOver
         /// this will trigger the game over screen to appear and the <see cref="OnGameOver"/> event to be triggered<br></br>
         /// and lastly the <see cref="IsGameOver"/> flag to be set to true.
         /// </summary>
-        public void GameOver()
+        public void GameOver(string? reason = null)
         {
             if (IsGameOver)
                 return;
@@ -61,6 +65,23 @@ namespace ShadowUprising.GameOver
             StartCoroutine(mainMenuButton.WaitToStartAnimation());
 
             OnGameOver();
+
+            if (reason != null)
+            {
+                reasonBackground.gameObject.SetActive(true);
+                reasonText.gameObject.SetActive(true);
+                reasonText.text = reason;
+                reasonText.StartWriting();
+                reasonBackground.AnimateIn();
+            }
+        }
+
+        /// <summary>
+        /// Sets the <see cref="IsGameOver"/> flag to false. Useful for when the game is resetting.
+        /// </summary>
+        public void UnGameOver()
+        {
+            IsGameOver = false;
         }
 
         /// <summary>

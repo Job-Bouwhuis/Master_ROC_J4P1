@@ -15,6 +15,6 @@ namespace ShadowUprising.UI.ButtonFunctions
         [Tooltip("The link that will be opened on invoking this function")]
         public string link;
 
-        public override void Invoke(TextButton button) => Application.OpenURL(link);
+        public override void InvokeRelease(TextButton button) => Application.OpenURL(link);
     }
 }

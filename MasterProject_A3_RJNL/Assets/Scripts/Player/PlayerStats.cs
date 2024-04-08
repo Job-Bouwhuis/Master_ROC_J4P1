@@ -1,6 +1,7 @@
 // Creator: Ruben
 // Edited by: Job >> ln: 74
 using ShadowUprising;
+using ShadowUprising.GameOver;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -74,6 +75,11 @@ namespace ShadowUprising.Player
             currentMovementState ??= movementStates[BASE_STATE];
             currentMovementState.UpdateState();
             UpdateStaminaRegen();
+
+            if (health is 0)
+            {
+                GameOverManager.Instance.GameOver("Your health reached 0");
+            }
         }
 
         void CheckForStateInputs()

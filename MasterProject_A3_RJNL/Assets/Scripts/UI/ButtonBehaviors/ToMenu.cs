@@ -12,6 +12,6 @@ namespace ShadowUprising.UI.ButtonFunctions
         [SerializeField] private MainMenuController mainMenuController;
         [SerializeField] private MainMenuController.MenuState menuState;
 
-        public override void Invoke(TextButton button) => mainMenuController.state = menuState;
+        public override void InvokeRelease(TextButton button) => mainMenuController.state = menuState;
     }
 }
