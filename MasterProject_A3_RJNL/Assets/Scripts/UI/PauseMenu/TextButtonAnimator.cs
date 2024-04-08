@@ -126,7 +126,10 @@ namespace ShadowUprising.UI.PauseMenu
         }
 
         public IEnumerator AnimationHide()
-        {
+        { 
+            if(!gameObject.activeSelf)
+                yield break;
+
             OnAnimationStart(false);
             button.SuspendColorAnimation();
             StartCoroutine(AnimationFadeColorOut());
