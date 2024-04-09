@@ -25,6 +25,7 @@ namespace ShadowUprising.Audio
                     startedPlaying = true;
                     audioSource.clip = pauseMenuMusic;
                     audioSource.Play();
+                    audioSource.loop = true;
                 }
             }
             else
