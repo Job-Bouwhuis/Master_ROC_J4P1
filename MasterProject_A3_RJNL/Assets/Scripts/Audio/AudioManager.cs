@@ -6,41 +6,69 @@ using UnityEngine;
 using System.Linq;
 using System;
 
-#nullable enable
-
-[DontDestroyOnLoad]
-[RequireComponent(typeof(AudioSource))]
-public class AudioManager : Singleton<AudioManager>
+namespace ShadowUprising.Audio
 {
-    public readonly struct AudioEventArgs
-    {
-        public readonly AudioContainer Container { get; }
-        public readonly Vector3 Position { get; }
 
-        public AudioEventArgs(AudioContainer container, Vector3 position)
+#nullable enable
+    /// <summary>
+    /// Audio manager for playing audio clips
+    /// </summary>
+    [DontDestroyOnLoad]
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioManager : Singleton<AudioManager>
+    {
+        /// <summary>
+        /// struct for audio events
+        /// </summary>
+        public readonly struct AudioEventArgs
         {
-            Container = container;
-            Position = position;
+            /// <summary>
+            /// The audio container that was played
+            /// </summary>
+            public readonly AudioContainer Container { get; }
+            /// <summary>
+            /// The position the audio was played at
+            /// </summary>
+            public readonly Vector3 Position { get; }
+
+            /// <summary>
+            /// Create a new audio event
+            /// </summary>
+            /// <param name="container"></param>
+            /// <param name="position"></param>
+            public AudioEventArgs(AudioContainer container, Vector3 position)
+            {
+                Container = container;
+                Position = position;
+            }
         }
-    }
 
-    public List<AudioContainer> audioContainers = new();
-    private AudioSource audioSource;
-    public event Action<AudioEventArgs> OnPlayerSoundPlayed = delegate { };
+        private AudioSource audioSource;
+        /// <summary>
+        /// Audio event for when a sound is played
+        /// </summary>
+        public event Action<AudioEventArgs> OnPlayerSoundPlayed = delegate { };
 
-    protected override void Awake()
-    {
-        base.Awake();
-        audioSource = GetComponent<AudioSource>();
-    }
+        protected override void Awake()
+        {
+            base.Awake();
+            audioSource = GetComponent<AudioSource>();
+        }
 
-    public void Play(AudioType audioType, Vector3 position) 
-    {
-        AudioContainer? container = audioContainers.Where(x => x.audioType == audioType).FirstOrDefault();
-        if (container == null)
-            return;
-        audioSource.clip = container.audioClip;
-        audioSource.Play();
-        OnPlayerSoundPlayed(new(container, position));
+        /// <summary>
+        /// play audio at a position
+        /// </summary>
+        /// <param name="audio"></param>
+        /// <param name="position"></param>
+        public void Play(AudioContainer audio, Vector3 position)
+        {
+            var clip = audio.GetClip();
+            if (audio == null)
+                return;
+            audioSource.clip = clip.clip;
+            audioSource.pitch = clip.pitch;
+            audioSource.Play();
+            OnPlayerSoundPlayed(new(audio, position));
+        }
     }
 }

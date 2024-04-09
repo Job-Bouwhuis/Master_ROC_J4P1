@@ -60,12 +60,12 @@ namespace ShadowUprising.UI.InfoDialogs
                 TextBackground.AnimateIn();
                 BodyText.StartWriting();
                 TitleText.StartWriting();
-                yield return new WaitForSeconds(dialog.Duration);
+                yield return new WaitForSecondsRealtime(dialog.Duration);
                 TitleText.ClearText();
                 BodyText.ClearText();
                 TextBackground.AnimateOut();
                 TitleBackground.AnimateOut();
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSecondsRealtime(2f);
             }
         }
     }

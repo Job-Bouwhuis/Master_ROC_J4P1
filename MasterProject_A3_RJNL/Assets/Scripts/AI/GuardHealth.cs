@@ -1,4 +1,5 @@
 // Creator: Ruben
+using ShadowUprising.Audio;
 using ShadowUprising.UI.InfoDialogs;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace ShadowUprising.AI
                         "You can pick them up by looking at them and pressing 'F'.\n" +
                         "Drop them again by pressing 'X'", 5);
                     InfoDialogManager.Instance.ShowInfoDialog("TUTORIAL", "To proceed, walk through the door the guard came from!", 5);
+                    VoiceTutorialManager.Instance.PlayNextVoiceLine();
                 }
             }
         }
