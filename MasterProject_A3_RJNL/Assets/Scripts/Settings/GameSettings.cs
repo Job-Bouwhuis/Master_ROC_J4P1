@@ -77,19 +77,6 @@ namespace ShadowUprising.Settings
             }
         }
         private bool useVoiceDialogue = true;
-        /// <summary>
-        /// Whether or not to use subtitles in the game. (inside the tutorial subtitles are always on)
-        /// </summary>
-        public bool UseSubtitles
-        {
-            get => useSubtitles;
-            set
-            {
-                useSubtitles = value;
-                OnSettingsChanged?.Invoke(true);
-            }
-        }
-        private bool useSubtitles = true;
 
         /// <summary>
         /// Updates the settings that are not null. if a setting is null, it will not be updated.<br></br>
@@ -106,8 +93,7 @@ namespace ShadowUprising.Settings
                                        float? musicVolume = null,
                                        float? sfxVolume = null,
                                        float? sensitivity = null,
-                                       bool? useVoiceDialogue = null,
-                                       bool? useSubtitles = null)
+                                       bool? useVoiceDialogue = null)
         {
             if(masterVolume != null)
                 this.masterVolume = masterVolume.Value;
@@ -119,8 +105,6 @@ namespace ShadowUprising.Settings
                 this.sensitivity = sensitivity.Value;
             if(useVoiceDialogue != null)
                 this.useVoiceDialogue = useVoiceDialogue.Value;
-            if(useSubtitles != null)
-                this.useSubtitles = useSubtitles.Value;
 
             OnSettingsChanged?.Invoke(true);
         }
@@ -151,7 +135,6 @@ namespace ShadowUprising.Settings
             PlayerPrefs.SetFloat("sensitivity", sensitivity);
 
             PlayerPrefs.SetInt("useVoiceDialogue", useVoiceDialogue ? 1 : 0);
-            PlayerPrefs.SetInt("useSubtitles", useSubtitles ? 1 : 0);
         }
         /// <summary>
         /// Loads the settings into this instance.
@@ -182,11 +165,6 @@ namespace ShadowUprising.Settings
                 useVoiceDialogue = PlayerPrefs.GetInt("useVoiceDialogue") == 1;
             else
                 useVoiceDialogue = true;
-
-            if(PlayerPrefs.HasKey("useSubtitles"))
-                useSubtitles = PlayerPrefs.GetInt("useSubtitles") == 1;
-            else
-                useSubtitles = true;
         }
     }
 }

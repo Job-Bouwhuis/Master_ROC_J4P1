@@ -16,7 +16,6 @@ namespace ShadowUprising.Settings
         [SerializeField] private Slider sensitivitySlider;
 
         [SerializeField] private TextButton useDialogueToggle;
-        [SerializeField] private TextButton useSubtitles;
 
         /// <summary>
         /// Sets the saved settings to the input fields.
@@ -31,7 +30,6 @@ namespace ShadowUprising.Settings
             sensitivitySlider.value = settings.Sensitivity;
 
             useDialogueToggle.toggleState = settings.UseVoiceDialogue;
-            useSubtitles.toggleState = settings.UseSubtitles;
         }
 
         /// <summary>
@@ -43,8 +41,7 @@ namespace ShadowUprising.Settings
                                 sfxVolumeSlider.value,
                                 sensitivitySlider.value,
 
-                                useDialogueToggle.toggleState,
-                                useSubtitles.toggleState);
+                                useDialogueToggle.toggleState);
 
         private void Start()
         {
