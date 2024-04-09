@@ -7900,7 +7900,7 @@ PrefabInstance:
     - target: {fileID: 6156791907935744549, guid: b2b71c4d9ccfb234fb0fd1ea99deecf7,
         type: 3}
       propertyPath: mags
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8362,7 +8362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf937a101f571e44b7387d33df7eb00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: DEMOEND
+  sceneName: EndScene
 --- !u!65 &621427643
 BoxCollider:
   m_ObjectHideFlags: 0

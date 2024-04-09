@@ -68,7 +68,8 @@ namespace ShadowUprising.DeathSaves
         public void LoadSnapshot()
         {
             IsResetting = false;
-            GameOverManager.Instance.UnGameOver();
+            if (GameOverManager.Instance != null)
+                GameOverManager.Instance.UnGameOver();
             if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name is "MainMenu" or "DEMOEND")
             {
                 Log.Push("Not loading snapshot in main menu or demo end.\n" +
