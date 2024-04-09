@@ -11,9 +11,17 @@ namespace ShadowUprising.Audio
     {
         [SerializeField] Item gun;
 
+        [Tooltip("When true, the voice lines will not be played at the start of the game. but voicelines in general will remain enabled")]
+        [SerializeField] bool DEBUGMODE = false;
+
         // Start is called before the first frame update
         void Start()
         {
+            if(DEBUGMODE)
+            {
+                InventoryManager.Instance.AddItem(gun);
+                return;
+            }
             StartCoroutine(PlayTutorialAndLoreVoiceLines());
         }
 

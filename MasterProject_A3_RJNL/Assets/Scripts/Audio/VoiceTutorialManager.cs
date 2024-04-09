@@ -1,4 +1,5 @@
 // Created by Niels
+using ShadowUprising.Settings;
 using ShadowUprising.UnityUtils;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,9 @@ namespace ShadowUprising.Audio
 
         public float PlayNextVoiceLine()
         {
+            if (GameSettings.Instance.UseVoiceDialogue == false)
+                return 0;
+
             if (currentIndex < voiceLines.Count - 1)
             {
                 currentIndex++;

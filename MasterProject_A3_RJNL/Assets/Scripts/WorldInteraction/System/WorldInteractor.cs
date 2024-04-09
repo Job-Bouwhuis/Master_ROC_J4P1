@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Linq;
 using WinterRose;
 using System;
+using Unity.VisualScripting;
 
 namespace ShadowUprising.WorldInteraction
 {
@@ -84,6 +85,11 @@ namespace ShadowUprising.WorldInteraction
             if (rayHit)
             {
                 Gizmos.color = Color.green;
+                if(hitCollider.IsDestroyed())
+                {
+                    hitCollider = null;
+                    return;
+                }
                 Gizmos.DrawWireCube(hitCollider.bounds.center, hitCollider.bounds.size);
             }
         }
