@@ -1,3 +1,4 @@
+using ShadowUprising.UI.InfoDialogs;
 using ShadowUprising.WorldInteraction;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
         {
             // unlock nv
             FindObjectOfType<NighVision.NighVisionHandler>().pickedUp = true;
+            InfoDialogManager.Instance.ShowInfoDialog("Night Vision", "Press V to toggle night vision!", 8);
             Destroy(gameObject);
         }
     }

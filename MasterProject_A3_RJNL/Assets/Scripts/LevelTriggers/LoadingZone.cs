@@ -17,7 +17,13 @@ namespace ShadowUprising.LevelTriggers
             {
                 DeathSaveManager.Instance.MakeSnapshot();
                 DeathSaveManager.Instance.IsResetting = true;
+
+                if(LoadingScreen.Instance != null)
                 LoadingScreen.Instance.ShowAndLoad(sceneName);
+                else
+                {
+                    Debug.LogError("LoadingScreen.Instance is null. Pick it up from the main menu or splash screen scene");
+                }
             }
         }
     }

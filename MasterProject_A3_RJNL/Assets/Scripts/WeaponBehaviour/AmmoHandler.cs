@@ -13,13 +13,23 @@ namespace ShadowUprising.WeaponBehaviour
     /// </summary>
     public class AmmoHandler : MonoBehaviour
     {
+        /// <summary>
+        /// Invoked when the loaded ammo changes (either by shooting or reloading)
+        /// </summary>
         public Action<int> onAmmoChanged = delegate { };
+        /// <summary>
+        /// Invoked when the unloaded ammo changes (either by reloading or picking up ammo)
+        /// </summary>
         public Action<int> onUnloadedAmmoChanged = delegate { };
+        /// <summary>
+        /// The amount of ammo one magazine can hold
+        /// </summary>
         public int magCapacity;
+        /// <summary>
+        /// The amount of magazines the player starts with
+        /// </summary>
         public int totalBeginMags;
         [SerializeField] Pistol pistolObject;
-
-        int _currentLoadedAmmo;
         
         /// <summary>
         /// How much ammo is currently loaded in the gun
@@ -33,7 +43,7 @@ namespace ShadowUprising.WeaponBehaviour
                 onAmmoChanged(value); 
             } 
         }
-        int _currentUnloadedAmmo;
+        int _currentLoadedAmmo;
 
         /// <summary>
         /// How much ammo is left in the players inventory
@@ -47,7 +57,7 @@ namespace ShadowUprising.WeaponBehaviour
                 onUnloadedAmmoChanged(value); 
             } 
         }
-
+        int _currentUnloadedAmmo;
         void OnPlayerShot()
         {
             if (CurrentLoadedAmmo > 0)

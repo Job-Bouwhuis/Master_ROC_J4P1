@@ -102,9 +102,6 @@ namespace ShadowUprising.DeathSaves
             Log.Push("Game snapshot loaded.");
         }
 
-        /// <summary>
-        /// Starts the preperation this object needs to do in order to be ready for the scene.
-        /// </summary>
         public void StartPrep() { }
         public YieldInstruction PrepUpdate()
         {
@@ -118,6 +115,9 @@ namespace ShadowUprising.DeathSaves
 
         private void OnSceneLoad(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
         {
+            if (gameObject.IsDestroyed())
+                return;
+
             string currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             if (currentScene is "MainMenu" or "DEMOEND")
             {

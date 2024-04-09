@@ -27,6 +27,9 @@ namespace ShadowUprising.UI.Loading
         /// Can be used to animate out any UI elements that are currently on screen, or to play an animation before the loading screen starts.
         /// </summary>
         [HideInInspector] public MultipleReturnEvent<float> OnStartLoading { get; set; } = new();
+        /// <summary>
+        /// Invoked when the loading and preperation of a scene has been completed 
+        /// </summary>
         [HideInInspector] public ClearableEvent<int> OnLoadingComplete { get; set; } = new();
         [SerializeField] private GameObject loadingScreenParent;
         [SerializeField] private LoadingSpinner spinner;
@@ -82,7 +85,6 @@ namespace ShadowUprising.UI.Loading
         {
             StartCoroutine(WaitShowAndLoadScene(sceneName));
         }
-
         /// <summary>
         /// Loads the scene without showing the loading screen. still handles the <see cref="IScenePrepOperation"/> stuff.
         /// </summary>
@@ -115,7 +117,6 @@ namespace ShadowUprising.UI.Loading
             OnLoadingComplete.Clear();
             Log.Push($"Done > subs: {OnStartLoading.Subscribers}");
         }
-
         private IEnumerator WaitShowAndLoadScene(string sceneName)
         {
             yield return StartCoroutine(WaitForSceneAnimations());
@@ -136,7 +137,6 @@ namespace ShadowUprising.UI.Loading
             StartCoroutine(WaitForSceneLoad());
             StartCoroutine(DoTips());
         }
-
         private IEnumerator WaitForSceneLoad()
         {
             while (sceneLoadOperation!.progress < .9f)
