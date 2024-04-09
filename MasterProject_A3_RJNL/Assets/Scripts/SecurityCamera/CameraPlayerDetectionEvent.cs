@@ -46,7 +46,7 @@ namespace ShadowUprising.SecurityCamera
             timer += Time.deltaTime;
 
             if (timer >= detectionSpeed && GameOverManager.Instance != null)
-                GameOverManager.Instance.GameOver("You have been seen by a guard or camera!");
+                GameOverManager.Instance.GameOver("You or a dead body have been seen by a guard or camera!");
         }
 
         /// <summary>

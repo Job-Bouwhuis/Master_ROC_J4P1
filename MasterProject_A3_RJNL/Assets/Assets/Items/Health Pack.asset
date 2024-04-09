@@ -20,4 +20,4 @@ MonoBehaviour:
   maxStackSize: 5
   currentStackSize: 1
   itemGiveIncrement: 1
-  ItemFunctionProviderName: HealthPack
+  ItemFunctionProviderName: MedPack

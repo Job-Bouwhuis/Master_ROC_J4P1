@@ -1,4 +1,6 @@
 using ShadowUprising.AI.Alarm;
+using ShadowUprising.GameOver;
+using System;
 using System.Collections;
 using UnityEngine;
 using WinterRose;
@@ -21,13 +23,23 @@ namespace ShadowUprising.UI
         {
             guards = FindObjectsOfType<AIDecisionHandler>();
             foreach (AIDecisionHandler guard in guards)
-            {
                 guard.onBodySpotted += OnBodySpotted;
-            }
 
             alertIcon.SetActive(false);
+
+            GameOverManager.Instance.OnGameOver += OnGameOver;
         }
 
+        private void OnGameOver()
+        {
+            AnimateIconOut();
+            underlineImages.Foreach(underline => underline.AnimateOut());
+            alertText.ClearText();
+        }
+
+        /// <summary>
+        /// Use for debugging purposes to trigger the alert manually
+        /// </summary>
         public void TriggerAlert()
         {
             OnBodySpotted();

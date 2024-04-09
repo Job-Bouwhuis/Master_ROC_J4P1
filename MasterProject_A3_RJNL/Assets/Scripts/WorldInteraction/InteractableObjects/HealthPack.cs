@@ -1,5 +1,5 @@
 // Creator: Ruben
-// 
+// Edited: Luke
 using System.Collections;
 using System.Collections.Generic;
 using ShadowUprising;
@@ -10,12 +10,9 @@ using UnityEngine;
 
 namespace ShadowUprising.WorldInteraction.InteractableItems
 {
-    public class HealthPack : MonoBehaviour, IWorldInteractable, IItemFunction
+    public class HealthPack : MonoBehaviour, IWorldInteractable
     {
         PlayerStats playerStats;
-
-        [Tooltip("The amount of health this item restores to the player when used")]
-        [SerializeField] int healingAmount;
 
         [SerializeField] Item healthPackItem;
 
@@ -44,13 +41,6 @@ namespace ShadowUprising.WorldInteraction.InteractableItems
         {
             gameObject.SetActive(false);
             InventoryManager.Instance.AddItem(healthPackItem);
-        }
-
-        public void UseItem()
-        {
-            var playerStats = FindObjectOfType<PlayerStats>();
-            playerStats.AddHealth(healingAmount);
-            InventoryManager.Instance.ConsumeItem();
         }
     }
 }

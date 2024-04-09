@@ -249,6 +249,10 @@ namespace ShadowUprising.Inventory
                 return InvokeInteractEvent(new InventoryInteractResult(Failure | ItemNotInteractable, "Item is not interactable", SelectedItem));
 
             SelectedItem.ItemFunction.UseItem();
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
             return InvokeInteractEvent(new InventoryInteractResult(Success | ItemUsed, "Item interacted with", SelectedItem));
         }
 

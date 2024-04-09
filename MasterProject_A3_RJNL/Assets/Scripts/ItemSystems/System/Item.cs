@@ -56,35 +56,50 @@ namespace ShadowUprising.Items
         public IItemFunction? ItemFunction
         {
             get
-            {   
-                if (itemFunction != null)
+            {
+                try
                 {
-                    return itemFunction;
-                }
-                if (string.IsNullOrEmpty(ItemFunctionProviderName))
-                {
-                    return itemFunction;
-                }
+                    if (itemFunction != null)
+                        return itemFunction;
+                    if (string.IsNullOrEmpty(ItemFunctionProviderName))
+                        return itemFunction;
 
-                Type type = TypeWorker.FindType(ItemFunctionProviderName);
-                if (type == null)
-                    return itemFunction;
+                    Type type = TypeWorker.FindType(ItemFunctionProviderName);
+                    if (type == null)
+                        return itemFunction;
 
-                // find if a component exists in the scene with the same type
-                if (type.IsAssignableTo(typeof(UnityEngine.Object)))
-                {
-                    var component = FindObjectOfType(type, true);
-                    if (component != null)
+                    // find if a component exists in the scene with the same type
+                    if (type.IsAssignableTo(typeof(UnityEngine.Object)))
                     {
-                        itemFunction = (IItemFunction)component;
+                        var component = FindObjectOfType(type, true);
+                        if (component != null)
+                            itemFunction = (IItemFunction)component;
+                        else
+                            itemFunction = (IItemFunction)Activator.CreateInstance(type);
                     }
                     else
-                    {
                         itemFunction = (IItemFunction)Activator.CreateInstance(type);
-                    }
-                }
 
-                return itemFunction;
+                    return itemFunction;
+                }
+                catch
+                {
+#if UNITY_EDITOR
+                    if (UnityEditor.EditorApplication.isPlaying)
+                        throw;
+
+                    Windows.DialogResult result = Windows.MessageBox("Item function not found. Do you want to clear it?", "Error",
+                        Windows.MessageBoxButtons.YesNo,
+                        Windows.MessageBoxIcon.Question);
+                    if (result == Windows.DialogResult.Yes)
+                    {
+                        ItemFunctionProviderName = string.Empty;
+                        UnityEditor.EditorUtility.SetDirty(this);
+                        itemFunction = null;
+                    }
+#endif 
+                    return null;
+                }
             }
         }
         private IItemFunction? itemFunction;
