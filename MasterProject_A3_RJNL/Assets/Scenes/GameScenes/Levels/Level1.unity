@@ -10917,6 +10917,30 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aba31a4777620c343ad85c11ebe787eb, type: 3}
+--- !u!114 &1104474937 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1130409551555623430, guid: aba31a4777620c343ad85c11ebe787eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1104474936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7461f084c16d6f745a2e1ebd6a84437b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1104474938 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6437252318558554323, guid: aba31a4777620c343ad85c11ebe787eb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1104474936}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eaf5a3e4146db14fa7766f80246a507, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1107867525
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11318,6 +11342,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4647925412035699736, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -952.9
+      objectReference: {fileID: 0}
     - target: {fileID: 4857527983009449980, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: m_Enabled
@@ -11358,6 +11387,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: IngameUI
       objectReference: {fileID: 0}
+    - target: {fileID: 7878959919352801541, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: guardHolder
+      value: 
+      objectReference: {fileID: 1104474937}
+    - target: {fileID: 7878959919352801541, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: worldInteractor
+      value: 
+      objectReference: {fileID: 1104474938}
     - target: {fileID: 8418231458687154917, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: pistolObject

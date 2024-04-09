@@ -1363,7 +1363,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 399445104}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -1896,7 +1896,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 632688443}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -3980,7 +3980,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1122540726}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -4653,7 +4653,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Jonathan Ikayah
+  m_text: Layi Eicker
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4760,7 +4760,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1480924729}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -5077,7 +5077,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1529710119}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -5144,7 +5144,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1540254944}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -5493,7 +5493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1638173507
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5685,7 +5685,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1723123476}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -5868,7 +5868,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1725960030}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -6517,7 +6517,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1877915574}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -6736,7 +6736,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 1947473389}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
@@ -6811,7 +6811,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Development Icons:'
+  m_text: '2D Assets:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7424,7 +7424,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2091750978
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7686,7 +7686,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Luke then Thije
+  m_text: Luke ten Thije
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7793,7 +7793,7 @@ MonoBehaviour:
   toggleState: 0
   useUnscaledTime: 0
   targetColor: {r: 0, g: 0, b: 0, a: 0}
-  textComponent: {fileID: 0}
+  textComponent: {fileID: 2123742528}
   startingWidth: 0
   animationTime: 0
   suspendColorAnimation: 0
