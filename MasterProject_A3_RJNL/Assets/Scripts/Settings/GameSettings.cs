@@ -118,7 +118,7 @@ namespace ShadowUprising.Settings
         /// <summary>
         /// Makes a new instance of the game settings, and loads the settings into it.
         /// </summary>
-        public GameSettings()
+        private GameSettings()
         {
             Load();
             Save();
