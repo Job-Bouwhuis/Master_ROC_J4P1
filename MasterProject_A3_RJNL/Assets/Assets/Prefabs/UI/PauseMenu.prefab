@@ -426,7 +426,6 @@ MonoBehaviour:
   visiblePosition: {x: 6, y: 0.00018310547, z: 0}
   hiddenPosition: {x: -2155, y: 0.00018310547, z: 0}
   animationSpeed: 5
-  delayLoading: 1.3
   TimeOnScreenBeforeHide: 0.1
   OnScreenIndefinitely: 0
   useUnscaledTime: 1
@@ -1534,7 +1533,6 @@ MonoBehaviour:
   visiblePosition: {x: 0, y: -0.00009155273, z: 0}
   hiddenPosition: {x: 2151, y: -0.00009155273, z: 0}
   animationSpeed: 5
-  delayLoading: 1.3
   TimeOnScreenBeforeHide: 0.1
   OnScreenIndefinitely: 0
   useUnscaledTime: 1
@@ -2352,7 +2350,6 @@ MonoBehaviour:
   sfxVolumeSlider: {fileID: 7758794487910413445}
   sensitivitySlider: {fileID: 1933946658663407218}
   useDialogueToggle: {fileID: 7245037005120740863}
-  useSubtitles: {fileID: 6932257617510870274}
 --- !u!1 &4374789231014509115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4328,7 +4325,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1425701953637913622
 MonoBehaviour:
   m_ObjectHideFlags: 0

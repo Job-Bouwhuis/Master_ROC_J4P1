@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3482,6 +3482,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1252428994800112143, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
     - target: {fileID: 1563819041339661478, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3582,11 +3588,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3027391958542098765, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
+    - target: {fileID: 4618718513517644844, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
+    - target: {fileID: 4985942275825273594, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -6994530724349557009, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
     - target: {fileID: 6009128768718205002, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 503076486}
+    - target: {fileID: 6097128524529241387, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
     - target: {fileID: 7412840734040018500, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: m_Name
@@ -3602,11 +3632,28 @@ PrefabInstance:
       propertyPath: worldInteractor
       value: 
       objectReference: {fileID: 1960839152}
+    - target: {fileID: 8318946071957192651, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
+    - target: {fileID: 8403371011783343516, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
     - target: {fileID: 8418231458687154917, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: pistolObject
       value: 
       objectReference: {fileID: 1644035515}
+    - target: {fileID: 8946765058256139924, guid: a468ae6286e6bab45a0d309c6a3e89ed,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9022800267997993835, guid: a468ae6286e6bab45a0d309c6a3e89ed,
         type: 3}
       propertyPath: Gun
