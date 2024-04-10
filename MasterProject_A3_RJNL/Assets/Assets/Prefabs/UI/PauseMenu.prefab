@@ -2350,6 +2350,9 @@ MonoBehaviour:
   sfxVolumeSlider: {fileID: 7758794487910413445}
   sensitivitySlider: {fileID: 1933946658663407218}
   useDialogueToggle: {fileID: 7245037005120740863}
+  mixer: {fileID: 24100000, guid: 76f40f6d70c87e14599e8bec409331ef, type: 2}
+  watthefuck: {fileID: 1723157076668958552, guid: 76f40f6d70c87e14599e8bec409331ef,
+    type: 2}
 --- !u!1 &4374789231014509115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4325,7 +4328,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1425701953637913622
 MonoBehaviour:
   m_ObjectHideFlags: 0

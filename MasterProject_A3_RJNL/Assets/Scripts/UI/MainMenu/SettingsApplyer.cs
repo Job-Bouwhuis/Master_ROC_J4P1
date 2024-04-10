@@ -19,7 +19,11 @@ namespace ShadowUprising.Settings
 
         [SerializeField] private TextButton useDialogueToggle;
 
+        /// <summary>
+        /// holder for the audiomixer within the game
+        /// </summary>
         public AudioMixer mixer;
+        public AudioMixerGroup watthefuck;
 
 
         /// <summary>
@@ -38,11 +42,17 @@ namespace ShadowUprising.Settings
             SetAudioValuesToInGameAudio();
         }
 
+        private float SliderValueToDB(float value)
+        {
+            var convertedSliderValue = 1 - value;
+            return -(convertedSliderValue * 60);
+        } 
+
         private void SetAudioValuesToInGameAudio()
         {
-            mixer.SetFloat("Master", masterVolumeSlider.value);
-            mixer.SetFloat("Music", musicVolumeSlider.value);
-            mixer.SetFloat("SFX", sfxVolumeSlider.value);
+            mixer.SetFloat("Master", SliderValueToDB(masterVolumeSlider.value));
+            mixer.SetFloat("Music", SliderValueToDB(musicVolumeSlider.value));
+            mixer.SetFloat("SFX", SliderValueToDB(sfxVolumeSlider.value));
         }
 
         /// <summary>

@@ -2652,8 +2652,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 313613084834539292, guid: 49a193564dd766d4186289bff590a680,
         type: 3}
+      propertyPath: mixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 76f40f6d70c87e14599e8bec409331ef,
+        type: 2}
+    - target: {fileID: 313613084834539292, guid: 49a193564dd766d4186289bff590a680,
+        type: 3}
       propertyPath: useSubtitles
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1921378001415841291, guid: 49a193564dd766d4186289bff590a680,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4457237049311270717, guid: 49a193564dd766d4186289bff590a680,
         type: 3}
