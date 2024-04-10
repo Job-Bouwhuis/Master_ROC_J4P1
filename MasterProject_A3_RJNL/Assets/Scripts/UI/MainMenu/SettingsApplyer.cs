@@ -23,7 +23,6 @@ namespace ShadowUprising.Settings
         /// holder for the audiomixer within the game
         /// </summary>
         public AudioMixer mixer;
-        public AudioMixerGroup watthefuck;
 
 
         /// <summary>

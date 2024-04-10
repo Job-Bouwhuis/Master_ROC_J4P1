@@ -8261,6 +8261,7 @@ MonoBehaviour:
   sfxVolumeSlider: {fileID: 1801596468}
   sensitivitySlider: {fileID: 402121613}
   useDialogueToggle: {fileID: 58365190}
+  mixer: {fileID: 24100000, guid: 76f40f6d70c87e14599e8bec409331ef, type: 2}
 --- !u!1 &2091750977
 GameObject:
   m_ObjectHideFlags: 0
